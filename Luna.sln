@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Luna.SharedModels", "Luna.SharedModels", "{A3AD836B-A04F-42A6-AD22-BC38C6BCD16A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Luna.Users", "Luna.Users", "{D4CED03D-3B7F-43EA-A674-D8EB243AA663}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Users.Repositories", "Luna.Users.Repositories\Luna.Users.Repositories.csproj", "{B7D97109-3B7F-472C-A464-C1E50937C5CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.SharedModels.Database", "Luna.SharedModels.Database\Luna.SharedModels.Database.csproj", "{D4818294-2CBE-4F38-9A73-3F0708FDD6A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B7D97109-3B7F-472C-A464-C1E50937C5CE} = {D4CED03D-3B7F-43EA-A674-D8EB243AA663}
+		{D4818294-2CBE-4F38-9A73-3F0708FDD6A9} = {A3AD836B-A04F-42A6-AD22-BC38C6BCD16A}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7D97109-3B7F-472C-A464-C1E50937C5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7D97109-3B7F-472C-A464-C1E50937C5CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7D97109-3B7F-472C-A464-C1E50937C5CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7D97109-3B7F-472C-A464-C1E50937C5CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4818294-2CBE-4F38-9A73-3F0708FDD6A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4818294-2CBE-4F38-9A73-3F0708FDD6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4818294-2CBE-4F38-9A73-3F0708FDD6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4818294-2CBE-4F38-9A73-3F0708FDD6A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
