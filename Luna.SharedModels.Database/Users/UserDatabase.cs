@@ -11,4 +11,6 @@ public class UserDatabase
 	public string? PhoneNumber { get; set; }
 
 	public DateTime CreatedTimestamp { get; set; }
+
+	public bool EmailConfirmed { get; set; }
 }
