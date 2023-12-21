@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Users.Repositories", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.SharedModels.Database", "Luna.SharedModels.Database\Luna.SharedModels.Database.csproj", "{D4818294-2CBE-4F38-9A73-3F0708FDD6A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Users.GrpcService", "Luna.Users.GrpcService\Luna.Users.GrpcService.csproj", "{D6540B49-AB2E-4E0C-931A-D6656925E9BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Users.Grpc", "Luna.Users.Grpc\Luna.Users.Grpc.csproj", "{D6540B49-AB2E-4E0C-931A-D6656925E9BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

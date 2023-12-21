@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "Luna.Users.GrpcService";
+option csharp_namespace = "Luna.Users.Grpc";
 
 import "google/protobuf/timestamp.proto";
 

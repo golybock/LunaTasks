@@ -1,8 +1,8 @@
 ﻿using Luna.Users.Repositories.Repositories;
 
-namespace Luna.Users.GrpcService.Services;
+namespace Luna.Users.Grpc.Services;
 
-public class UsersService : GrpcService.UsersService.UsersServiceBase
+public class UsersService: Grpc.UsersService.UsersServiceBase
 {
 	private readonly ILogger<UsersService> _logger;
 	private readonly IUserRepository _userRepository;

@@ -1,4 +1,4 @@
-using Luna.Users.GrpcService.Services;
+using Luna.Users.Grpc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
