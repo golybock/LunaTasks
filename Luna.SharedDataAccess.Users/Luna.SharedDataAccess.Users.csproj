@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Luna.SharedDataAccess.Users</RootNamespace>
+        <UserSecretsId>37f61c4b-0223-47f2-88fc-6ade911d617b</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Protobuf Include="Protos\users.proto" GrpcServices="Client"/>
+    </ItemGroup>
+
+</Project>
