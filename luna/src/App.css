@@ -1,5 +1,16 @@
 .App {
   text-align: center;
+  width: 65%;
+}
+
+.SignIn{
+  width: 35%;
+}
+
+.container{
+  width: 100%;
+  flex-direction: row;
+  display: inline-flex;
 }
 
 .App-logo {
