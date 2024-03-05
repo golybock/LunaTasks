@@ -1,4 +1,4 @@
-﻿using Luna.SharedModels.Database.Users;
+﻿using Luna.Models.Users.Database.Users;
 
 namespace Luna.Users.Repositories.Repositories;
 

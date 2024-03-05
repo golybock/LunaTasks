@@ -1,4 +1,4 @@
-﻿namespace Luna.SharedModels.Database.Users;
+﻿namespace Luna.Models.Users.Database.Users;
 
 public class UserDatabase
 {

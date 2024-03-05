@@ -1,14 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>Luna.Models.Users.Domain</RootNamespace>
     </PropertyGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Data.Npgsql.Extension" Version="1.0.1" />
-    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Luna.Models.Users.Database\Luna.Models.Users.Database.csproj" />

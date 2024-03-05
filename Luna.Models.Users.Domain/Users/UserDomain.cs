@@ -1,6 +1,6 @@
-﻿using Luna.SharedModels.Database.Users;
+﻿using Luna.Models.Users.Database.Users;
 
-namespace Luna.SharedModels.Domain.Users;
+namespace Luna.Models.Users.Domain.Users;
 
 public class UserDomain
 {

@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Luna.SharedModels.Database\Luna.SharedModels.Database.csproj" />
+      <ProjectReference Include="..\Luna.Models.Users.Domain\Luna.Models.Users.Domain.csproj" />
     </ItemGroup>
 
 </Project>

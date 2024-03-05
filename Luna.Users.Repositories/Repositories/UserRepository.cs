@@ -1,4 +1,4 @@
-﻿using Luna.SharedModels.Database.Users;
+﻿using Luna.Models.Users.Database.Users;
 using Npgsql;
 using Npgsql.Extension.Options;
 using Npgsql.Extension.Repositories;
