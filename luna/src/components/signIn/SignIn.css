@@ -1,7 +1,36 @@
-﻿.App-Logo-Block{
+﻿
+.Image-Block{
+    text-align: center;
+    width: 70%;
+}
+
+.App {
+    width: 100%;
+    flex-direction: row;
+    display: inline-flex;
+}
+
+.App-logo {
+    height: 560px;
+    padding: 12px;
+}
+
+.App-header {
+    background-color: black;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.SignIn-Block{
+    width: 30%;
+}
+
+.App-Logo-Block{
+    font-size: 20px;
     display: inline-flex;
     flex-direction: row;
-    font-size: 20px;
 }
 
 .App-Logo-Block label{
@@ -23,4 +52,41 @@
     right: 0;
     padding: 16px 12px;
     position: absolute;
+}
+
+.App-Body{
+    display: flex;
+    flex-direction: column;
+    vertical-align: center;
+    horiz-align: center;
+    height: 100%;
+    width: 100%;
+}
+
+.App-Body-Content{
+    margin: 12px;
+    width: 50%;
+    align-self: center;
+}
+
+.App-Body-Content button{
+    width: 100%;
+    margin-top: 12px;
+}
+
+.App-Body-Header{
+    margin-top: 20%;
+    font-size: 20px;
+    text-align: center;
+}
+
+.App-Body-Footer{
+    display: inline-flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.App-Body-Footer label{
+    cursor: pointer;
+    color: var(--secondary-text);
 }
