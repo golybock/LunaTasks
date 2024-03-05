@@ -7,7 +7,6 @@ import Account from "./components/account/Account";
 import About from "./components/about/About";
 import './App.css';
 
-
 interface IProps {
 
 }

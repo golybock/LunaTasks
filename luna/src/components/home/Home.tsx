@@ -10,11 +10,14 @@ interface IState {
 }
 
 export default class Home extends React.Component<IProps, IState> {
+
+    headerUrl ="https://localhost:7043/woodcuts_14.jpg";
+
     render() {
         return (
             <div>
                 <div className="Header-Image-Container">
-                    <img src="/resources/woodcuts_14.jpg" alt=""/>
+                    <img src={this.headerUrl} alt=""/>
                 </div>
                 <div className="Home-Content">
                     <div>

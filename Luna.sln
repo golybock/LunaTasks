@@ -22,6 +22,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Luna.Models.Users", "Luna.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Models.Users.View", "Luna.Models.Users.View\Luna.Models.Users.View.csproj", "{5F79FC09-979E-48C4-A9BE-8506CC3A7D93}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Luna.Resources", "Luna.Resources", "{C060319C-F010-413C-916A-333BD794E334}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Resources.API", "Luna.Resources.API\Luna.Resources.API.csproj", "{350629E8-608E-4885-A41C-66143E68CC44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +40,7 @@ Global
 		{D4818294-2CBE-4F38-9A73-3F0708FDD6A9} = {E3D81343-ADD0-4715-B2F0-BC347C365424}
 		{1FD66F04-4854-4B42-B059-2E23438CC34C} = {E3D81343-ADD0-4715-B2F0-BC347C365424}
 		{5F79FC09-979E-48C4-A9BE-8506CC3A7D93} = {E3D81343-ADD0-4715-B2F0-BC347C365424}
+		{350629E8-608E-4885-A41C-66143E68CC44} = {C060319C-F010-413C-916A-333BD794E334}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B7D97109-3B7F-472C-A464-C1E50937C5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -62,5 +67,9 @@ Global
 		{5F79FC09-979E-48C4-A9BE-8506CC3A7D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F79FC09-979E-48C4-A9BE-8506CC3A7D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F79FC09-979E-48C4-A9BE-8506CC3A7D93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{350629E8-608E-4885-A41C-66143E68CC44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{350629E8-608E-4885-A41C-66143E68CC44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{350629E8-608E-4885-A41C-66143E68CC44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{350629E8-608E-4885-A41C-66143E68CC44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
