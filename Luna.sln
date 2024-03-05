@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Luna.SharedModels", "Luna.SharedModels", "{A3AD836B-A04F-42A6-AD22-BC38C6BCD16A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Luna.Models", "Luna.Models", "{A3AD836B-A04F-42A6-AD22-BC38C6BCD16A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Luna.Users", "Luna.Users", "{D4CED03D-3B7F-43EA-A674-D8EB243AA663}"
 EndProject
