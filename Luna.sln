@@ -30,6 +30,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Gateway.API", "Luna.Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Models.Users.Blank", "Luna.Models.Users.Blank\Luna.Models.Users.Blank.csproj", "{E2B05FFA-8528-4007-A150-8735CE956BDC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseFiles", "DatabaseFiles", "{723143FB-E2AC-4B62-9326-C6C5661CAD74}"
+	ProjectSection(SolutionItems) = preProject
+		sql\luna_tasks.sql = sql\luna_tasks.sql
+		sql\luna_workspace.sql = sql\luna_workspace.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
