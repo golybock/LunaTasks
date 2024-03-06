@@ -13,4 +13,6 @@ public class UserDatabase
 	public DateTime CreatedTimestamp { get; set; }
 
 	public bool EmailConfirmed { get; set; }
+
+	public String? Image { get; set; }
 }

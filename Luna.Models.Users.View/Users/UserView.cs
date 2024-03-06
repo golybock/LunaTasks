@@ -16,15 +16,8 @@ public class UserView
 
 	public bool EmailConfirmed { get; }
 
-	public UserView(Guid id, string username, string email, string? phoneNumber, DateTime createdTimestamp, bool emailConfirmed)
-	{
-		Id = id;
-		Username = username;
-		Email = email;
-		PhoneNumber = phoneNumber;
-		CreatedTimestamp = createdTimestamp;
-		EmailConfirmed = emailConfirmed;
-	}
+	public String? Image { get; set; }
+
 
 	public UserView(UserDomain userDomain)
 	{
@@ -34,5 +27,6 @@ public class UserView
 		PhoneNumber = userDomain.PhoneNumber;
 		CreatedTimestamp = userDomain.CreatedTimestamp;
 		EmailConfirmed = userDomain.EmailConfirmed;
+		Image = userDomain.Image;
 	}
 }

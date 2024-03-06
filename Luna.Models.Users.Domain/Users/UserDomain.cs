@@ -16,15 +16,7 @@ public class UserDomain
 
 	public bool EmailConfirmed { get; }
 
-	public UserDomain(Guid id, string username, string email, string? phoneNumber, DateTime createdTimestamp, bool emailConfirmed)
-	{
-		Id = id;
-		Username = username;
-		Email = email;
-		PhoneNumber = phoneNumber;
-		CreatedTimestamp = createdTimestamp;
-		EmailConfirmed = emailConfirmed;
-	}
+	public String? Image { get; set; }
 
 	public UserDomain(UserDatabase userDatabase)
 	{
@@ -34,5 +26,6 @@ public class UserDomain
 		PhoneNumber = userDatabase.PhoneNumber;
 		CreatedTimestamp = userDatabase.CreatedTimestamp;
 		EmailConfirmed = userDatabase.EmailConfirmed;
+		Image = userDatabase.Image;
 	}
 }
