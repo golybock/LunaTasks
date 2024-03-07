@@ -9,8 +9,9 @@
 
 create table workspace_users
 (
-    id      uuid not null
+    id      serial not null
         primary key,
-    user_id uuid not null
+    user_id uuid not null,
+    workspace_id uuid not null
 );
 
