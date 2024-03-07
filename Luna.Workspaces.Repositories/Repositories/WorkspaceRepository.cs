@@ -3,7 +3,7 @@ using Npgsql;
 using Npgsql.Extension.Options;
 using Npgsql.Extension.Repositories;
 
-namespace Luna.Users.Workspaces.Repositories.Repositories;
+namespace Luna.Workspaces.Repositories.Repositories;
 
 public class WorkspaceRepository: NpgsqlRepository, IWorkspaceRepository
 {
@@ -17,6 +17,18 @@ public class WorkspaceRepository: NpgsqlRepository, IWorkspaceRepository
 		var query = $"select * from {WorkspaceTableName}";
 
 		return await GetListAsync<WorkspaceDatabase>(query);
+	}
+
+	public async Task<WorkspaceDatabase?> GetWorkspaceAsync(Guid id)
+	{
+		var query = $"select * from {WorkspaceTableName} where id = $1";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = id}
+		};
+
+		return await GetAsync<WorkspaceDatabase>(query, parameters);
 	}
 
 	public async Task<IEnumerable<WorkspaceDatabase>> GetWorkspacesByUserAsync(Guid userId)
@@ -36,7 +48,12 @@ public class WorkspaceRepository: NpgsqlRepository, IWorkspaceRepository
 	{
 		var query = $"select * from {WorkspaceTableName} where created_user_id = $1";
 
-		return await GetListAsync<WorkspaceDatabase>(query);
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = userId}
+		};
+
+		return await GetListAsync<WorkspaceDatabase>(query, parameters);
 	}
 
 	public async Task<bool> CreateWorkspaceAsync(WorkspaceDatabase workspaceDatabase)

@@ -1,10 +1,12 @@
 ﻿using Luna.Models.Workspace.Database.Workspace;
 
-namespace Luna.Users.Workspaces.Repositories.Repositories;
+namespace Luna.Workspaces.Repositories.Repositories;
 
 public interface IWorkspaceRepository
 {
 	public Task<IEnumerable<WorkspaceDatabase>> GetWorkspacesAsync();
+
+	public Task<WorkspaceDatabase?> GetWorkspaceAsync(Guid id);
 
 	public Task<IEnumerable<WorkspaceDatabase>> GetWorkspacesByUserAsync(Guid userId);
 

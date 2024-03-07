@@ -49,7 +49,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Models.Workspace.Blank
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Luna.Workspaces", "Luna.Workspaces", "{F4F952E4-11A7-4290-935B-765B88190533}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Users.Workspaces.Repositories", "Luna.Users.Workspaces.Repositories\Luna.Users.Workspaces.Repositories.csproj", "{CE6C4808-F8D1-451B-BE3A-0D0DA2B549DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Workspaces.Repositories", "Luna.Workspaces.Repositories\Luna.Workspaces.Repositories.csproj", "{CE6C4808-F8D1-451B-BE3A-0D0DA2B549DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Workspaces.Services", "Luna.Workspaces.Services\Luna.Workspaces.Services.csproj", "{5CE73A28-418A-4376-B618-C7AB4462E09C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Workspace.API", "Luna.Workspace.API\Luna.Workspace.API.csproj", "{992A5EE6-4AA2-4CB6-9007-0C709FFD9D62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,8 @@ Global
 		{D24DFE51-8B95-4C37-B659-17F73EB737B4} = {E1BC0A39-E638-4C1C-9BFC-CD3908EF4E70}
 		{F4F952E4-11A7-4290-935B-765B88190533} = {F592DFB1-9332-48D3-A987-D67D7F4EA139}
 		{CE6C4808-F8D1-451B-BE3A-0D0DA2B549DD} = {F4F952E4-11A7-4290-935B-765B88190533}
+		{5CE73A28-418A-4376-B618-C7AB4462E09C} = {F4F952E4-11A7-4290-935B-765B88190533}
+		{992A5EE6-4AA2-4CB6-9007-0C709FFD9D62} = {F4F952E4-11A7-4290-935B-765B88190533}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B7D97109-3B7F-472C-A464-C1E50937C5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -133,5 +139,13 @@ Global
 		{CE6C4808-F8D1-451B-BE3A-0D0DA2B549DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE6C4808-F8D1-451B-BE3A-0D0DA2B549DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE6C4808-F8D1-451B-BE3A-0D0DA2B549DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CE73A28-418A-4376-B618-C7AB4462E09C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE73A28-418A-4376-B618-C7AB4462E09C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE73A28-418A-4376-B618-C7AB4462E09C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE73A28-418A-4376-B618-C7AB4462E09C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{992A5EE6-4AA2-4CB6-9007-0C709FFD9D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{992A5EE6-4AA2-4CB6-9007-0C709FFD9D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{992A5EE6-4AA2-4CB6-9007-0C709FFD9D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{992A5EE6-4AA2-4CB6-9007-0C709FFD9D62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
