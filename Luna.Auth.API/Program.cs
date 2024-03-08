@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -15,6 +17,13 @@ builder.Services.AddCors(options =>
 	});
 });
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(options =>
+	{
+		options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+		options.SlidingExpiration = true;
+	});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -27,8 +36,15 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
-// app.UseAuthentication();
+app.UseAuthentication();
 app.UseAuthorization();
+
+var cookiePolicyOptions = new CookiePolicyOptions
+{
+	MinimumSameSitePolicy = SameSiteMode.Strict,
+};
+
+app.UseCookiePolicy(cookiePolicyOptions);
 
 app.MapControllers();
 
