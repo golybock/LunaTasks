@@ -1,68 +1,73 @@
 ﻿using Grpc.Core;
-using Luna.Models.Users.Domain.Users;
-using Luna.Models.Users.View.Users;
 using Luna.Users.Grpc.Extensions;
-using Luna.Users.Repositories.Repositories;
+using Luna.Users.Services.Services;
 
 namespace Luna.Users.Grpc.Services;
 
-public class UsersService: Grpc.UsersService.UsersServiceBase
+public class UsersService : Grpc.UsersService.UsersServiceBase
 {
 	private readonly ILogger<UsersService> _logger;
-	private readonly IUserRepository _userRepository;
 
-	public UsersService(ILogger<UsersService> logger, IUserRepository userRepository)
+	private readonly IUserService _userService;
+
+	public UsersService(ILogger<UsersService> logger, IUserService userService)
 	{
 		_logger = logger;
-		_userRepository = userRepository;
+		_userService = userService;
 	}
 
-
-	public override async Task<UsersList> GetUsersAsync(GetUsersAsyncRequest request, ServerCallContext context)
+	public override async Task<UsersList> GetUsers(GetUsersRequest request, ServerCallContext context)
 	{
-		// var user = await _userRepository.GetUsers();
-		//
-		// var userDomain = new UserModel(user);
-		//
-		// var userView = new UserView(userDomain);
-		//
-		// return userView.ToUserModel();
+		var users = await _userService.GetUsersAsync();
 
-		throw new NotImplementedException();
+		var usersModel = users.Select(u => u.ToUserModel());
+
+		return new UsersList() {Users = {usersModel}};
 	}
 
-	public async Task<UserModel?> GetUserByPhoneOrEmailAsync(string value)
+	public override async Task<UserResponse> GetUserById(GetUserRequest request, ServerCallContext context)
 	{
-		throw new NotImplementedException();
+		var user = await _userService.GetUserAsync(Guid.Parse(request.Id));
+
+		if (user == null) return new UserResponse();
+
+		return new UserResponse() {User = user.ToUserModel()};
 	}
 
-	public async Task<IEnumerable<UserModel>> GetUsers()
+	public override async Task<UserResponse> GetUserByPhoneOrEmail(GetUserByPhoneOrEmailRequest request, ServerCallContext context)
 	{
-		throw new NotImplementedException();
+		var user = await _userService.GetUserByPhoneOrEmailAsync(request.Value);
+
+		if (user == null) return new UserResponse();
+
+		return new UserResponse() {User = user.ToUserModel()};
 	}
 
-	public async Task<IEnumerable<UserModel>> GetUsers(int offset)
+	public override async Task<ExecutedResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
 	{
-		throw new NotImplementedException();
+		var result = await _userService.CreateUserAsync(request.UserBlank.ToUserBlank());
+
+		return new ExecutedResponse() {Executed = result};
 	}
 
-	public async Task<bool> CreateUserAsync(UserModel userDatabase)
+	public override async Task<ExecutedResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context)
 	{
-		throw new NotImplementedException();
+		var result = await _userService.UpdateUserAsync(Guid.Parse(request.Id), request.UserBlank.ToUserBlank());
+
+		return new ExecutedResponse() {Executed = result};
 	}
 
-	public async Task<bool> UpdateUserAsync(Guid id, UserModel userDatabase)
+	public override async Task<ExecutedResponse> DeleteUser(DeleteUserRequest request, ServerCallContext context)
 	{
-		throw new NotImplementedException();
+		var result = await _userService.DeleteUserAsync(request.Username);
+
+		return new ExecutedResponse() {Executed = result};
 	}
 
-	public async Task<bool> DeleteUserAsync(Guid id)
+	public override async Task<ExecutedResponse> DeleteUserById(DeleteUserByIdRequest request, ServerCallContext context)
 	{
-		throw new NotImplementedException();
-	}
+		var result = await _userService.DeleteUserAsync(Guid.Parse(request.Id));
 
-	public async Task<bool> DeleteUserAsync(string username)
-	{
-		throw new NotImplementedException();
+		return new ExecutedResponse() {Executed = result};
 	}
 }

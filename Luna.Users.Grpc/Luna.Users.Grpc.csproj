@@ -27,13 +27,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Protobuf Include="Protos\users.proto" />
+      <ProjectReference Include="..\Luna.Models.Users.Domain\Luna.Models.Users.Domain.csproj" />
+      <ProjectReference Include="..\Luna.Models.Users.View\Luna.Models.Users.View.csproj" />
+      <ProjectReference Include="..\Luna.Users.Services\Luna.Users.Services.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Luna.Models.Users.Domain\Luna.Models.Users.Domain.csproj" />
-      <ProjectReference Include="..\Luna.Models.Users.View\Luna.Models.Users.View.csproj" />
-      <ProjectReference Include="..\Luna.Users.Repositories\Luna.Users.Repositories.csproj" />
+        <Protobuf Include="Protos\users.proto" GrpcServices="Server"/>
     </ItemGroup>
-
+    
 </Project>

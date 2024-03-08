@@ -10,25 +10,25 @@ package users;
 
 service UsersService {
   // GET
-  rpc GetUsersAsync (GetUsersAsyncRequest) returns (UsersList);
+  rpc GetUsers (GetUsersRequest) returns (UsersList);
 
-  rpc GetUserByIdAsync (GetUserAsyncRequest) returns (UserResponse);
+  rpc GetUserById (GetUserRequest) returns (UserResponse);
 
-  rpc GetUserByPhoneOrEmailAsync (GetUserByPhoneOrEmailAsyncRequest) returns (UserResponse);
+  rpc GetUserByPhoneOrEmail (GetUserByPhoneOrEmailRequest) returns (UserResponse);
 
   // CREATE
 
-  rpc CreateUserAsync (CreateUserAsyncRequest) returns (ExecutedResponse);
+  rpc CreateUser (CreateUserRequest) returns (ExecutedResponse);
 
   // UPDATE
 
-  rpc UpdateUserAsync (UpdateUserAsyncRequest) returns (ExecutedResponse);
+  rpc UpdateUser (UpdateUserRequest) returns (ExecutedResponse);
 
   // DELETE
 
-  rpc DeleteUserAsync (DeleteUserAsyncRequest) returns (ExecutedResponse);
+  rpc DeleteUser (DeleteUserRequest) returns (ExecutedResponse);
 
-  rpc DeleteUserByIdAsync (DeleteUserByIdAsyncRequest) returns (ExecutedResponse);
+  rpc DeleteUserById (DeleteUserByIdRequest) returns (ExecutedResponse);
 }
 
 // MODELS
@@ -37,9 +37,17 @@ message UserModel{
   string id = 1;
   string username = 2;
   string email = 3;
-  string phoneNumber = 4;
+  optional string phoneNumber = 4;
   google.protobuf.Timestamp createdTimestamp = 5;
   bool emailConfirmed = 6;
+  optional string image = 7;
+}
+
+message UserBlank{
+  string username = 1;
+  string email = 2;
+  optional string phoneNumber = 3;
+  optional string image = 4;
 }
 
 message UserResponse{
@@ -57,32 +65,32 @@ message ExecutedResponse{
 
 // GET
 
-message GetUsersAsyncRequest{}
+message GetUsersRequest{}
 
-message GetUserAsyncRequest{
+message GetUserRequest{
   string id = 1;
 }
 
-message GetUserByPhoneOrEmailAsyncRequest{
+message GetUserByPhoneOrEmailRequest{
   string value = 1;
 }
 
 // CREATE
-message CreateUserAsyncRequest{
-  UserModel userDatabase = 1;
+message CreateUserRequest{
+  UserBlank userBlank = 1;
 }
 
 // UPDATE
-message UpdateUserAsyncRequest{
+message UpdateUserRequest{
   string id = 1;
-  UserModel userDatabase = 2;
+  UserBlank userBlank = 2;
 }
 
 // DELETE
-message DeleteUserAsyncRequest{
+message DeleteUserRequest{
   string username = 1;
 }
 
-message DeleteUserByIdAsyncRequest{
+message DeleteUserByIdRequest{
   string id = 1;
 }

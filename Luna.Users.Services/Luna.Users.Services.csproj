@@ -4,22 +4,13 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Luna.SharedDataAccess.Users</RootNamespace>
-        <UserSecretsId>37f61c4b-0223-47f2-88fc-6ade911d617b</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Luna.Models.Users.Blank\Luna.Models.Users.Blank.csproj" />
+      <ProjectReference Include="..\Luna.Models.Users.Domain\Luna.Models.Users.Domain.csproj" />
       <ProjectReference Include="..\Luna.Models.Users.View\Luna.Models.Users.View.csproj" />
-      <ProjectReference Include="..\Luna.Tools\Luna.Tools.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Protobuf Include="Protos\users.proto" GrpcServices="Client"/>
+      <ProjectReference Include="..\Luna.Users.Repositories\Luna.Users.Repositories.csproj" />
     </ItemGroup>
 
 </Project>

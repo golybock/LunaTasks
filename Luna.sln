@@ -77,6 +77,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Auth.Repositories", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Auth.Services", "Luna.Auth.Services\Luna.Auth.Services.csproj", "{31965248-CEB1-44BC-9957-A1187644DFED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Users.Services", "Luna.Users.Services\Luna.Users.Services.csproj", "{D057CAF6-16C1-4F5D-A7CF-C43B5200054D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,7 @@ Global
 		{54682D1C-1A9A-458C-94EA-272BF3B0AFDC} = {8984C240-77BB-468E-ABA3-C3FCEE93C2DB}
 		{36FA5977-0003-4A6F-9B93-8001BC963B6B} = {9768AA4E-F542-4B2E-8E4D-0D36A45F38A8}
 		{31965248-CEB1-44BC-9957-A1187644DFED} = {9768AA4E-F542-4B2E-8E4D-0D36A45F38A8}
+		{D057CAF6-16C1-4F5D-A7CF-C43B5200054D} = {D4CED03D-3B7F-43EA-A674-D8EB243AA663}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B7D97109-3B7F-472C-A464-C1E50937C5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -211,5 +214,9 @@ Global
 		{31965248-CEB1-44BC-9957-A1187644DFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31965248-CEB1-44BC-9957-A1187644DFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31965248-CEB1-44BC-9957-A1187644DFED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D057CAF6-16C1-4F5D-A7CF-C43B5200054D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D057CAF6-16C1-4F5D-A7CF-C43B5200054D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D057CAF6-16C1-4F5D-A7CF-C43B5200054D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D057CAF6-16C1-4F5D-A7CF-C43B5200054D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

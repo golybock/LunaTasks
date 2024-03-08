@@ -19,6 +19,17 @@ public class UserView
 	public String? Image { get; set; }
 
 
+	public UserView(Guid id, string username, string email, string? phoneNumber, DateTime createdTimestamp, bool emailConfirmed, string? image)
+	{
+		Id = id;
+		Username = username;
+		Email = email;
+		PhoneNumber = phoneNumber;
+		CreatedTimestamp = createdTimestamp;
+		EmailConfirmed = emailConfirmed;
+		Image = image;
+	}
+
 	public UserView(UserDomain userDomain)
 	{
 		Id = userDomain.Id;

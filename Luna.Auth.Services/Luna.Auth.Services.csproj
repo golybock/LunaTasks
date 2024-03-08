@@ -7,7 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Services\" />
+      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Luna.Auth.Repositories\Luna.Auth.Repositories.csproj" />
+      <ProjectReference Include="..\Luna.Models.Auth.Blank\Luna.Models.Auth.Blank.csproj" />
+      <ProjectReference Include="..\Luna.Tools\Luna.Tools.csproj" />
     </ItemGroup>
 
 </Project>
