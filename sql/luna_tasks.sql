@@ -1,12 +1,12 @@
-﻿create table task_role
+﻿create table role
 (
-    id   serial
+    id   serial       not null
         primary key,
     name varchar(150) not null
         unique
 );
 
-create table task_status
+create table status
 (
     id           uuid                  not null
         primary key,
@@ -38,12 +38,12 @@ create table page
     workspace_id      uuid                                   not null
 );
 
-create table card_type
+create table type
 (
     id           uuid                  not null
         primary key,
     name         varchar(150)          not null,
-    color        varchar(7)            not null,
+    hex_color    varchar(7)            not null,
     workspace_id uuid                  not null,
     deleted      boolean default false not null
 );
@@ -56,13 +56,13 @@ create table card
     content           text,
     description       text,
     card_type_id      uuid                                   not null
-        references card_type,
-    page              uuid                                   not null
+        references type,
+    page_id           uuid                                   not null
         references page,
     created_user_id   uuid                                   not null,
     created_timestamp timestamp with time zone default now() not null,
     deadline          timestamp with time zone,
-    previous_card     uuid
+    previous_card_id  uuid
         references card,
     deleted           boolean                  default false not null
 );
@@ -100,9 +100,9 @@ create table card_users
     deleted boolean default false not null
 );
 
-create table card_comments
+create table comment
 (
-    id             serial
+    id             serial                not null
         primary key,
     card_id        uuid                  not null
         references card,
@@ -110,5 +110,16 @@ create table card_comments
     comment        text,
     attachment_url text,
     deleted        boolean default false not null
+);
+
+create table card_status
+(
+    id            serial
+        primary key,
+    card_id       uuid                    not null
+        references card,
+    status_id     uuid                    not null
+        references status,
+    set_timestamp timestamp default now() not null
 );
 
