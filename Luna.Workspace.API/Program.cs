@@ -1,5 +1,6 @@
 using Luna.Workspaces.Repositories.Repositories;
 using Luna.Workspaces.Services.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Npgsql.Extension.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,13 @@ builder.Services.AddCors(options =>
 			.AllowAnyOrigin();
 	});
 });
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(options =>
+	{
+		options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+		options.SlidingExpiration = true;
+	});
 
 var connectionString = builder.Configuration.GetConnectionString("luna_workspaces");
 var options = new DatabaseOptions() {ConnectionString = connectionString!};
@@ -36,8 +44,15 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
-// app.UseAuthentication();
+app.UseAuthentication();
 app.UseAuthorization();
+
+var cookiePolicyOptions = new CookiePolicyOptions
+{
+	MinimumSameSitePolicy = SameSiteMode.Strict,
+};
+
+app.UseCookiePolicy(cookiePolicyOptions);
 
 app.MapControllers();
 

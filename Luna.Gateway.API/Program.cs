@@ -3,9 +3,10 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddOcelot();
+builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+builder.Configuration.AddJsonFile("ocelot.Development.json", optional: false, reloadOnChange: true);
+
+builder.Services.AddOcelot(builder.Configuration);
 
 builder.Services.AddCors(cors =>
 {
@@ -28,6 +29,7 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
-app.UseOcelot();
+app.UseRouting();
+app.UseOcelot().Wait();
 
 app.Run();

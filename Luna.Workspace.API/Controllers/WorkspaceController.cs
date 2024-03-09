@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Luna.Workspace.API.Controllers;
 
-// [Authorize]
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class WorkspaceController : ControllerBase
