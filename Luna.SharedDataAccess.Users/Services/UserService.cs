@@ -47,7 +47,7 @@ public class UserService : GrpcServiceBase, IUserService
 		return response.User.ToUserView();
 	}
 
-	public async Task<bool> CreateUserAsync(UserBlank userBlank)
+	public async Task<Guid> CreateUserAsync(UserBlank userBlank)
 	{
 		var client = GetClient();
 
@@ -55,7 +55,7 @@ public class UserService : GrpcServiceBase, IUserService
 
 		var response = await client.CreateUserAsync(new CreateUserRequest() {UserBlank = blank});
 
-		return response.Executed;
+		return Guid.Parse(response.Id);
 	}
 
 	public async Task<bool> UpdateUserAsync(Guid id, UserBlank userBlank)

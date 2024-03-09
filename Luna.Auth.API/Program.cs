@@ -1,4 +1,8 @@
+using Luna.Auth.Repositories.Repositories;
+using Luna.Auth.Services.Services;
+using Luna.SharedDataAccess.Users.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Npgsql.Extension.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,13 +28,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 		options.SlidingExpiration = true;
 	});
 
+var connectionString = builder.Configuration.GetConnectionString("luna_auth");
+var options = new DatabaseOptions() {ConnectionString = connectionString!};
+
+builder.Services.AddSingleton<IDatabaseOptions>(_ => options);
+
+builder.Services.AddScoped<IUserAuthRepository, UserAuthRepository>();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-	app.UseSwagger();
-	app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors();
 

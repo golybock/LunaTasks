@@ -1,0 +1,51 @@
+﻿services:
+
+  luna.gateway.api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Release
+    image: luna.gateway.api
+    ports:
+      - "7000:8080"
+    build:
+      context: .
+      dockerfile: Luna.Gateway.API/Dockerfile
+
+  luna.auth.api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Release
+    image: luna.auth.api
+    ports:
+      - "7001:8080"
+    build:
+      context: .
+      dockerfile: Luna.Auth.API/Dockerfile
+
+  luna.users.grpc:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Release
+    image: luna.users.grpc
+    ports:
+      - "7002:8080"
+    build:
+      context: .
+      dockerfile: Luna.Users.Grpc/Dockerfile
+
+  luna.users.api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Release
+    image: luna.users.api
+    ports:
+      - "7003:8080"
+    build:
+      context: .
+      dockerfile: Luna.Users.API/Dockerfile
+
+  luna.workspace.api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Release
+    image: luna.workspace.api
+    ports:
+      - "7004:8080"
+    build:
+      context: .
+      dockerfile: Luna.Workspace.API/Dockerfile

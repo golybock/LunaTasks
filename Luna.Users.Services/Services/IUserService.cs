@@ -14,7 +14,7 @@ public interface IUserService
 	// limit(50) and get like pages (1-50, 51-101 and etc)
 	public Task<IEnumerable<UserView>> GetUsersAsync(int offset);
 
-	public Task<Boolean> CreateUserAsync(UserBlank userBlank);
+	public Task<Guid> CreateUserAsync(UserBlank userBlank);
 
 	public Task<Boolean> UpdateUserAsync(Guid id, UserBlank userBlank);
 

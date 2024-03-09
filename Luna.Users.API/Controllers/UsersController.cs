@@ -35,7 +35,7 @@ public class UsersController : ControllerBase
 	}
 
 	[HttpPost("[action]")]
-	public async Task<bool> CreateUserAsync(UserBlank userBlank)
+	public async Task<Guid> CreateUserAsync(UserBlank userBlank)
 	{
 		return await _userService.CreateUserAsync(userBlank);
 	}

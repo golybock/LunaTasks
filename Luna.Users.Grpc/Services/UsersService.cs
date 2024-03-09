@@ -43,11 +43,11 @@ public class UsersService : Grpc.UsersService.UsersServiceBase
 		return new UserResponse() {User = user.ToUserModel()};
 	}
 
-	public override async Task<ExecutedResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
+	public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
 	{
 		var result = await _userService.CreateUserAsync(request.UserBlank.ToUserBlank());
 
-		return new ExecutedResponse() {Executed = result};
+		return new CreateUserResponse() {Id = result.ToString()};
 	}
 
 	public override async Task<ExecutedResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context)

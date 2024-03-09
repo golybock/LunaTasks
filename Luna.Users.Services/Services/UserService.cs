@@ -65,7 +65,7 @@ public class UserService : IUserService
 		return usersView;
 	}
 
-	public async Task<bool> CreateUserAsync(UserBlank userBlank)
+	public async Task<Guid> CreateUserAsync(UserBlank userBlank)
 	{
 		var userDatabase = new UserDatabase()
 		{
@@ -78,7 +78,9 @@ public class UserService : IUserService
 			EmailConfirmed = false
 		};
 
-		return await _userRepository.CreateUserAsync(userDatabase);
+		var res = await _userRepository.CreateUserAsync(userDatabase);
+
+		return res ? userDatabase.Id : Guid.Empty;
 	}
 
 	public async Task<bool> UpdateUserAsync(Guid id, UserBlank userBlank)

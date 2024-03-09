@@ -8,7 +8,7 @@ public interface IAuthService
 {
 	public Task<IActionResult> SignIn(SignInBlank signInBlank, HttpContext context);
 
-	public Task<IActionResult> SignUp(SignUpBlank userBlank, HttpContext context);
+	public Task<IActionResult> SignUp(SignUpBlank signUpBlank, HttpContext context);
 
 	public Task<IActionResult> SignOut(HttpContext context);
 }

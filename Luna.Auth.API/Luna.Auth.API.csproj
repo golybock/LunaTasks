@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
@@ -17,6 +17,12 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Luna.Auth.Repositories\Luna.Auth.Repositories.csproj" />
+      <ProjectReference Include="..\Luna.Auth.Services\Luna.Auth.Services.csproj" />
+      <ProjectReference Include="..\Luna.Models.Auth.Blank\Luna.Models.Auth.Blank.csproj" />
     </ItemGroup>
 
 </Project>

@@ -18,7 +18,7 @@ service UsersService {
 
   // CREATE
 
-  rpc CreateUser (CreateUserRequest) returns (ExecutedResponse);
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
 
   // UPDATE
 
@@ -78,6 +78,10 @@ message GetUserByPhoneOrEmailRequest{
 // CREATE
 message CreateUserRequest{
   UserBlank userBlank = 1;
+}
+
+message CreateUserResponse{
+  string id = 1;
 }
 
 // UPDATE

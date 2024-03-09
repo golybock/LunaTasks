@@ -11,7 +11,7 @@ public interface IUserService
 
 	public Task<UserView?> GetUserAsync(string phoneOrEmail);
 
-	public Task<bool> CreateUserAsync(UserBlank userBlank);
+	public Task<Guid> CreateUserAsync(UserBlank userBlank);
 
 	public Task<bool> UpdateUserAsync(Guid id, UserBlank userBlank);
 

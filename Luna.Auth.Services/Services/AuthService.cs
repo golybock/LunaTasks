@@ -1,7 +1,9 @@
 ﻿using System.Security.Claims;
 using Luna.Auth.Repositories.Repositories;
 using Luna.Models.Auth.Blank.Auth;
+using Luna.Models.Auth.Database.Auth;
 using Luna.Models.Auth.Domain.Auth;
+using Luna.Models.Users.Blank.Users;
 using Luna.SharedDataAccess.Users.Services;
 using Luna.Tools.Crypto;
 using Microsoft.AspNetCore.Authentication;
@@ -13,8 +15,8 @@ namespace Luna.Auth.Services.Services;
 
 public class AuthService: IAuthService
 {
-	private IUserAuthRepository _userAuthRepository;
-	private IUserService _userService;
+	private readonly IUserAuthRepository _userAuthRepository;
+	private readonly IUserService _userService;
 
 	public AuthService(IUserAuthRepository userAuthRepository, IUserService userService)
 	{
@@ -27,12 +29,12 @@ public class AuthService: IAuthService
 		var user = await _userService.GetUserAsync(signInBlank.Email);
 
 		if (user == null)
-			return new NotFoundResult();
+			return new NotFoundObjectResult("user not found");
 
-		var auth = await _userAuthRepository.GetAuthUserByIdAsync(user.Id);
+		var auth = await _userAuthRepository.GetAuthUserAsync(user.Id);
 
 		if (auth == null)
-			return new NotFoundResult();
+			return new NotFoundObjectResult("pass not found");
 
 		var authDomain = new UserAuthDomain(auth);
 
@@ -43,12 +45,12 @@ public class AuthService: IAuthService
 
 		var claims = new List<Claim>
 		{
-			new Claim(ClaimTypes.Authentication, user.Id.ToString()),
-			new Claim(ClaimTypes.Name, user.Email)
+			new Claim(ClaimTypes.Authentication, user.Id.ToString(), CookieAuthenticationDefaults.AuthenticationScheme),
+			new Claim(ClaimTypes.Name, user.Email, CookieAuthenticationDefaults.AuthenticationScheme)
 			// new Claim(ClaimTypes.Role, "Administrator"),
 		};
 
-		var claimsIdentity = new ClaimsIdentity(claims);
+		var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
 		var authProperties = new AuthenticationProperties
 		{
@@ -60,9 +62,52 @@ public class AuthService: IAuthService
 		return new OkResult();
 	}
 
-	public async Task<IActionResult> SignUp(SignUpBlank userBlank, HttpContext context)
+	public async Task<IActionResult> SignUp(SignUpBlank signUpBlank, HttpContext context)
 	{
-		throw new NotImplementedException();
+		var user = await _userService.GetUserAsync(signUpBlank.Email);
+
+		if (user != null)
+			return new BadRequestObjectResult("User already registered");
+
+		var newUser = new UserBlank()
+		{
+			Email = signUpBlank.Email,
+			Username = signUpBlank.Email
+		};
+
+		var newUserId = await _userService.CreateUserAsync(newUser);
+
+		var hashedPassword = await Crypto.HashSha512Async(signUpBlank.Password);
+
+		var auth = new UserAuthDatabase()
+		{
+			Id = Guid.NewGuid(),
+			Password = hashedPassword,
+			UserId = newUserId
+		};
+
+		var res = await _userAuthRepository.CreateAuthUserAsync(auth);
+
+		if (res == false)
+			return new BadRequestResult();
+
+		var claims = new List<Claim>
+		{
+			new Claim(ClaimTypes.Authentication, newUserId.ToString(), CookieAuthenticationDefaults.AuthenticationScheme),
+			new Claim(ClaimTypes.Name, newUser.Email, CookieAuthenticationDefaults.AuthenticationScheme)
+			// new Claim(ClaimTypes.Role, "Administrator"),
+		};
+
+		var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+		var authProperties = new AuthenticationProperties
+		{
+			AllowRefresh = true,
+		};
+
+		await context.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
+
+		return new OkResult();
 	}
 
 	public async Task<IActionResult> SignOut(HttpContext context)
