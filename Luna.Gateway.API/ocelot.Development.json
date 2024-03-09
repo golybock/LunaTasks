@@ -1,16 +1,28 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Users/GetUsers",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/Users/{everything}",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7287
+          "Host": "host.docker.internal",
+          "Port": 7003
         }
       ],
-      "UpstreamPathTemplate": "/api/Users/GetUsers",
-      "UpstreamHttpMethod": ["GET"]
+      "UpstreamPathTemplate": "/api/Users/{everything}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Workspace/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": 7004
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Workspace/{everything}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"]
     }
   ],
   "GlobalConfiguration": {

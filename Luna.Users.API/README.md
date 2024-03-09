@@ -1,6 +1,6 @@
 ﻿Host to users grpc service in Release
 ```json
-"Host": "http:\\\\docker.internal.host:7002"
+"Host": "http://host.docker.interna:7002"
 ```
 
 Host to users grpc service in Development
