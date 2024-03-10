@@ -1,4 +1,6 @@
-﻿namespace Luna.Models.Tasks.Domain.CardAttributes;
+﻿using Luna.Models.Tasks.Database.CardAttributes;
+
+namespace Luna.Models.Tasks.Domain.CardAttributes;
 
 public class TagDomain
 {
@@ -13,4 +15,13 @@ public class TagDomain
 	public Guid WorkspaceId { get; set; }
 
 	public Boolean Deleted { get; set; }
+
+	public TagDomain(TagDatabase tagDatabase)
+	{
+		Id = tagDatabase.Id;
+		Name = tagDatabase.Name;
+		HexColor = tagDatabase.HexColor;
+		WorkspaceId = tagDatabase.WorkspaceId;
+		Deleted = tagDatabase.Deleted;
+	}
 }

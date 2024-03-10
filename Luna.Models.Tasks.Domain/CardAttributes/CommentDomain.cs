@@ -1,4 +1,6 @@
-﻿namespace Luna.Models.Tasks.Domain.CardAttributes;
+﻿using Luna.Models.Tasks.Database.CardAttributes;
+
+namespace Luna.Models.Tasks.Domain.CardAttributes;
 
 public class CommentDomain
 {
@@ -13,4 +15,14 @@ public class CommentDomain
 	public String AttachmentUrl { get; set; } = null!;
 
 	public Boolean Deleted { get; set; }
+
+	public CommentDomain(CommentDatabase commentDatabase)
+	{
+		Id = commentDatabase.Id;
+		CardId = commentDatabase.CardId;
+		UserId = commentDatabase.UserId;
+		Comment = commentDatabase.Comment;
+		AttachmentUrl = commentDatabase.AttachmentUrl;
+		Deleted = commentDatabase.Deleted;
+	}
 }

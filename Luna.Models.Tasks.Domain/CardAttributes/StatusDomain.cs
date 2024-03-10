@@ -1,4 +1,6 @@
-﻿namespace Luna.Models.Tasks.Domain.CardAttributes;
+﻿using Luna.Models.Tasks.Database.CardAttributes;
+
+namespace Luna.Models.Tasks.Domain.CardAttributes;
 
 public class StatusDomain
 {
@@ -13,4 +15,13 @@ public class StatusDomain
 	public Guid WorkspaceId { get; set; }
 
 	public Boolean Deleted { get; set; }
+
+	public StatusDomain(StatusDatabase statusDatabase)
+	{
+		Id = statusDatabase.Id;
+		Name = statusDatabase.Name;
+		HexColor = statusDatabase.HexColor;
+		WorkspaceId = statusDatabase.WorkspaceId;
+		Deleted = statusDatabase.Deleted;
+	}
 }

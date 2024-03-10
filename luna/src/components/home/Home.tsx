@@ -11,7 +11,7 @@ interface IState {
 
 export default class Home extends React.Component<IProps, IState> {
 
-    headerUrl ="https://localhost:7043/woodcuts_14.jpg";
+    headerUrl ="http://localhost:7005/woodcuts_14.jpg";
 
     render() {
         return (
