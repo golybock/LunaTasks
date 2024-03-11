@@ -4,9 +4,9 @@ namespace Luna.Tasks.Repositories.Repositories.Card;
 
 public interface ICardRepository
 {
-	public Task<IEnumerable<CardDatabase>> GetCardsAsync(Guid workspaceId, Guid userId);
+	public Task<IEnumerable<CardDatabase>> GetCardsAsync(Guid pageId, Guid userId);
 
-	public Task<IEnumerable<CardDatabase>> GetCardsAsync(Guid workspaceId);
+	public Task<IEnumerable<CardDatabase>> GetCardsAsync(Guid pageId);
 
 	public Task<IEnumerable<CardDatabase>> GetCardsAsync(IEnumerable<Guid> cardIds);
 

@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Luna.Models.Tasks.Domain\Luna.Models.Tasks.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

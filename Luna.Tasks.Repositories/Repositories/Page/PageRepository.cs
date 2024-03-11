@@ -33,7 +33,7 @@ public class PageRepository : NpgsqlRepository, IPageRepository
 		return await GetListAsync<PageDatabase>(query, parameters);
 	}
 
-	public async Task<PageDatabase?> GetPageDataAsync(Guid pageId)
+	public async Task<PageDatabase?> GetPageAsync(Guid pageId)
 	{
 		var query = "SELECT * FROM page WHERE id = $1";
 
@@ -63,13 +63,13 @@ public class PageRepository : NpgsqlRepository, IPageRepository
 		return await ExecuteAsync(query, parameters);
 	}
 
-	public async Task<Boolean> UpdatePageAsync(PageDatabase page)
+	public async Task<Boolean> UpdatePageAsync(Guid id, PageDatabase page)
 	{
 		var query = "UPDATE page SET name = $2, description = $3, header_image = $4 WHERE id = $1";
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = page.Id},
+			new NpgsqlParameter() {Value = id},
 			new NpgsqlParameter() {Value = page.Name},
 			new NpgsqlParameter() {Value = page.Description},
 			new NpgsqlParameter() {Value = page.HeaderImage},

@@ -6,9 +6,9 @@ public class CardDatabase
 
 	public String Header { get; set; } = null!;
 
-	public String Content { get; set; } = null!;
+	public String? Content { get; set; }
 
-	public String Description { get; set; } = null!;
+	public String? Description { get; set; }
 
 	public Guid CardTypeId { get; set; }
 
@@ -18,9 +18,9 @@ public class CardDatabase
 
 	public DateTime CreatedTimestamp { get; set; }
 
-	public DateTime Deadline { get; set; }
+	public DateTime? Deadline { get; set; }
 
-	public Guid PreviousCardId { get; set; }
+	public Guid? PreviousCardId { get; set; }
 
 	public Boolean Deleted { get; set; }
 }

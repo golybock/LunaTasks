@@ -23,9 +23,9 @@ public class CardDomain
 
 	public DateTime CreatedTimestamp { get; set; }
 
-	public DateTime Deadline { get; set; }
+	public DateTime? Deadline { get; set; }
 
-	public Guid PreviousCardId { get; set; }
+	public Guid? PreviousCardId { get; set; }
 
 	public CardDomain? PreviousCard { get; set; }
 

@@ -23,6 +23,18 @@ public class TagRepository : NpgsqlRepository, ITagRepository
 		return await GetListAsync<TagDatabase>(query, parameters);
 	}
 
+	public async Task<IEnumerable<TagDatabase>> GetTagsAsync(IEnumerable<Guid> tagIds)
+	{
+		var query = "SELECT * FROM tag WHERE id = any ($1)";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = tagIds}
+		};
+
+		return await GetListAsync<TagDatabase>(query, parameters);
+	}
+
 	public async Task<TagDatabase?> GetTagAsync(Guid workspaceId, Guid tagId)
 	{
 		var query = "SELECT * FROM tag WHERE workspace_id = $1 and id = $2";

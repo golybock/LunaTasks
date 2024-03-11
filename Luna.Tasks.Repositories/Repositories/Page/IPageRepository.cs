@@ -8,11 +8,11 @@ public interface IPageRepository
 
 	public Task<IEnumerable<PageDatabase>> GetPagesByUserAsync(Guid userId);
 
-	public Task<PageDatabase?> GetPageDataAsync(Guid id);
+	public Task<PageDatabase?> GetPageAsync(Guid id);
 
 	public Task<Boolean> CreatePageAsync(PageDatabase page);
 
-	public Task<Boolean> UpdatePageAsync(PageDatabase page);
+	public Task<Boolean> UpdatePageAsync(Guid id, PageDatabase page);
 
 	public Task<Boolean> DeletePageAsync(Guid id);
 

@@ -12,7 +12,7 @@ public class BlockedCardDomain
 
 	public DateTime StartBlockTimestamp { get; set; }
 
-	public DateTime EndBlockTimestamp { get; set; }
+	public DateTime? EndBlockTimestamp { get; set; }
 
 	public BlockedCardDomain(BlockedCardDatabase blockedCardDatabase)
 	{

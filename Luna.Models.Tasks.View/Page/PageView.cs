@@ -1,4 +1,5 @@
-﻿using Luna.Models.Tasks.View.Card;
+﻿using Luna.Models.Tasks.Domain.Page;
+using Luna.Models.Tasks.View.Card;
 
 namespace Luna.Models.Tasks.View.Page;
 
@@ -14,5 +15,15 @@ public class PageView
 
 	public DateTime CreatedTimestamp { get; set; }
 
-	public IEnumerable<CardView> Cards { get; set; } = new List<CardView>();
+	public IEnumerable<CardView> Cards { get; set; }
+
+	public PageView(PageDomain pageDomain)
+	{
+		Id = pageDomain.Id;
+		Name = pageDomain.Name;
+		Description = pageDomain.Description;
+		HeaderImage = pageDomain.HeaderImage;
+		CreatedTimestamp = pageDomain.CreatedTimestamp;
+		Cards = pageDomain.Cards.Select(cardDomain => new CardView(cardDomain));
+	}
 }
