@@ -6,6 +6,8 @@ public interface IStatusRepository
 {
 	public Task<IEnumerable<StatusDatabase>> GetStatusesAsync(Guid workspaceId);
 
+	public Task<IEnumerable<StatusDatabase>> GetStatusesAsync(IEnumerable<Guid> ids);
+
 	public Task<StatusDatabase?> GetStatusAsync(Guid workspaceId, Guid statusId);
 
 	public Task<StatusDatabase?> GetStatusAsync(Guid statusId);

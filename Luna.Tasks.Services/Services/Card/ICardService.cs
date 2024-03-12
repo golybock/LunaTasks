@@ -33,11 +33,11 @@ public interface ICardService
 	public Task<Boolean> DeleteBlockedCardAsync(Guid cardId, Guid userId);
 
 
-	public Task<IEnumerable<CardStatusView>> GetCardStatusesAsync(Guid cardId);
+	public Task<IEnumerable<StatusView>> GetCardStatusesAsync(Guid cardId);
 
-	public Task<CardStatusView?> GetCardStatusAsync(Guid cardId, Guid statusId);
+	public Task<StatusView?> GetCardStatusAsync(Guid cardId, Guid statusId);
 
-	public Task<CardStatusView?> GetCurrentCardStatusAsync(Guid cardId);
+	public Task<StatusView?> GetCurrentCardStatusAsync(Guid cardId);
 
 	public Task<Boolean> CreateCardStatusAsync(Guid cardId, Guid statusId, Guid userId);
 

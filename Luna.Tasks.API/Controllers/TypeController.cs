@@ -1,0 +1,54 @@
+﻿using Luna.Models.Tasks.Blank.CardAttributes;
+using Luna.Models.Tasks.View.CardAttributes;
+using Luna.Tasks.Services.Services.CardAttributes.Type;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Luna.Tasks.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class TypeController : ControllerBase
+{
+	private readonly ITypeService _typeService;
+
+	public TypeController(ITypeService typeService)
+	{
+		_typeService = typeService;
+	}
+
+	[HttpGet("[action]")]
+	public async Task<IEnumerable<TypeView>> GetTypesAsync(Guid workspaceId)
+	{
+		return await _typeService.GetTypesAsync(workspaceId);
+	}
+
+	[HttpGet("[action]")]
+	public async Task<TypeView?> GetTypeAsync(Guid typeId)
+	{
+		return await _typeService.GetTypeAsync(typeId);
+	}
+
+	[HttpPost("[action]")]
+	public async Task<IActionResult> CreateTypeAsync(TypeBlank type, Guid userId)
+	{
+		var result = await _typeService.CreateTypeAsync(type, userId);
+
+		return result ? Ok() : BadRequest();
+	}
+
+	[HttpPut("[action]")]
+	public async Task<IActionResult> UpdateTypeAsync(Guid id, TypeBlank type, Guid userId)
+	{
+		var result = await _typeService.UpdateTypeAsync(id, type, userId);
+
+		return result ? Ok() : BadRequest();
+	}
+
+	[HttpDelete("[action]")]
+	public async Task<IActionResult> DeleteTypeAsync(Guid id)
+	{
+		var result = await _typeService.DeleteTypeAsync(id);
+
+		return result ? Ok() : BadRequest();
+	}
+}

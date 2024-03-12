@@ -9,9 +9,9 @@ public class CardView
 
 	public String Header { get; set; }
 
-	public String Content { get; set; }
+	public String? Content { get; set; }
 
-	public String Description { get; set; }
+	public String? Description { get; set; }
 
 	public TypeView CardType { get; set; }
 
@@ -30,7 +30,7 @@ public class CardView
 	//todo: add user model
 	public IEnumerable<Guid> Users { get; set; }
 
-	public IEnumerable<CardStatusView> Statuses { get; set; }
+	public IEnumerable<StatusView> Statuses { get; set; }
 
 	public CardView(CardDomain cardDomain)
 	{
@@ -46,6 +46,32 @@ public class CardView
 		Comments = cardDomain.Comments.Select(commentDomain => new CommentView(commentDomain));
 		CardTags = cardDomain.CardTags.Select(tagDomain => new TagView(tagDomain.Tag));
 		Users = cardDomain.Users.Select(c => c.UserId).ToList();
-		Statuses = cardDomain.Statuses.Select(cardStatusDomain => new CardStatusView(cardStatusDomain));
+		Statuses = cardDomain.Statuses.Select(cardStatusDomain => new StatusView(cardStatusDomain.Status));
+	}
+
+	public CardView
+	(
+		CardDomain cardDomain,
+		TypeView cardType,
+		IEnumerable<CommentView> comments,
+		IEnumerable<TagView> tags,
+		IEnumerable<Guid> users,
+		IEnumerable<StatusView> statuses
+	)
+	{
+		Id = cardDomain.Id;
+		Header = cardDomain.Header;
+		Content = cardDomain.Content;
+		Description = cardDomain.Description;
+		CreatedUserId = cardDomain.CreatedUserId;
+		CreatedTimestamp = cardDomain.CreatedTimestamp;
+		Deadline = cardDomain.Deadline;
+
+		CardType = cardType;
+		// PreviousCard = cardDomain.PreviousCard == null ? null : new CardView(cardDomain.PreviousCard);
+		Comments = comments;
+		CardTags = tags;
+		Users = users;
+		Statuses = statuses;
 	}
 }

@@ -22,6 +22,13 @@ public class StatusService : IStatusService
 		return ToStatusView(statusDatabases);
 	}
 
+	public async Task<IEnumerable<StatusView>> GetStatusesAsync(IEnumerable<Guid> ids)
+	{
+		var statusDatabases = await _statusRepository.GetStatusesAsync(ids);
+
+		return ToStatusView(statusDatabases);
+	}
+
 	public async Task<StatusView?> GetStatusAsync(Guid workspaceId, Guid statusId)
 	{
 		var status = await _statusRepository.GetStatusAsync(workspaceId, statusId);

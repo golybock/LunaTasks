@@ -7,4 +7,6 @@ public class BlockedCardBlank
 	public String Comment { get; set; } = null!;
 
 	public DateTime StartBlockTimestamp { get; set; }
+
+	public DateTime EndBlockTimestamp { get; set; }
 }

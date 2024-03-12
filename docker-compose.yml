@@ -59,3 +59,13 @@
     build:
       context: .
       dockerfile: Luna.Resources.API/Dockerfile
+
+  luna.tasks.api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Release
+    image: luna.tasks.api
+    ports:
+      - "7006:8080"
+    build:
+      context: .
+      dockerfile: Luna.Tasks.API/Dockerfile

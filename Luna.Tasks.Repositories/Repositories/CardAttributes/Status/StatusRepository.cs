@@ -21,6 +21,18 @@ public class StatusRepository : NpgsqlRepository, IStatusRepository
 		return await GetListAsync<StatusDatabase>(query, parameters);
 	}
 
+	public async Task<IEnumerable<StatusDatabase>> GetStatusesAsync(IEnumerable<Guid> ids)
+	{
+		var query = "SELECT * FROM status WHERE id = any ($1)";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = ids}
+		};
+
+		return await GetListAsync<StatusDatabase>(query, parameters);
+	}
+
 	public async Task<StatusDatabase?> GetStatusAsync(Guid workspaceId, Guid statusId)
 	{
 		var query = "SELECT * FROM status WHERE workspace_id = $1 AND id = $2";

@@ -7,11 +7,11 @@ public class CardDomain
 {
 	public Guid Id { get; set; }
 
-	public String Header { get; set; } = null!;
+	public String Header { get; set; }
 
-	public String Content { get; set; } = null!;
+	public String? Content { get; set; }
 
-	public String Description { get; set; } = null!;
+	public String? Description { get; set; }
 
 	public Guid CardTypeId { get; set; }
 
@@ -68,5 +68,19 @@ public class CardDomain
 		CardTags = cardTags;
 		Users = users;
 		Statuses = statuses;
+	}
+
+	public CardDomain(CardDatabase cardDatabase) {
+		Id = cardDatabase.Id;
+		Header = cardDatabase.Header;
+		Content = cardDatabase.Content;
+		Description = cardDatabase.Description;
+		CardTypeId = cardDatabase.CardTypeId;
+		PageId = cardDatabase.PageId;
+		CreatedUserId = cardDatabase.CreatedUserId;
+		CreatedTimestamp = cardDatabase.CreatedTimestamp;
+		Deadline = cardDatabase.Deadline;
+		PreviousCardId = cardDatabase.PreviousCardId;
+		Deleted = cardDatabase.Deleted;
 	}
 }
