@@ -1,5 +1,8 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Luna.Auth.Repositories.Repositories;
+using Luna.Auth.Services.Options;
 using Luna.Models.Auth.Blank.Auth;
 using Luna.Models.Auth.Database.Auth;
 using Luna.Models.Auth.Domain.Auth;
@@ -10,6 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Luna.Auth.Services.Services;
 
@@ -17,11 +21,13 @@ public class AuthService: IAuthService
 {
 	private readonly IUserAuthRepository _userAuthRepository;
 	private readonly IUserService _userService;
+	private readonly JwtOptions _jwtOptions;
 
-	public AuthService(IUserAuthRepository userAuthRepository, IUserService userService)
+	public AuthService(IUserAuthRepository userAuthRepository, IUserService userService, JwtOptions jwtOptions)
 	{
 		_userAuthRepository = userAuthRepository;
 		_userService = userService;
+		_jwtOptions = jwtOptions;
 	}
 
 	public async Task<IActionResult> SignIn(SignInBlank signInBlank, HttpContext context)
@@ -50,16 +56,21 @@ public class AuthService: IAuthService
 			// new Claim(ClaimTypes.Role, "Administrator"),
 		};
 
-		var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+		var secretKey = _jwtOptions.SymmetricSecurityKey;
+		var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+		var expirationTimeStamp = DateTime.Now.AddDays(1);
 
-		var authProperties = new AuthenticationProperties
-		{
-			AllowRefresh = true,
-		};
+		var tokenOptions = new JwtSecurityToken(
+			issuer: _jwtOptions.Issuer,
+			audience: _jwtOptions.Audience,
+			claims: claims,
+			expires: expirationTimeStamp,
+			signingCredentials: signingCredentials
+		);
 
-		await context.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
+		var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-		return new OkResult();
+		return new OkObjectResult(tokenString);
 	}
 
 	public async Task<IActionResult> SignUp(SignUpBlank signUpBlank, HttpContext context)
@@ -98,21 +109,26 @@ public class AuthService: IAuthService
 			// new Claim(ClaimTypes.Role, "Administrator"),
 		};
 
-		var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+		var secretKey = _jwtOptions.SymmetricSecurityKey;
+		var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+		var expirationTimeStamp = DateTime.Now.AddDays(1);
 
-		var authProperties = new AuthenticationProperties
-		{
-			AllowRefresh = true,
-		};
+		var tokenOptions = new JwtSecurityToken(
+			issuer: _jwtOptions.Issuer,
+			audience: _jwtOptions.Audience,
+			claims: claims,
+			expires: expirationTimeStamp,
+			signingCredentials: signingCredentials
+		);
 
-		await context.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
+		var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-		return new OkResult();
+		return new OkObjectResult(tokenString);
 	}
 
 	public async Task<IActionResult> SignOut(HttpContext context)
 	{
-		await context.SignOutAsync();
+		// await context.SignOutAsync();
 
 		return new OkResult();
 	}

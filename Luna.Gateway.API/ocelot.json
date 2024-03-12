@@ -123,5 +123,8 @@
   ],
   "GlobalConfiguration": {
     "RouteIsCaseSensitive": false
+  },
+  "AuthenticationOptions": {
+    "AuthenticationProviderKey": "Bearer"
   }
 }

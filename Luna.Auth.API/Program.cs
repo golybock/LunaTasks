@@ -1,10 +1,34 @@
+using System.Text;
 using Luna.Auth.Repositories.Repositories;
+using Luna.Auth.Services.Options;
 using Luna.Auth.Services.Services;
 using Luna.SharedDataAccess.Users.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Npgsql.Extension.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var jwtOptions = new JwtOptions(builder.Configuration);
+
+builder.Services.AddAuthorization();
+builder.Services
+	.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(o =>
+	{
+		o.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuer = true,
+			ValidIssuer = jwtOptions.Issuer,
+			ValidateAudience = true,
+			ValidAudience = jwtOptions.Audience,
+			ValidateLifetime = true,
+			IssuerSigningKey = jwtOptions.SymmetricSecurityKey,
+			ValidateIssuerSigningKey = true
+		};
+	});
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -28,9 +52,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 	});
 
 var connectionString = builder.Configuration.GetConnectionString("luna_auth");
-var options = new DatabaseOptions() {ConnectionString = connectionString!};
+var databaseOptions = new DatabaseOptions() {ConnectionString = connectionString!};
 
-builder.Services.AddSingleton<IDatabaseOptions>(_ => options);
+builder.Services.AddSingleton<IDatabaseOptions>(_ => databaseOptions);
+
+builder.Services.AddScoped<JwtOptions>();
 
 builder.Services.AddScoped<IUserAuthRepository, UserAuthRepository>();
 
@@ -48,13 +74,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-var cookiePolicyOptions = new CookiePolicyOptions
-{
-	MinimumSameSitePolicy = SameSiteMode.Strict,
-};
-
-app.UseCookiePolicy(cookiePolicyOptions);
 
 app.MapControllers();
 
