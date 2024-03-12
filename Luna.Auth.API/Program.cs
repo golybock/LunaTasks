@@ -13,8 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 var jwtOptions = new JwtOptions(builder.Configuration);
 
 builder.Services.AddAuthorization();
-builder.Services
-	.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(o =>
 	{
 		o.TokenValidationParameters = new TokenValidationParameters
@@ -43,13 +42,6 @@ builder.Services.AddCors(options =>
 			.AllowAnyOrigin();
 	});
 });
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-	.AddCookie(options =>
-	{
-		options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-		options.SlidingExpiration = true;
-	});
 
 var connectionString = builder.Configuration.GetConnectionString("luna_auth");
 var databaseOptions = new DatabaseOptions() {ConnectionString = connectionString!};

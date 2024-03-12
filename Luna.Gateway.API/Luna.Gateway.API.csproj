@@ -33,4 +33,8 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Luna.Auth.Services\Luna.Auth.Services.csproj" />
+    </ItemGroup>
+
 </Project>

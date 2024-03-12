@@ -1,10 +1,12 @@
 ﻿using Luna.Models.Users.Blank.Users;
 using Luna.Models.Users.View.Users;
 using Luna.SharedDataAccess.Users.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Luna.Users.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
