@@ -1,10 +1,12 @@
 ﻿using Luna.Models.Tasks.Blank.Page;
 using Luna.Models.Tasks.View.Page;
 using Luna.Tasks.Services.Services.Page;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Luna.Tasks.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class PageController : ControllerBase

@@ -1,9 +1,36 @@
+using Luna.Auth.Services.Options;
 using Luna.Workspaces.Repositories.Repositories;
 using Luna.Workspaces.Services.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Npgsql.Extension.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var jwtOptions = new JwtOptions(builder.Configuration);
+
+builder.Services.AddAuthentication(opt =>
+	{
+		opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+		opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+	})
+	.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+	{
+		o.Authority = jwtOptions.Issuer;
+		o.Audience = jwtOptions.Audience;
+		o.RequireHttpsMetadata = false;
+		o.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuer = true,
+			ValidIssuer = jwtOptions.Issuer,
+			ValidateAudience = false,
+			ValidAudience = jwtOptions.Audience,
+			ValidateLifetime = true,
+			IssuerSigningKey = jwtOptions.SymmetricSecurityKey,
+			ValidateIssuerSigningKey = true
+		};
+	});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -46,13 +73,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-var cookiePolicyOptions = new CookiePolicyOptions
-{
-	MinimumSameSitePolicy = SameSiteMode.Strict,
-};
-
-app.UseCookiePolicy(cookiePolicyOptions);
 
 app.MapControllers();
 

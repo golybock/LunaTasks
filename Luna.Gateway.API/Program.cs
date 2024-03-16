@@ -1,6 +1,5 @@
 using Luna.Auth.Services.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -8,23 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 var jwtOptions = new JwtOptions(builder.Configuration);
 
-builder.Services.AddAuthorization();
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-	.AddJwtBearer(o =>
+builder.Services.AddAuthentication(opt =>
 	{
+		opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+		opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+	})
+	.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+	{
+		o.Authority = jwtOptions.Issuer;
+		o.Audience = jwtOptions.Audience;
 		o.RequireHttpsMetadata = false;
-		o.TokenValidationParameters = new TokenValidationParameters
-		{
-			ValidateIssuer = true,
-			ValidIssuer = jwtOptions.Issuer,
-			ValidateAudience = true,
-			ValidAudience = jwtOptions.Audience,
-			ValidateLifetime = true,
-			IssuerSigningKey = jwtOptions.SymmetricSecurityKey,
-			ValidateIssuerSigningKey = true
-		};
-		o.Authority = builder.Configuration["AuthorityHost"];
 	});
 
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
@@ -44,19 +36,24 @@ builder.Services.AddCors(cors =>
 
 var app = builder.Build();
 
-app.Map("/", async context =>
-{
-	await context.Response.WriteAsync("available");
-});
+app.Map("/", async context => { await context.Response.WriteAsync("available"); });
 
 app.UseCors();
 
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-app.UseAuthorization();
+
+// todo костыль, иначе ocelot не пропускает токены
+var configuration = new OcelotPipelineConfiguration
+{
+	AuthenticationMiddleware = async (cpt, est) =>
+	{
+		await est.Invoke();
+	}
+};
 
 app.UseRouting();
-app.UseOcelot().Wait();
+app.UseOcelot(configuration).Wait();
 
 app.Run();

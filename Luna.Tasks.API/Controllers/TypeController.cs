@@ -1,10 +1,12 @@
 ﻿using Luna.Models.Tasks.Blank.CardAttributes;
 using Luna.Models.Tasks.View.CardAttributes;
 using Luna.Tasks.Services.Services.CardAttributes.Type;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Luna.Tasks.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class TypeController : ControllerBase

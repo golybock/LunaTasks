@@ -1,10 +1,12 @@
 ﻿using Luna.Models.Tasks.Blank.Card;
 using Luna.Models.Tasks.View.Card;
 using Luna.Tasks.Services.Services.Card;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Luna.Tasks.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class CardController : ControllerBase

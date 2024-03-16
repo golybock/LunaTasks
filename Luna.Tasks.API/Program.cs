@@ -1,3 +1,4 @@
+using Luna.Auth.Services.Options;
 using Luna.SharedDataAccess.Users.Services;
 using Luna.Tasks.Repositories.Repositories.Card;
 using Luna.Tasks.Repositories.Repositories.CardAttributes.Comment;
@@ -13,9 +14,35 @@ using Luna.Tasks.Services.Services.CardAttributes.Status;
 using Luna.Tasks.Services.Services.CardAttributes.Tag;
 using Luna.Tasks.Services.Services.CardAttributes.Type;
 using Luna.Tasks.Services.Services.Page;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Npgsql.Extension.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var jwtOptions = new JwtOptions(builder.Configuration);
+
+builder.Services.AddAuthentication(opt =>
+	{
+		opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+		opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+	})
+	.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+	{
+		o.Authority = jwtOptions.Issuer;
+		o.Audience = jwtOptions.Audience;
+		o.RequireHttpsMetadata = false;
+		o.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuer = true,
+			ValidIssuer = jwtOptions.Issuer,
+			ValidateAudience = false,
+			ValidAudience = jwtOptions.Audience,
+			ValidateLifetime = true,
+			IssuerSigningKey = jwtOptions.SymmetricSecurityKey,
+			ValidateIssuerSigningKey = true
+		};
+	});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

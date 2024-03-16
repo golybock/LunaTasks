@@ -3,7 +3,6 @@ using Luna.Auth.Repositories.Repositories;
 using Luna.Auth.Services.Options;
 using Luna.Auth.Services.Services;
 using Luna.SharedDataAccess.Users.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql.Extension.Options;
@@ -12,15 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 var jwtOptions = new JwtOptions(builder.Configuration);
 
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-	.AddJwtBearer(o =>
+builder.Services.AddAuthentication(opt =>
 	{
+		opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+		opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+	})
+	.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+	{
+		o.RequireHttpsMetadata = false;
 		o.TokenValidationParameters = new TokenValidationParameters
 		{
 			ValidateIssuer = true,
 			ValidIssuer = jwtOptions.Issuer,
-			ValidateAudience = true,
+			ValidateAudience = false,
 			ValidAudience = jwtOptions.Audience,
 			ValidateLifetime = true,
 			IssuerSigningKey = jwtOptions.SymmetricSecurityKey,
