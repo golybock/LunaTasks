@@ -7,6 +7,8 @@ import Account from "./components/account/Account";
 import About from "./components/about/About";
 import './App.css';
 import UserProvider from "./provider/user/userProvider";
+import Page from "./components/page/Page";
+import {match} from "node:assert";
 
 interface IProps {
 
@@ -58,7 +60,8 @@ export default class Auth extends React.Component<IProps, IState> {
                 {this.state.isAuthed && (
                     <Routes>
                         <Route element={<Navbar signOut={() => this.signOut()}/>}>
-                            <Route path="/" element={<Home/>}/>
+                            <Route index path="/" element={<Home/>}/>
+                            <Route path="page" element={<Page/>}/>
                             <Route path="account" element={<Account/>}/>
                             <Route path="about" element={<About/>}/>
                         </Route>

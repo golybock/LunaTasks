@@ -4,14 +4,19 @@ import "./Navbar.css"
 import WorkspaceView from "../../models/workspace/workspaceView";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
 import {Dropdown} from "react-bootstrap";
+import PageView from "../../models/page/pageView";
+import PageProvider from "../../provider/page/pageProvider";
+import {Guid} from "guid-typescript";
 
 interface IProps {
     signOut: Function
 }
 
 interface IState {
-    selectedWorkspaceId: string;
+    selectedWorkspaceId: Guid;
+    selectedPageId: Guid;
     workspaces: WorkspaceView[];
+    pages: PageView[]
 }
 
 export class Navbar extends React.Component<IProps, IState> {
@@ -20,28 +25,43 @@ export class Navbar extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            selectedWorkspaceId: "",
+            selectedWorkspaceId: Guid.createEmpty(),
+            selectedPageId: Guid.createEmpty(),
             workspaces: [],
+            pages: []
         }
     }
 
     async componentDidMount() {
         let workspaces = await WorkspaceProvider.getWorkspaces();
-        console.log(workspaces);
 
         this.setState({workspaces: workspaces});
-        this.setState({selectedWorkspaceId: workspaces[0].id.toString()})
+        this.setState({selectedWorkspaceId: workspaces[0].id})
+
+        await this.workspaceChosen()
     }
 
-    // workspaceChosen(e : MultiValue<{label : string, value : string}>) {
-    //     let arr : Array<string> = []
-    //
-    //     e.forEach(element => {
-    //         arr.push(element.value);
-    //     });
-    //
-    //     this.setState({selectedWorkspaceId: e.toString()})
-    // }
+    async workspaceChosen() {
+
+        let pages = await PageProvider.getPages(this.state.selectedWorkspaceId);
+
+        console.log(pages);
+
+        pages.forEach(page => {
+            this.MenuItems.push(
+                {
+                    href: "/page?id=" + page.id,
+                    title: page.name,
+                    img: ""
+                }
+            )
+        })
+
+        if(pages.length > 0){
+            this.setState({pages: pages});
+            this.setState({selectedPageId: pages[0].id})
+        }
+    }
 
     MenuItems = [
         {
@@ -73,22 +93,23 @@ export class Navbar extends React.Component<IProps, IState> {
                         <div>
                             {this.state.workspaces && (
                                 <Dropdown data-bs-theme="dark"
-                                          // disabled={this.state.workspaces.length == 1}
+                                    // disabled={this.state.workspaces.length == 1}
                                 >
 
                                     <Dropdown.Toggle variant="outline-secondary" className="Workspace-Dropdown">
-                                        {this.state.workspaces.find(c => c.id.toString() == this.state.selectedWorkspaceId)?.name ?? "Workspace"}
+                                        {this.state.workspaces.find(c => c.id == this.state.selectedWorkspaceId)?.name ?? "Workspace"}
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu className="Workspace-Dropdown-Menu">
                                         {this.state.workspaces.map((workspace) => (
                                             <Dropdown.Item key={workspace.id.toString()}
-                                                           onChange={
-                                                               (e) => {
-                                                                   this.setState({selectedWorkspaceId: workspace.id.toString()})
+                                                           onClick={
+                                                               async (e) => {
+                                                                   this.setState({selectedWorkspaceId: workspace.id})
+                                                                   await this.workspaceChosen()
                                                                }
                                                            }
-                                            className="Workspace-Dropdown-Item">{workspace.name}</Dropdown.Item>
+                                                           className="Workspace-Dropdown-Item">{workspace.name}</Dropdown.Item>
                                         ))}
                                     </Dropdown.Menu>
 
