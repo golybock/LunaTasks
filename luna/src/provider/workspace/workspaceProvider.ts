@@ -14,7 +14,7 @@ export default class WorkspaceProvider extends ProviderBase{
             .then(async res => {
 
                 if(res.status === 200){
-                    res.data
+                    return res.data;
                 }
 
                 return [];

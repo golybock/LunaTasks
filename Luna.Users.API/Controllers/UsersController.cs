@@ -32,6 +32,12 @@ public class UsersController : ControllerBase
 	}
 
 	[HttpGet("[action]")]
+	public async Task<UserView?> GetMeAsync()
+	{
+		return await _userService.GetUserAsync(UserId);
+	}
+
+	[HttpGet("[action]")]
 	public async Task<UserView?> GetUserAsync(string phoneOrEmail)
 	{
 		return await _userService.GetUserAsync(phoneOrEmail);

@@ -44,6 +44,18 @@
     padding: 12px;
 }
 
+.Workspace-Dropdown{
+    width: 200px;
+    background: var(--secondary);
+    margin: 12px;
+}
+
+.Workspace-Dropdown-Item{
+    width: 200px;
+    color: var(--secondary-text);
+    background: var(--secondary);
+}
+
 .Navbar-Container-Content{
     width: calc(100% - 240px);
     color: white;
