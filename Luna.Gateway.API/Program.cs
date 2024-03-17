@@ -1,4 +1,4 @@
-using Luna.Auth.Services.Options;
+using Luna.Tools.Auth.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;

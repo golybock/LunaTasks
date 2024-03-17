@@ -1,5 +1,5 @@
-using Luna.Auth.Services.Options;
 using Luna.SharedDataAccess.Users.Services;
+using Luna.Tools.Auth.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

@@ -3,6 +3,7 @@ using Luna.Models.Users.View.Users;
 using Luna.SharedDataAccess.Users.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ControllerBase = Luna.Tools.Web.ControllerBase;
 
 namespace Luna.Users.API.Controllers;
 

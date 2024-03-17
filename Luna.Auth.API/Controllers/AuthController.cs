@@ -2,6 +2,7 @@
 using Luna.Models.Auth.Blank.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ControllerBase = Luna.Tools.Web.ControllerBase;
 
 namespace Luna.Auth.API.Controllers;
 
@@ -28,16 +29,10 @@ public class AuthController : ControllerBase
 		return await _authService.SignUp(signUpBlank, HttpContext);
 	}
 
+	[Authorize]
 	[HttpPost("[action]")]
 	public new async Task<IActionResult> SignOut()
 	{
 		return await _authService.SignOut(HttpContext);
-	}
-
-	[HttpPost("[action]")]
-	[Authorize]
-	public bool Signed()
-	{
-		return true;
 	}
 }

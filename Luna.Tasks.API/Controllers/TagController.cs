@@ -3,6 +3,7 @@ using Luna.Models.Tasks.View.CardAttributes;
 using Luna.Tasks.Services.Services.CardAttributes.Tag;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ControllerBase = Luna.Tools.Web.ControllerBase;
 
 namespace Luna.Tasks.API.Controllers;
 
@@ -31,9 +32,9 @@ public class TagController : ControllerBase
 	}
 
 	[HttpPost("[action]")]
-	public async Task<IActionResult> CreateTagAsync(TagBlank tag, Guid userId)
+	public async Task<IActionResult> CreateTagAsync(TagBlank tag)
 	{
-		var result = await _tagService.CreateTagAsync(tag, userId);
+		var result = await _tagService.CreateTagAsync(tag, UserId);
 
 		return result ? Ok() : BadRequest();
 	}

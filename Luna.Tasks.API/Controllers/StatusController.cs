@@ -3,6 +3,7 @@ using Luna.Models.Tasks.View.CardAttributes;
 using Luna.Tasks.Services.Services.CardAttributes.Status;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ControllerBase = Luna.Tools.Web.ControllerBase;
 
 namespace Luna.Tasks.API.Controllers;
 
@@ -31,25 +32,25 @@ public class StatusController : ControllerBase
 	}
 
 	[HttpPost("[action]")]
-	public async Task<IActionResult> CreateStatusAsync(StatusBlank statusBlank, Guid userId)
+	public async Task<IActionResult> CreateStatusAsync(StatusBlank statusBlank)
 	{
-		var result = await _statusService.CreateStatusAsync(statusBlank, userId);
+		var result = await _statusService.CreateStatusAsync(statusBlank, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpPut("[action]")]
-	public async Task<IActionResult> UpdateStatusAsync(Guid id, StatusBlank statusBlank, Guid userId)
+	public async Task<IActionResult> UpdateStatusAsync(Guid id, StatusBlank statusBlank)
 	{
-		var result = await _statusService.UpdateStatusAsync(id, statusBlank, userId);
+		var result = await _statusService.UpdateStatusAsync(id, statusBlank, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpDelete("[action]")]
-	public async Task<IActionResult> DeleteStatusAsync(Guid id, Guid userId)
+	public async Task<IActionResult> DeleteStatusAsync(Guid id)
 	{
-		var result = await _statusService.DeleteStatusAsync(id, userId);
+		var result = await _statusService.DeleteStatusAsync(id, UserId);
 
 		return result ? Ok() : BadRequest();
 	}

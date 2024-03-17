@@ -1,4 +1,3 @@
-using Luna.Auth.Services.Options;
 using Luna.SharedDataAccess.Users.Services;
 using Luna.Tasks.Repositories.Repositories.Card;
 using Luna.Tasks.Repositories.Repositories.CardAttributes.Comment;
@@ -14,6 +13,7 @@ using Luna.Tasks.Services.Services.CardAttributes.Status;
 using Luna.Tasks.Services.Services.CardAttributes.Tag;
 using Luna.Tasks.Services.Services.CardAttributes.Type;
 using Luna.Tasks.Services.Services.Page;
+using Luna.Tools.Auth.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql.Extension.Options;

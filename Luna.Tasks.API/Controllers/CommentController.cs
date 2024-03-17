@@ -3,6 +3,7 @@ using Luna.Models.Tasks.View.CardAttributes;
 using Luna.Tasks.Services.Services.CardAttributes.Comment;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ControllerBase = Luna.Tools.Web.ControllerBase;
 
 namespace Luna.Tasks.API.Controllers;
 
@@ -25,9 +26,9 @@ public class CommentController: ControllerBase
 	}
 
 	[HttpGet("[action]")]
-	public async Task<IEnumerable<CommentView>> GetUserCommentsAsync(Guid userId)
+	public async Task<IEnumerable<CommentView>> GetUserCommentsAsync()
 	{
-		return await _commentService.GetUserCommentsAsync(userId);
+		return await _commentService.GetUserCommentsAsync(UserId);
 	}
 
 	[HttpPost("[action]")]
@@ -39,9 +40,9 @@ public class CommentController: ControllerBase
 	}
 
 	[HttpPut("[action]")]
-	public async Task<IActionResult> UpdateCommentAsync(int id, CommentBlank comment, Guid userId)
+	public async Task<IActionResult> UpdateCommentAsync(int id, CommentBlank comment)
 	{
-		var result = await _commentService.UpdateCommentAsync(id, comment, userId);
+		var result = await _commentService.UpdateCommentAsync(id, comment, UserId);
 
 		return result ? Ok() : BadRequest();
 	}

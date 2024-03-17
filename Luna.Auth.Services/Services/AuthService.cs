@@ -2,12 +2,12 @@
 using System.Security.Claims;
 using System.Text;
 using Luna.Auth.Repositories.Repositories;
-using Luna.Auth.Services.Options;
 using Luna.Models.Auth.Blank.Auth;
 using Luna.Models.Auth.Database.Auth;
 using Luna.Models.Auth.Domain.Auth;
 using Luna.Models.Users.Blank.Users;
 using Luna.SharedDataAccess.Users.Services;
+using Luna.Tools.Auth.Options;
 using Luna.Tools.Crypto;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

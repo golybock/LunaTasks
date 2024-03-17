@@ -1,4 +1,4 @@
-using Luna.Auth.Services.Options;
+using Luna.Tools.Auth.Options;
 using Luna.Workspaces.Repositories.Repositories;
 using Luna.Workspaces.Services.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;

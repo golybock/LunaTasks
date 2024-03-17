@@ -1,8 +1,8 @@
 using System.Text;
 using Luna.Auth.Repositories.Repositories;
-using Luna.Auth.Services.Options;
 using Luna.Auth.Services.Services;
 using Luna.SharedDataAccess.Users.Services;
+using Luna.Tools.Auth.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql.Extension.Options;

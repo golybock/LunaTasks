@@ -3,6 +3,7 @@ using Luna.Models.Tasks.View.Card;
 using Luna.Tasks.Services.Services.Card;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ControllerBase = Luna.Tools.Web.ControllerBase;
 
 namespace Luna.Tasks.API.Controllers;
 
@@ -34,81 +35,81 @@ public class CardController : ControllerBase
 	}
 
 	[HttpPost("[action]")]
-	public async Task<IActionResult> CreateCardAsync(CardBlank card, Guid userId)
+	public async Task<IActionResult> CreateCardAsync(CardBlank card)
 	{
-		var result = await _cardService.CreateCardAsync(card, userId);
+		var result = await _cardService.CreateCardAsync(card, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpPost("[action]")]
-	public async Task<IActionResult> UpdateCardAsync(Guid id, CardBlank card, Guid userId)
+	public async Task<IActionResult> UpdateCardAsync(Guid id, CardBlank card)
 	{
-		var result = await _cardService.UpdateCardAsync(id, card, userId);
+		var result = await _cardService.UpdateCardAsync(id, card, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpDelete("[action]")]
-	public async Task<IActionResult> DeleteCardAsync(Guid id, Guid userId)
+	public async Task<IActionResult> DeleteCardAsync(Guid id)
 	{
-		var result = await _cardService.DeleteCardAsync(id, userId);
+		var result = await _cardService.DeleteCardAsync(id, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpPost("[action]")]
-	public async Task<IActionResult> BlockCardAsync(BlockedCardBlank blockedCard, Guid userId)
+	public async Task<IActionResult> BlockCardAsync(BlockedCardBlank blockedCard)
 	{
-		var result = await _cardService.CreateBlockedCardAsync(blockedCard, userId);
+		var result = await _cardService.CreateBlockedCardAsync(blockedCard, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpPut("[action]")]
-	public async Task<IActionResult> UpdateBlockedCardAsync(Guid cardId, BlockedCardBlank blockedCard, Guid userId)
+	public async Task<IActionResult> UpdateBlockedCardAsync(Guid cardId, BlockedCardBlank blockedCard)
 	{
-		var result = await _cardService.UpdateBlockedCardAsync(cardId, blockedCard, userId);
+		var result = await _cardService.UpdateBlockedCardAsync(cardId, blockedCard, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpPost("[action]")]
-	public async Task<IActionResult> UbBlockCardAsync(Guid cardId, Guid userId)
+	public async Task<IActionResult> UbBlockCardAsync(Guid cardId)
 	{
-		var result = await _cardService.DeleteBlockedCardAsync(cardId, userId);
+		var result = await _cardService.DeleteBlockedCardAsync(cardId, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpPost("[action]")]
-	public async Task<IActionResult> AddCardStatusAsync(Guid cardId, Guid statusId, Guid userId)
+	public async Task<IActionResult> AddCardStatusAsync(Guid cardId, Guid statusId)
 	{
-		var result = await _cardService.CreateCardStatusAsync(cardId, statusId, userId);
+		var result = await _cardService.CreateCardStatusAsync(cardId, statusId, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpDelete("[action]")]
-	public async Task<IActionResult> DeleteCardStatusAsync(Guid cardId, Guid statusId, Guid userId)
+	public async Task<IActionResult> DeleteCardStatusAsync(Guid cardId, Guid statusId)
 	{
-		var result = await _cardService.DeleteCardStatusAsync(cardId, statusId, userId);
+		var result = await _cardService.DeleteCardStatusAsync(cardId, statusId, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpPost("[action]")]
-	public async Task<IActionResult> AddCardTagAsync(Guid cardId, Guid tagId, Guid userId)
+	public async Task<IActionResult> AddCardTagAsync(Guid cardId, Guid tagId)
 	{
-		var result = await _cardService.CreateCardTagAsync(cardId, tagId, userId);
+		var result = await _cardService.CreateCardTagAsync(cardId, tagId, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpDelete("[action]")]
-	public async Task<IActionResult> DeleteCardTagAsync(Guid cardId, Guid tagId, Guid userId)
+	public async Task<IActionResult> DeleteCardTagAsync(Guid cardId, Guid tagId)
 	{
-		var result = await _cardService.DeleteCardTagAsync(cardId, tagId, userId);
+		var result = await _cardService.DeleteCardTagAsync(cardId, tagId, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
@@ -122,9 +123,9 @@ public class CardController : ControllerBase
 	}
 
 	[HttpDelete("[action]")]
-	public async Task<IActionResult> DeleteCardUsersAsync(Guid cardId, Guid userId)
+	public async Task<IActionResult> DeleteCardUsersAsync(Guid cardId)
 	{
-		var result = await _cardService.DeleteCardUsersAsync(cardId, userId);
+		var result = await _cardService.DeleteCardUsersAsync(cardId, UserId);
 
 		return result ? Ok() : BadRequest();
 	}

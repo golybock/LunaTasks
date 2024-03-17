@@ -3,6 +3,7 @@ using Luna.Models.Tasks.View.CardAttributes;
 using Luna.Tasks.Services.Services.CardAttributes.Type;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ControllerBase = Luna.Tools.Web.ControllerBase;
 
 namespace Luna.Tasks.API.Controllers;
 
@@ -31,17 +32,17 @@ public class TypeController : ControllerBase
 	}
 
 	[HttpPost("[action]")]
-	public async Task<IActionResult> CreateTypeAsync(TypeBlank type, Guid userId)
+	public async Task<IActionResult> CreateTypeAsync(TypeBlank type)
 	{
-		var result = await _typeService.CreateTypeAsync(type, userId);
+		var result = await _typeService.CreateTypeAsync(type, UserId);
 
 		return result ? Ok() : BadRequest();
 	}
 
 	[HttpPut("[action]")]
-	public async Task<IActionResult> UpdateTypeAsync(Guid id, TypeBlank type, Guid userId)
+	public async Task<IActionResult> UpdateTypeAsync(Guid id, TypeBlank type)
 	{
-		var result = await _typeService.UpdateTypeAsync(id, type, userId);
+		var result = await _typeService.UpdateTypeAsync(id, type, UserId);
 
 		return result ? Ok() : BadRequest();
 	}

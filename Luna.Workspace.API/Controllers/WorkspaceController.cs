@@ -4,6 +4,7 @@ using Luna.Models.Workspace.View.Workspace;
 using Luna.Workspaces.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ControllerBase = Luna.Tools.Web.ControllerBase;
 
 namespace Luna.Workspace.API.Controllers;
 
@@ -13,8 +14,6 @@ namespace Luna.Workspace.API.Controllers;
 public class WorkspaceController : ControllerBase
 {
 	private readonly IWorkspaceService _workspaceService;
-
-	private Guid UserId => Guid.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Authentication)!.Value);
 
 	public WorkspaceController(IWorkspaceService workspaceService)
 	{
@@ -72,9 +71,9 @@ public class WorkspaceController : ControllerBase
 	}
 
 	[HttpDelete("[action]")]
-	public async Task<IActionResult> DeleteWorkspaceAsync(Guid id, Guid userId)
+	public async Task<IActionResult> DeleteWorkspaceAsync(Guid id)
 	{
-		var res = await _workspaceService.DeleteWorkspaceAsync(id, userId);
+		var res = await _workspaceService.DeleteWorkspaceAsync(id, UserId);
 
 		return res ? Ok() : BadRequest();
 	}

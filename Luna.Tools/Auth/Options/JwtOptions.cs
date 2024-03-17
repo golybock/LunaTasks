@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Luna.Auth.Services.Options;
+namespace Luna.Tools.Auth.Options;
 
 public class JwtOptions
 {
