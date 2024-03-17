@@ -60,7 +60,7 @@ builder.Services.AddCors(options =>
 
 // db config
 var connectionString = builder.Configuration.GetConnectionString("luna_tasks");
-var options = new DatabaseOptions() {ConnectionString = connectionString!};
+var options = new DatabaseOptions() {ConnectionString = connectionString};
 
 builder.Services.AddSingleton<IDatabaseOptions>(_ => options);
 
