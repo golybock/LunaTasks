@@ -24,6 +24,7 @@
 .Navbar-List-Item label{
     font-weight: bold;
     vertical-align: middle;
+    color: var(--secondary-text);
 }
 
 .Navbar-List-Item img{
@@ -62,8 +63,4 @@
     background: var(--secondary-dark);
     height: 100vh;
     /*padding: 12px;*/
-}
-
-.Navbar-Item{
-    color: var(--secondary-text);
 }

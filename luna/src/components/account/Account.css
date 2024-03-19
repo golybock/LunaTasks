@@ -1,0 +1,61 @@
+﻿.Header-Image-Container img{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: 0 50%;
+}
+
+.Content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -50px;
+}
+
+.User-Info{
+    display: flex;
+    flex-direction: row;
+}
+
+.User-Info img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.User-Info-Data{
+    margin: 60px 20px 20px;
+}
+
+.User-Info label{
+    color: var(--secondary-text);
+}
+
+.Links{
+    display: flex;
+    flex-direction: row;
+    margin-left: 50px;
+}
+
+.Link-Block{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 20px;
+}
+
+.Link-Block button{
+    width: 260px;
+    height: 35px;
+    margin-left: 20px;
+    margin-top: 10px;
+    background: var(--secondary-text-variant);
+}
+
+.Link-Block label{
+    width: 260px;
+    height: 35px;
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 18px;
+}

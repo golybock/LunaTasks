@@ -7,16 +7,18 @@ import {Dropdown} from "react-bootstrap";
 import PageView from "../../models/page/pageView";
 import PageProvider from "../../provider/page/pageProvider";
 import {Guid} from "guid-typescript";
+import MenuItem from "../../models/navigation/menuItem";
+import {AuthWrapper} from "../../auth/AuthWrapper";
 
 interface IProps {
-    signOut: Function
 }
 
 interface IState {
     selectedWorkspaceId: Guid;
-    selectedPageId: Guid;
+    selectedPageId: Guid | null;
     workspaces: WorkspaceView[];
-    pages: PageView[]
+    pages: PageView[];
+    menuItems: MenuItem[];
 }
 
 export class Navbar extends React.Component<IProps, IState> {
@@ -28,58 +30,74 @@ export class Navbar extends React.Component<IProps, IState> {
             selectedWorkspaceId: Guid.createEmpty(),
             selectedPageId: Guid.createEmpty(),
             workspaces: [],
-            pages: []
+            pages: [],
+            menuItems: this.defaultMenuItems
         }
+
     }
+
+    defaultMenuItems = [
+        {
+            href: "/",
+            title: "Home",
+            image: "/icons/home.svg"
+        },
+        {
+            href: "/account",
+            title: "Account",
+            image: "/icons/account.svg"
+        },
+        {
+            href: "/about",
+            title: "About",
+            image: "/icons/about.svg"
+        }
+    ];
 
     async componentDidMount() {
         let workspaces = await WorkspaceProvider.getWorkspaces();
 
         this.setState({workspaces: workspaces});
-        this.setState({selectedWorkspaceId: workspaces[0].id})
 
-        await this.workspaceChosen()
+        await this.selectWorkspace(null)
     }
 
-    async workspaceChosen() {
+    // todo add filter
+    async selectWorkspace(id: Guid | null) {
+
+        if(id == null){
+            this.setState({selectedWorkspaceId: this.state.workspaces[0]?.id});
+            return;
+        }
+
+        if(this.state.selectedWorkspaceId === id){
+            return;
+        }
+
+        this.setState({selectedWorkspaceId: id});
 
         let pages = await PageProvider.getPages(this.state.selectedWorkspaceId);
 
-        console.log(pages);
+        let pageMenuItems: MenuItem[] = [];
 
-        pages.forEach(page => {
-            this.MenuItems.push(
-                {
-                    href: "/page?id=" + page.id,
-                    title: page.name,
-                    img: ""
-                }
-            )
-        })
+        if (pages.length > 0) {
 
-        if(pages.length > 0){
-            this.setState({pages: pages});
-            this.setState({selectedPageId: pages[0].id})
+            pages.forEach(page => {
+                pageMenuItems.push(
+                    {
+                        href: "/page?id=" + page.id,
+                        title: page.name,
+                        image: "/icons/page.svg"
+                    }
+                )
+            })
         }
+
+        this.setState({menuItems: [...this.defaultMenuItems, ...pageMenuItems]})
+
+        this.setState({pages: pages});
+        this.setState({selectedPageId: pages[0]?.id})
     }
-
-    MenuItems = [
-        {
-            href: "/",
-            title: "Home",
-            img: "/icons/home.svg"
-        },
-        {
-            href: "/account",
-            title: "Account",
-            img: "/icons/account.svg"
-        },
-        {
-            href: "/about",
-            title: "About",
-            img: "/icons/about.svg"
-        }
-    ];
 
     render() {
         return (
@@ -97,7 +115,9 @@ export class Navbar extends React.Component<IProps, IState> {
                                 >
 
                                     <Dropdown.Toggle variant="outline-secondary" className="Workspace-Dropdown">
-                                        {this.state.workspaces.find(c => c.id == this.state.selectedWorkspaceId)?.name ?? "Workspace"}
+                                        {this.state.selectedWorkspaceId && (
+                                            this.state.workspaces.find(c => c.id === this.state.selectedWorkspaceId)?.name ?? "Workspace"
+                                        )}
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu className="Workspace-Dropdown-Menu">
@@ -105,8 +125,8 @@ export class Navbar extends React.Component<IProps, IState> {
                                             <Dropdown.Item key={workspace.id.toString()}
                                                            onClick={
                                                                async (e) => {
-                                                                   this.setState({selectedWorkspaceId: workspace.id})
-                                                                   await this.workspaceChosen()
+                                                                   console.log(workspace.id)
+                                                                   await this.selectWorkspace(workspace.id);
                                                                }
                                                            }
                                                            className="Workspace-Dropdown-Item">{workspace.name}</Dropdown.Item>
@@ -117,18 +137,19 @@ export class Navbar extends React.Component<IProps, IState> {
                             )}
                         </div>
                         <nav className="Navbar-List">
-                            {this.MenuItems.map(({href, title, img}) => (
-                                <NavLink key={title} to={href} className="Navbar-Item">
+                            {this.state.menuItems.map((item: MenuItem) => (
+                                <NavLink key={item.title} to={item.href} className="Navbar-Item">
                                     <div className="Navbar-List-Item">
-                                        {img != null && (
-                                            <img src={img}/>
+                                        {item.image && (
+                                            <img src={item.image} alt=""/>
                                         )}
-                                        <label>{title}</label>
+                                        <label>{item.title}</label>
                                     </div>
                                 </NavLink>
                             ))}
                             <div className="Navbar-List-Item">
-                                <label onClick={() => this.props.signOut()}>SignOut</label>
+                                <img src={"/icons/signOut.svg"} alt=""/>
+                                <label onClick={() => AuthWrapper.userSignOut()}>SignOut</label>
                             </div>
                         </nav>
                     </aside>

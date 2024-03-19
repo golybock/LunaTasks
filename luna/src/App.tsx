@@ -1,22 +1,23 @@
 import React from 'react';
-import {Routes, Route, BrowserRouter} from "react-router-dom"
+import {Routes, Route} from "react-router-dom"
 import {Navbar} from "./components/navbar/Navbar";
 import SignIn from "./components/signIn/SignIn";
 import Home from "./components/home/Home";
 import Account from "./components/account/Account";
 import About from "./components/about/About";
 import './App.css';
-import UserProvider from "./provider/user/userProvider";
 import Page from "./components/page/Page";
-import {match} from "node:assert";
+import Loading from "./components/notifications/Loading";
+import {NotAuthedRoute, ProtectedRoute} from "./auth/AuthWrapper";
 
 interface IProps {
 
 }
 
 interface IState {
-    isAuthed: boolean;
+    isLoading: boolean;
 }
+
 
 export default class Auth extends React.Component<IProps, IState> {
 
@@ -24,57 +25,28 @@ export default class Auth extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            isAuthed: false
+            isLoading: true
         }
     }
 
-    async componentDidMount() {
-        let user = await UserProvider.getMe();
 
-        if(user != null){
-            this.auth()
-            return;
-        }
-
-        if(window.location.pathname != "/signIn"){
-            window.location.replace("/signIn")
-        }
-    }
-
-    auth() {
-        this.setState({isAuthed: true})
-
-        if(window.location.pathname != "/"){
-            window.location.replace("/")
-        }
-    }
-
-    signOut() {
-        localStorage.clear()
-        this.setState({isAuthed: false})
+    componentDidMount() {
+        this.setState({isLoading: false})
     }
 
     render() {
         return (
-            <BrowserRouter>
-                {this.state.isAuthed && (
-                    <Routes>
-                        <Route element={<Navbar signOut={() => this.signOut()}/>}>
-                            <Route index path="/" element={<Home/>}/>
-                            <Route path="page" element={<Page/>}/>
-                            <Route path="account" element={<Account/>}/>
-                            <Route path="about" element={<About/>}/>
-                        </Route>
-                        <Route path="*" element={<p>There's nothing here: 404!</p>}/>
-                    </Routes>
-                )}
-                {!this.state.isAuthed && (
-                    <Routes>
-                        <Route path="/signIn" element={<SignIn auth={() => this.auth()}/>}/>
-                        <Route path="*" element={<p>There's nothing here: 404!</p>}/>
-                    </Routes>
-                )}
-            </BrowserRouter>
+            <Routes>
+                <Route element={<Navbar/>}>
+                    <Route index path="/" element={<ProtectedRoute outlet={<Home/>}/>}/>
+                    <Route path="page" element={<ProtectedRoute outlet={<Page/>}/>}/>
+                    <Route path="account" element={<ProtectedRoute outlet={<Account/>}/> }/>
+                    <Route path="about" element={<ProtectedRoute outlet={<About/>}/>} />
+                </Route>
+                <Route path="*" element={<p>There's nothing here: 404!</p>}/>
+                <Route path="/signIn" element={<NotAuthedRoute outlet={<SignIn/>}/>}/>
+
+            </Routes>
         );
     }
 

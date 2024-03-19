@@ -2,6 +2,8 @@
 import axios from "axios";
 import {Guid} from "guid-typescript";
 import PageView from "../../models/page/pageView";
+import AuthProvider from "../auth/authProvider";
+import {AuthWrapper} from "../../auth/AuthWrapper";
 
 export default class PageProvider extends ProviderBase {
 
@@ -9,7 +11,7 @@ export default class PageProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Page/GetWorkspacePages?workspaceId=" + workspaceId;
 
-        let token = localStorage.getItem("token");
+        let token = AuthWrapper.user();
 
         return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
             .then(async res => {
@@ -28,7 +30,7 @@ export default class PageProvider extends ProviderBase {
     static async getPage(pageId: Guid): Promise<PageView | null>{
         let url = this.baseAddress + "/Page/GetPage?id=" + pageId;
 
-        let token = localStorage.getItem("token");
+        let token = AuthWrapper.user();
 
         return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
             .then(async res => {

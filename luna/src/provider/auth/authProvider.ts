@@ -1,6 +1,7 @@
 ﻿import ProviderBase from "../providerBase";
 import axios from "axios";
 import ISignInBlank from "../../models/auth/signInBlank";
+import {AuthWrapper} from "../../auth/AuthWrapper";
 
 export default class AuthProvider extends ProviderBase{
 
@@ -14,7 +15,7 @@ export default class AuthProvider extends ProviderBase{
             .then(async res => {
 
                  if(res.status === 200){
-                     localStorage.setItem("token", res.data)
+                     AuthWrapper.userSignIn(res.data);
                      return true;
                  }
 
@@ -33,7 +34,7 @@ export default class AuthProvider extends ProviderBase{
         return await axios.post(url, UserBlank)
             .then(async res => {
                 if(res.status === 200){
-                    localStorage.setItem("token", res.data)
+                    localStorage.setItem("user", res.data)
                     return true;
                 }
 

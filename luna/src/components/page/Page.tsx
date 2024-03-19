@@ -1,8 +1,8 @@
 ﻿import React from "react";
-import {RouterProps} from "react-router";
 import IPageView from "../../models/page/pageView";
 import PageProvider from "../../provider/page/pageProvider";
 import {Guid} from "guid-typescript";
+import "./Page.css"
 
 interface IProps {
     // pageId : string;
@@ -14,9 +14,6 @@ interface IState {
 }
 
 class Page extends React.Component<IProps, IState> {
-
-    headerUrl = "http://localhost:7005/woodcuts_14.jpg";
-
     constructor(props: IProps) {
         super(props);
 
@@ -42,14 +39,16 @@ class Page extends React.Component<IProps, IState> {
     render() {
         return (
             <div>
-                <div className="Header-Image-Container">
-                    <img src={this.headerUrl} alt=""/>
-                </div>
-                <div className="Home-Content">
+                {this.state.page?.headerImage && (
+                    <div className="Header-Image-Container">
+                        <img src={this.state.page?.headerImage} alt=""/>
+                    </div>
+                )}
+                <div className="Page-Content">
                     <div>
                         <div>
-                            <h2>Page name: {this.state.page?.name}</h2>
-                            <h2>Page description: {this.state.page?.description}</h2>
+                            <h2>{this.state.page?.name}</h2>
+                            <label>{this.state.page?.description}</label>
                         </div>
                     </div>
                 </div>

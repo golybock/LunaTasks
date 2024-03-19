@@ -1,6 +1,7 @@
 ﻿import ProviderBase from "../providerBase";
 import axios from "axios";
 import IWorkspaceView from "../../models/workspace/workspaceView";
+import {AuthWrapper} from "../../auth/AuthWrapper";
 
 export default class WorkspaceProvider extends ProviderBase{
 
@@ -8,7 +9,7 @@ export default class WorkspaceProvider extends ProviderBase{
 
         let url = this.baseAddress + "/Workspace/GetWorkspaces";
 
-        let token = localStorage.getItem("token");
+        let token = AuthWrapper.user();
 
         return await axios.get(url, { headers: {"Authorization" : `Bearer ${token}`} })
             .then(async res => {

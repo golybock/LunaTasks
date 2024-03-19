@@ -86,7 +86,7 @@ public class PageService : IPageService
 			Name = pageBlank.Name,
 			CreatedUserId = userId,
 			HeaderImage = pageBlank.HeaderImage,
-			WorkspaceId = pageBlank.WorkspaceId
+			WorkspaceId = pageBlank.WorkspaceId.Value
 		};
 	}
 

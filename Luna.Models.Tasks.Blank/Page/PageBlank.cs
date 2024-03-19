@@ -8,5 +8,5 @@ public class PageBlank
 
 	public String HeaderImage { get; set; } = null!;
 
-	public Guid WorkspaceId { get; set; }
+	public Guid? WorkspaceId { get; set; }
 }
