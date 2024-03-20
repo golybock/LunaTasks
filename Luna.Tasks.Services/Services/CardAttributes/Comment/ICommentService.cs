@@ -1,4 +1,5 @@
 ﻿using Luna.Models.Tasks.Blank.CardAttributes;
+using Luna.Models.Tasks.Domain.CardAttributes;
 using Luna.Models.Tasks.View.CardAttributes;
 
 namespace Luna.Tasks.Services.Services.CardAttributes.Comment;
@@ -10,6 +11,12 @@ public interface ICommentService
 	public Task<IEnumerable<CommentView>> GetUserCommentsAsync(Guid userId);
 
 	public Task<CommentView?> GetCommentAsync(Int32 commentId);
+
+	public Task<IEnumerable<CommentDomain>> GetCommentsDomainAsync(Guid cardId);
+
+	public Task<IEnumerable<CommentDomain>> GetUserCommentsDomainAsync(Guid userId);
+
+	public Task<CommentDomain?> GetCommentDomainAsync(Int32 commentId);
 
 	public Task<Boolean> CreateCommentAsync(CommentBlank comment, Guid userId);
 

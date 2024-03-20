@@ -42,6 +42,33 @@ public class TypeService : ITypeService
 		return ToTypeView(type);
 	}
 
+	public async Task<IEnumerable<TypeDomain>> GetTypesDomainAsync(Guid workspaceId)
+	{
+		var types = await _typeRepository.GetTypesAsync(workspaceId);
+
+		return ToTypeDomains(types);
+	}
+
+	public async Task<TypeDomain?> GetTypeDomainAsync(Guid workspaceId, Guid typeId)
+	{
+		var type = await _typeRepository.GetTypeAsync(workspaceId, typeId);
+
+		if (type == null)
+			return null;
+
+		return ToTypeDomain(type);
+	}
+
+	public async Task<TypeDomain?> GetTypeDomainAsync(Guid typeId)
+	{
+		var type = await _typeRepository.GetTypeAsync(typeId);
+
+		if (type == null)
+			return null;
+
+		return ToTypeDomain(type);
+	}
+
 	public async Task<bool> CreateTypeAsync(TypeBlank type, Guid userId)
 	{
 		var typeDatabase = ToTypeDatabase(type);
@@ -85,8 +112,18 @@ public class TypeService : ITypeService
 		return new TypeView(typeDomain);
 	}
 
+	private TypeDomain ToTypeDomain(TypeDatabase typeDatabase)
+	{
+		return new TypeDomain(typeDatabase);
+	}
+
 	private IEnumerable<TypeView> ToTypeViews(IEnumerable<TypeDatabase> typeDatabases)
 	{
 		return typeDatabases.Select(ToTypeView).ToList();
+	}
+
+	private IEnumerable<TypeDomain> ToTypeDomains(IEnumerable<TypeDatabase> typeDatabases)
+	{
+		return typeDatabases.Select(ToTypeDomain).ToList();
 	}
 }

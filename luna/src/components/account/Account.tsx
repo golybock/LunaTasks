@@ -40,7 +40,7 @@ export default class Account extends React.Component<IProps, IState> {
                     <div>
                         <div className="User-Info">
                             <div>
-                                <img src={this.state.user?.image}/>
+                                <img src={this.state.user?.image} alt="/icons/account_circle.svg"/>
                             </div>
                             <div className="User-Info-Data">
                                 <h1>Welcome {this.state.user?.username}</h1>

@@ -39,6 +39,30 @@ public class CommentService : ICommentService
 		return ToCommentView(comment);
 	}
 
+	public async Task<IEnumerable<CommentDomain>> GetCommentsDomainAsync(Guid cardId)
+	{
+		var comments = await _commentRepository.GetCommentsAsync(cardId);
+
+		return ToCommentDomains(comments);
+	}
+
+	public async Task<IEnumerable<CommentDomain>> GetUserCommentsDomainAsync(Guid userId)
+	{
+		var comments = await _commentRepository.GetUserCommentsAsync(userId);
+
+		return ToCommentDomains(comments);
+	}
+
+	public async Task<CommentDomain?> GetCommentDomainAsync(int commentId)
+	{
+		var comment = await _commentRepository.GetCommentAsync(commentId);
+
+		if (comment == null)
+			return null;
+
+		return ToCommentDomain(comment);
+	}
+
 	public async Task<bool> CreateCommentAsync(CommentBlank comment, Guid userId)
 	{
 		var commentDatabase = ToCommentDatabase(comment, userId);
@@ -86,8 +110,18 @@ public class CommentService : ICommentService
 		return new CommentView(commentDomain);
 	}
 
+	private CommentDomain ToCommentDomain(CommentDatabase commentDatabase)
+	{
+		return new CommentDomain(commentDatabase);
+	}
+
 	private IEnumerable<CommentView> ToCommentViews(IEnumerable<CommentDatabase> commentDatabases)
 	{
 		return commentDatabases.Select(ToCommentView).ToList();
+	}
+
+	private IEnumerable<CommentDomain> ToCommentDomains(IEnumerable<CommentDatabase> commentDatabases)
+	{
+		return commentDatabases.Select(ToCommentDomain).ToList();
 	}
 }

@@ -49,6 +49,40 @@ public class TagService : ITagService
 		return ToTagView(tag);
 	}
 
+	public async Task<IEnumerable<TagDomain>> GetTagsDomainAsync(Guid workspaceId)
+	{
+		var tags = await _tagRepository.GetTagsAsync(workspaceId);
+
+		return ToTagDomains(tags);
+	}
+
+	public async Task<IEnumerable<TagDomain>> GetTagsDomainAsync(IEnumerable<Guid> tagIds)
+	{
+		var tags = await _tagRepository.GetTagsAsync(tagIds);
+
+		return ToTagDomains(tags);
+	}
+
+	public async Task<TagDomain?> GetTagDomainAsync(Guid workspaceId, Guid tagId)
+	{
+		var tag = await _tagRepository.GetTagAsync(workspaceId, tagId);
+
+		if (tag == null)
+			return null;
+
+		return ToTagDomain(tag);
+	}
+
+	public async Task<TagDomain?> GetTagDomainAsync(Guid tagId)
+	{
+		var tag = await _tagRepository.GetTagAsync(tagId);
+
+		if (tag == null)
+			return null;
+
+		return ToTagDomain(tag);
+	}
+
 	public async Task<bool> CreateTagAsync(TagBlank tag, Guid userId)
 	{
 		var tagDatabase = ToTagDatabase(tag);
@@ -95,5 +129,15 @@ public class TagService : ITagService
 	private IEnumerable<TagView> ToTagViews(IEnumerable<TagDatabase> tags)
 	{
 		return tags.Select(ToTagView).ToList();
+	}
+
+	private TagDomain ToTagDomain(TagDatabase tag)
+	{
+		return new TagDomain(tag);
+	}
+
+	private IEnumerable<TagDomain> ToTagDomains(IEnumerable<TagDatabase> tags)
+	{
+		return tags.Select(ToTagDomain).ToList();
 	}
 }

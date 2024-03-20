@@ -3,6 +3,8 @@ import IPageView from "../../models/page/pageView";
 import PageProvider from "../../provider/page/pageProvider";
 import {Guid} from "guid-typescript";
 import "./Page.css"
+import {Button, ButtonGroup, Table} from "react-bootstrap";
+import EditPageModal from "./EditPageModal";
 
 interface IProps {
     // pageId : string;
@@ -10,7 +12,8 @@ interface IProps {
 
 interface IState {
     id: string | null
-    page: IPageView | null
+    page: IPageView | null,
+    showModal: boolean
 }
 
 class Page extends React.Component<IProps, IState> {
@@ -19,21 +22,30 @@ class Page extends React.Component<IProps, IState> {
 
         this.state = {
             id: new URLSearchParams(window.location.search).get("id"),
-            page: null
+            page: null,
+            showModal: false
         }
     }
 
     async componentDidMount() {
-        if(this.state.id != null){
+        if (this.state.id != null) {
             let page = await PageProvider.getPage(Guid.parse(this.state.id));
 
-            if(page != null){
+            if (page != null) {
                 this.setState({page: page});
                 return;
             }
 
             // redirect to error
         }
+    }
+
+    showModal() {
+        this.setState({showModal: true})
+    }
+
+    closeModal() {
+        this.setState({showModal: false})
     }
 
     render() {
@@ -46,12 +58,53 @@ class Page extends React.Component<IProps, IState> {
                 )}
                 <div className="Page-Content">
                     <div>
-                        <div>
+                        <div className="Page-Content-Header">
                             <h2>{this.state.page?.name}</h2>
                             <label>{this.state.page?.description}</label>
                         </div>
+                        <div className="Page-Content-Toolbar">
+
+                            <ButtonGroup>
+                                <Button className="btn btn-outline-dark">Table</Button>
+                                <Button className="btn btn-outline-dark">Cards</Button>
+                            </ButtonGroup>
+
+                            <Button className="btn btn-outline-dark Button" onClick={() => {
+                                this.setState({showModal: true})
+                            }}>New</Button>
+
+                        </div>
+                        <div className="Page-Content-Data">
+                            {this.state.page?.cards &&
+                                (
+                                    <Table className="table-dark">
+                                        <thead>
+                                        <tr>
+                                            <th>Header</th>
+                                            <th>Type</th>
+                                            <th>Created</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {this.state.page?.cards.map(((card) => (
+                                            <tr key={card.id.toString()}>
+                                                <td>{card.header}</td>
+                                                <td>{card.cardType.name}</td>
+                                                <td>{new Date(Date.parse(card.createdTimestamp)).toLocaleDateString()}</td>
+                                            </tr>
+                                        )))}
+                                        </tbody>
+                                    </Table>
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
+
+                {this.state.showModal && (
+                    <EditPageModal closeModal={() => this.closeModal()}/>
+                )}
+
             </div>
         );
     }

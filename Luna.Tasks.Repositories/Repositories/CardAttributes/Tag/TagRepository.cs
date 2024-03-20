@@ -29,7 +29,7 @@ public class TagRepository : NpgsqlRepository, ITagRepository
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = tagIds}
+			new NpgsqlParameter() {Value = tagIds.ToList()}
 		};
 
 		return await GetListAsync<TagDatabase>(query, parameters);

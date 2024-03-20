@@ -5,6 +5,7 @@ using Luna.Models.Tasks.Domain.Page;
 using Luna.Models.Tasks.View.Page;
 using Luna.Tasks.Repositories.Repositories.Card;
 using Luna.Tasks.Repositories.Repositories.Page;
+using Luna.Tasks.Services.Services.Card;
 
 namespace Luna.Tasks.Services.Services.Page;
 
@@ -12,26 +13,51 @@ namespace Luna.Tasks.Services.Services.Page;
 public class PageService : IPageService
 {
 	private readonly IPageRepository _pageRepository;
-	private readonly ICardRepository _cardRepository;
+	private readonly ICardService _cardService;
 
-	public PageService(IPageRepository pageRepository, ICardRepository cardRepository)
+	public PageService(IPageRepository pageRepository, ICardService cardService)
 	{
 		_pageRepository = pageRepository;
-		_cardRepository = cardRepository;
+		_cardService = cardService;
 	}
 
 	public async Task<IEnumerable<PageView>> GetWorkspacePagesAsync(Guid workspaceId)
 	{
 		var pages = await _pageRepository.GetWorkspacePagesAsync(workspaceId);
 
-		return ToPageViews(pages);
+		var pagesView = new List<PageView>();
+
+		foreach (var page in pages)
+		{
+			var pageDomain = await GetPageDomain(page);
+			pagesView.Add(ToPageView(pageDomain));
+		}
+
+		return pagesView;
 	}
 
 	public async Task<IEnumerable<PageView>> GetPagesByUserAsync(Guid userId)
 	{
 		var pages = await _pageRepository.GetPagesByUserAsync(userId);
 
-		return ToPageViews(pages);
+		var pagesView = new List<PageView>();
+
+		foreach (var page in pages)
+		{
+			var pageDomain = await GetPageDomain(page);
+			pagesView.Add(ToPageView(pageDomain));
+		}
+
+		return pagesView;
+	}
+
+	private async Task<PageDomain> GetPageDomain(PageDatabase pageDatabase)
+	{
+		var cards = await _cardService.GetCardsDomainAsync(pageDatabase.Id);
+
+		var pageDomain = new PageDomain(pageDatabase, cards);
+
+		return pageDomain;
 	}
 
 	public async Task<PageView?> GetPageAsync(Guid id)
@@ -41,7 +67,9 @@ public class PageService : IPageService
 		if (page == null)
 			return null;
 
-		return ToPageView(page);
+		var pageDomain = await GetPageDomain(page);
+
+		return ToPageView(pageDomain);
 	}
 
 	public async Task<bool> CreatePageAsync(PageBlank page, Guid userId)
@@ -91,16 +119,15 @@ public class PageService : IPageService
 	}
 
 	// todo add cards
-	private PageView ToPageView(PageDatabase pageDatabase)
+	private PageView ToPageView(PageDomain pageDomain)
 	{
-		var pageDomain = new PageDomain(pageDatabase, new List<CardDomain>());
 		var pageView = new PageView(pageDomain);
 
 		return pageView;
 	}
 
-	private IEnumerable<PageView> ToPageViews(IEnumerable<PageDatabase> pageDatabases)
+	private IEnumerable<PageView> ToPageViews(IEnumerable<PageDomain> pageDomains)
 	{
-		return pageDatabases.Select(ToPageView).ToList();
+		return pageDomains.Select(ToPageView).ToList();
 	}
 }

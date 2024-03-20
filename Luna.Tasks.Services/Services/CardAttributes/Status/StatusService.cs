@@ -49,6 +49,40 @@ public class StatusService : IStatusService
 		return ToStatusView(status);
 	}
 
+	public async Task<IEnumerable<StatusDomain>> GetStatusesDomainAsync(Guid workspaceId)
+	{
+		var statusDatabases = await _statusRepository.GetStatusesAsync(workspaceId);
+
+		return ToStatusDomains(statusDatabases);
+	}
+
+	public async Task<IEnumerable<StatusDomain>> GetStatusesDomainAsync(IEnumerable<Guid> ids)
+	{
+		var statusDatabases = await _statusRepository.GetStatusesAsync(ids);
+
+		return ToStatusDomains(statusDatabases);
+	}
+
+	public async Task<StatusDomain?> GetStatusDomainAsync(Guid workspaceId, Guid statusId)
+	{
+		var status = await _statusRepository.GetStatusAsync(workspaceId, statusId);
+
+		if (status == null)
+			return null;
+
+		return ToStatusDomain(status);
+	}
+
+	public async Task<StatusDomain?> GetStatusDomainAsync(Guid statusId)
+	{
+		var status = await _statusRepository.GetStatusAsync(statusId);
+
+		if (status == null)
+			return null;
+
+		return ToStatusDomain(status);
+	}
+
 	public async Task<bool> CreateStatusAsync(StatusBlank statusBlank, Guid userId)
 	{
 		var statusDatabase = ToStatusDatabase(statusBlank);
@@ -95,5 +129,15 @@ public class StatusService : IStatusService
 	private IEnumerable<StatusView> ToStatusView(IEnumerable<StatusDatabase> statusDatabases)
 	{
 		return statusDatabases.Select(ToStatusView).ToList();
+	}
+
+	private StatusDomain ToStatusDomain(StatusDatabase statusDatabase)
+	{
+		return new StatusDomain(statusDatabase);
+	}
+
+	private IEnumerable<StatusDomain> ToStatusDomains(IEnumerable<StatusDatabase> statusDatabases)
+	{
+		return statusDatabases.Select(ToStatusDomain).ToList();
 	}
 }

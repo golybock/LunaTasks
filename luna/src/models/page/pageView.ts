@@ -1,4 +1,5 @@
 ﻿import {Guid} from "guid-typescript";
+import CardView from "../card/cardView";
 
 export default interface IPageView{
     id: Guid;
@@ -6,5 +7,5 @@ export default interface IPageView{
     description: string;
     headerImage: string;
     createdTimestamp: string;
-    cards: number[];
+    cards: CardView[];
 }

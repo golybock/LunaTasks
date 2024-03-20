@@ -44,7 +44,7 @@ public class CardDomain
 	public CardDomain
 	(
 		CardDatabase cardDatabase, TypeDomain typeDomain,
-		CardDomain previousCard, BlockedCardDomain blockedCardDomain,
+		CardDomain? previousCard, BlockedCardDomain? blockedCardDomain,
 		IEnumerable<CommentDomain> comments, IEnumerable<CardTagsDomain> cardTags,
 		IEnumerable<CardUsersDomain> users, IEnumerable<CardStatusDomain> statuses
 	)

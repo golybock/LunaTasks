@@ -27,7 +27,7 @@ public class StatusRepository : NpgsqlRepository, IStatusRepository
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = ids}
+			new NpgsqlParameter() {Value = ids.ToList()}
 		};
 
 		return await GetListAsync<StatusDatabase>(query, parameters);

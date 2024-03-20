@@ -41,7 +41,7 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = cardIds},
+			new NpgsqlParameter() {Value = cardIds.ToList()},
 		};
 
 		return await GetListAsync<CardDatabase>(query, parameters);
@@ -63,19 +63,19 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 	{
 		var query =
 			"INSERT INTO card (id, header, content, description, card_type_id, page_id, created_user_id, deadline, previous_card_id) " +
-			"VALUES ($1, $2, $3, $4, $5, $6, $7, $7, $8)";
+			"VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter(){Value = card.Id},
-			new NpgsqlParameter(){Value = card.Header},
-			new NpgsqlParameter(){Value = card.Content == null ? DBNull.Value : card.Content},
-			new NpgsqlParameter(){Value = card.Description == null ? DBNull.Value : card.Description},
+			new NpgsqlParameter(){ Value = card.Id},
+			new NpgsqlParameter(){ Value = card.Header},
+			new NpgsqlParameter(){ Value = card.Content == null ? DBNull.Value : card.Content},
+			new NpgsqlParameter(){ Value = card.Description == null ? DBNull.Value : card.Description},
 			new NpgsqlParameter(){ Value = card.CardTypeId},
 			new NpgsqlParameter(){ Value = card.PageId},
 			new NpgsqlParameter(){ Value = card.CreatedUserId},
-			new NpgsqlParameter(){ Value = card.Deadline == null ? DBNull.Value : card.Deadline},
-			new NpgsqlParameter(){ Value = card.PreviousCardId == null ? DBNull.Value : card.PreviousCardId}
+			new NpgsqlParameter(){ Value = card.Deadline == null ? DBNull.Value : card.Deadline.Value.ToUniversalTime()},
+			new NpgsqlParameter(){ Value = card.PreviousCardId == null ? DBNull.Value : card.PreviousCardId},
 		};
 
 		return await ExecuteAsync(query, parameters);
@@ -125,7 +125,7 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = cardIds}
+			new NpgsqlParameter() {Value = cardIds.ToList()}
 		};
 
 		return await GetListAsync<BlockedCardDatabase>(query, parameters);

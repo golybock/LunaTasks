@@ -1,4 +1,5 @@
 ﻿using Luna.Models.Tasks.Blank.Card;
+using Luna.Models.Tasks.Domain.Card;
 using Luna.Models.Tasks.View.Card;
 using Luna.Models.Tasks.View.CardAttributes;
 using Luna.Models.Users.View.Users;
@@ -14,6 +15,16 @@ public interface ICardService
 	public Task<IEnumerable<CardView>> GetCardsAsync(IEnumerable<Guid> cardIds);
 
 	public Task<CardView?> GetCardAsync(Guid id);
+
+
+	public Task<IEnumerable<CardDomain>> GetCardsDomainAsync(Guid pageId, Guid userId);
+
+	public Task<IEnumerable<CardDomain>> GetCardsDomainAsync(Guid pageId);
+
+	public Task<IEnumerable<CardDomain>> GetCardsDomainAsync(IEnumerable<Guid> cardIds);
+
+	public Task<CardDomain?> GetCardDomainAsync(Guid id);
+
 
 	public Task<Boolean> CreateCardAsync(CardBlank card, Guid userId);
 

@@ -107,6 +107,54 @@ public class CardService : ICardService
 		return card;
 	}
 
+	public async Task<IEnumerable<CardDomain>> GetCardsDomainAsync(Guid pageId, Guid userId)
+	{
+		var cards = await _cardRepository.GetCardsAsync(pageId, userId);
+
+		var cardDomains = await GetCardDomains(cards);
+
+		return cardDomains;
+	}
+
+	public async Task<IEnumerable<CardDomain>> GetCardsDomainAsync(Guid pageId)
+	{
+		var cards = await _cardRepository.GetCardsAsync(pageId);
+
+		var cardDomains = await GetCardDomains(cards);
+
+		return cardDomains;
+	}
+
+	public async Task<IEnumerable<CardDomain>> GetCardsDomainAsync(IEnumerable<Guid> cardIds)
+	{
+		var enumerable = cardIds.ToList();
+
+		List<CardDomain> cardDomains = new List<CardDomain>(enumerable.Count());
+
+		await Parallel.ForEachAsync(enumerable, async (cardId, ct) =>
+		{
+			var cardDatabase = await _cardRepository.GetCardAsync(cardId);
+
+			var card = await GetCardDomain(cardDatabase);
+
+			cardDomains.Add(card);
+		});
+
+		return cardDomains;
+	}
+
+	public async Task<CardDomain?> GetCardDomainAsync(Guid id)
+	{
+		var cardDatabase = await _cardRepository.GetCardAsync(id);
+
+		if (cardDatabase == null)
+			return null;
+
+		var card = await GetCardDomain(cardDatabase);
+
+		return card;
+	}
+
 	public async Task<bool> CreateCardAsync(CardBlank card, Guid userId)
 	{
 		var cardDatabase = ToCardDatabase(card, userId);
@@ -189,6 +237,29 @@ public class CardService : ICardService
 		return statusViews;
 	}
 
+	public async Task<IEnumerable<CardStatusDomain>> GetCardStatusesDomainAsync(Guid cardId)
+	{
+		var statuses = await _cardRepository.GetCardStatusesAsync(cardId);
+
+		var statusIds = statuses.Select(s => s.StatusId);
+
+		var statusDomains = await _statusService.GetStatusesDomainAsync(statusIds);
+
+		var cardStatusDomains = new List<CardStatusDomain>();
+
+		foreach (var status in statuses)
+		{
+			cardStatusDomains.Add(
+				new CardStatusDomain(
+					status,
+					statusDomains.First(c => c.Id == status.StatusId)
+				)
+			);
+		}
+
+		return cardStatusDomains;
+	}
+
 	public async Task<StatusView?> GetCardStatusAsync(Guid cardId, Guid statusId)
 	{
 		var status = await _cardRepository.GetCardStatusAsync(cardId, statusId);
@@ -237,6 +308,17 @@ public class CardService : ICardService
 		var tagIds = cardTags.Select(t => t.TagId);
 
 		var tags = await _tagService.GetTagsAsync(tagIds);
+
+		return tags;
+	}
+
+	public async Task<IEnumerable<TagDomain>> GetCardTagsDomainAsync(Guid cardId)
+	{
+		var cardTags = await _cardRepository.GetCardTagsAsync(cardId);
+
+		var tagIds = cardTags.Select(t => t.TagId);
+
+		var tags = await _tagService.GetTagsDomainAsync(tagIds);
 
 		return tags;
 	}
@@ -305,12 +387,49 @@ public class CardService : ICardService
 		return new CardView(cardDomain, type, comments, tags, userIds, statuses);
 	}
 
+	private async Task<CardDomain> GetCardDomain(CardDatabase cardDatabase)
+	{
+		var type = await _typeService.GetTypeDomainAsync(cardDatabase.CardTypeId);
+
+		var comments = await _commentService.GetCommentsDomainAsync(cardDatabase.Id);
+
+		var tags = await GetCardTagsDomainAsync(cardDatabase.Id);
+
+		// todo refactor
+		var cardTags = tags.Select(t =>
+			new CardTagsDomain(new CardTagsDatabase() {CardId = cardDatabase.Id, TagId = t.Id}, t));
+
+		var statuses = await GetCardStatusesDomainAsync(cardDatabase.Id);
+
+		var users = await _cardRepository.GetCardUsersAsync(cardDatabase.Id);
+
+		var userIds = users.Select(u => u.UserId);
+
+		// todo refactor
+		var cardUsers = userIds.Select(u =>
+			new CardUsersDomain(new CardUsersDatabase() {CardId = cardDatabase.Id, UserId = u}));
+
+		return new CardDomain(cardDatabase, type, null, null, comments, cardTags, cardUsers, statuses);
+	}
+
+	private async Task<IEnumerable<CardDomain>> GetCardDomains(IEnumerable<CardDatabase> cardDatabases)
+	{
+		var cardDomains = new List<CardDomain>();
+
+		foreach (var cardDatabase in cardDatabases)
+		{
+			var cardDomain = await GetCardDomain(cardDatabase);
+			cardDomains.Add(cardDomain);
+		}
+
+		return cardDomains;
+	}
+
 	private CardDatabase ToCardDatabase(CardBlank cardBlank, Guid userId)
 	{
 		return new CardDatabase()
 		{
 			Id = Guid.NewGuid(),
-			Deadline = cardBlank.Deadline,
 			Content = cardBlank.Content,
 			Header = cardBlank.Header,
 			CreatedTimestamp = DateTime.UtcNow,
@@ -318,6 +437,7 @@ public class CardService : ICardService
 			PreviousCardId = cardBlank.PreviousCardId,
 			Description = cardBlank.Description,
 			Deleted = false,
+			Deadline = cardBlank.Deadline,
 			CardTypeId = cardBlank.CardTypeId,
 			CreatedUserId = userId
 		};

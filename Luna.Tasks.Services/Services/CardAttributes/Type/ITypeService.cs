@@ -1,4 +1,5 @@
 ﻿using Luna.Models.Tasks.Blank.CardAttributes;
+using Luna.Models.Tasks.Domain.CardAttributes;
 using Luna.Models.Tasks.View.CardAttributes;
 
 namespace Luna.Tasks.Services.Services.CardAttributes.Type;
@@ -10,6 +11,12 @@ public interface ITypeService
 	public Task<TypeView?> GetTypeAsync(Guid workspaceId, Guid typeId);
 
 	public Task<TypeView?> GetTypeAsync(Guid typeId);
+
+	public Task<IEnumerable<TypeDomain>> GetTypesDomainAsync(Guid workspaceId);
+
+	public Task<TypeDomain?> GetTypeDomainAsync(Guid workspaceId, Guid typeId);
+
+	public Task<TypeDomain?> GetTypeDomainAsync(Guid typeId);
 
 	public Task<Boolean> CreateTypeAsync(TypeBlank type, Guid userId);
 

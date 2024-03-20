@@ -11,20 +11,36 @@
     padding: 60px;
 }
 
-.User-Info{
-    margin: 20px;
-}
-
-.User-Info label{
+.Page-Content-Header label{
     color: var(--secondary-text);
 }
 
-.Links{
+.Page-Content-Toolbar{
     display: flex;
     flex-direction: row;
 }
 
-.Link-Block{
-    width: 300px;
-    margin: 20px;
+button{
+    width: 125px;
+    background: var(--secondary-text-variant);
+}
+
+.Modal-Footer button{
+    width: 125px;
+    background: var(--secondary-text-variant);
+}
+
+.Page-Content-Toolbar button{
+    width: 125px;
+    margin-top: 10px;
+    align-items: flex-start;
+    background: var(--secondary-text-variant);
+}
+
+.Button{
+    margin-left: 10px;
+}
+
+.Page-Content-Data{
+    margin-top: 20px;
 }
