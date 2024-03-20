@@ -116,6 +116,7 @@ public class CardService : ICardService
 		return cardDomains;
 	}
 
+	// too slowly
 	public async Task<IEnumerable<CardDomain>> GetCardsDomainAsync(Guid pageId)
 	{
 		var cards = await _cardRepository.GetCardsAsync(pageId);
@@ -312,7 +313,7 @@ public class CardService : ICardService
 		return tags;
 	}
 
-	public async Task<IEnumerable<TagDomain>> GetCardTagsDomainAsync(Guid cardId)
+	public async Task<IEnumerable<CardTagsDomain>> GetCardTagsDomainAsync(Guid cardId)
 	{
 		var cardTags = await _cardRepository.GetCardTagsAsync(cardId);
 
@@ -320,7 +321,38 @@ public class CardService : ICardService
 
 		var tags = await _tagService.GetTagsDomainAsync(tagIds);
 
-		return tags;
+		return cardTags.Select(t => new CardTagsDomain(t, tags.FirstOrDefault(domain => domain.Id == t.TagId)))
+			.ToList();
+	}
+
+	// get CardTagsDomain by cardId and hash array
+	private async Task<IEnumerable<CardTagsDomain>> GetCardTagsDomainByHashAsync(Guid cardId, HashSet<TagDomain> tagDomains)
+	{
+		var cardTags = await _cardRepository.GetCardTagsAsync(cardId);
+
+		var cardTagsDomains = new List<CardTagsDomain>(cardTags.Count());
+
+		foreach (var cardTag in cardTags)
+		{
+			var tagDomain = tagDomains.FirstOrDefault(item => item.Id == cardTag.TagId);
+
+			if (tagDomain == null)
+			{
+				var tagDb = await _tagService.GetTagDomainAsync(cardTag.TagId);
+
+				if (tagDb != null)
+				{
+					tagDomains.Add(tagDb);
+					tagDomain = tagDb;
+				}
+			}
+
+			var tag = new CardTagsDomain(cardTag, tagDomain);
+
+			cardTagsDomains.Add(tag);
+		}
+
+		return cardTagsDomains;
 	}
 
 	public async Task<bool> CreateCardTagAsync(Guid cardId, Guid tagId, Guid userId)
@@ -387,6 +419,7 @@ public class CardService : ICardService
 		return new CardView(cardDomain, type, comments, tags, userIds, statuses);
 	}
 
+	// its vety slow
 	private async Task<CardDomain> GetCardDomain(CardDatabase cardDatabase)
 	{
 		var type = await _typeService.GetTypeDomainAsync(cardDatabase.CardTypeId);
@@ -396,9 +429,6 @@ public class CardService : ICardService
 		var tags = await GetCardTagsDomainAsync(cardDatabase.Id);
 
 		// todo refactor
-		var cardTags = tags.Select(t =>
-			new CardTagsDomain(new CardTagsDatabase() {CardId = cardDatabase.Id, TagId = t.Id}, t));
-
 		var statuses = await GetCardStatusesDomainAsync(cardDatabase.Id);
 
 		var users = await _cardRepository.GetCardUsersAsync(cardDatabase.Id);
@@ -409,16 +439,59 @@ public class CardService : ICardService
 		var cardUsers = userIds.Select(u =>
 			new CardUsersDomain(new CardUsersDatabase() {CardId = cardDatabase.Id, UserId = u}));
 
-		return new CardDomain(cardDatabase, type, null, null, comments, cardTags, cardUsers, statuses);
+		return new CardDomain(cardDatabase, type, null, null, comments, tags, cardUsers, statuses);
+	}
+
+	private async Task<CardDomain> GetCardDomain(CardDatabase cardDatabase, HashSet<StatusDomain> statusDomains,
+		HashSet<TagDomain> tagDomains, HashSet<TypeDomain> typeDomains)
+	{
+		// type
+		var type = typeDomains.FirstOrDefault(c => c.Id == cardDatabase.CardTypeId);
+
+		if (type == null)
+		{
+			var typeDb = await _typeService.GetTypeDomainAsync(cardDatabase.CardTypeId);
+			if (typeDb != null)
+			{
+				typeDomains.Add(typeDb);
+				type = typeDb;
+			}
+		}
+
+		// uniwue
+		var comments = await _commentService.GetCommentsDomainAsync(cardDatabase.Id);
+
+		var tags = await GetCardTagsDomainByHashAsync(cardDatabase.Id, tagDomains);
+
+		// todo refactor
+		var statuses = await GetCardStatusesDomainAsync(cardDatabase.Id);
+
+		// unique
+		// maybe get for all cards only time
+		var users = await _cardRepository.GetCardUsersAsync(cardDatabase.Id);
+
+		var userIds = users.Select(u => u.UserId);
+
+		// todo refactor
+		var cardUsers = userIds.Select(u =>
+			new CardUsersDomain(new CardUsersDatabase() {CardId = cardDatabase.Id, UserId = u}));
+
+		return new CardDomain(cardDatabase, type, null, null, comments, tags, cardUsers, statuses);
 	}
 
 	private async Task<IEnumerable<CardDomain>> GetCardDomains(IEnumerable<CardDatabase> cardDatabases)
 	{
-		var cardDomains = new List<CardDomain>();
+		var cardDomains = new List<CardDomain>(cardDatabases.Count());
+
+		// подобие кэша
+		var statuses = new HashSet<StatusDomain>();
+		var tags = new HashSet<TagDomain>();
+		var type = new HashSet<TypeDomain>();
 
 		foreach (var cardDatabase in cardDatabases)
 		{
-			var cardDomain = await GetCardDomain(cardDatabase);
+			// refactor this shit
+			var cardDomain = await GetCardDomain(cardDatabase, statuses, tags, type);
 			cardDomains.Add(cardDomain);
 		}
 
