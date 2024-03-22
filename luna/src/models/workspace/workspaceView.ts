@@ -1,7 +1,5 @@
-﻿import {Guid} from "guid-typescript";
-
-export default interface IWorkspaceView{
-    id: Guid;
+﻿export default interface IWorkspaceView{
+    id: string;
     name : string;
     createdTimestamp: string;
     createdUserId: string;

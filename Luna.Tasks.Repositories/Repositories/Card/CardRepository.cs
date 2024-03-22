@@ -85,7 +85,7 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 	{
 		var query =
 			"UPDATE card SET header = $2, content = $3, description = $4, " +
-			"card_type_id = $5, deadline = $8, previous_card_id = $9 " +
+			"card_type_id = $5, deadline = $6, previous_card_id = $7 " +
 			"WHERE id = $1";
 
 		var parameters = new NpgsqlParameter[]

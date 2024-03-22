@@ -1,19 +1,19 @@
 ﻿import React from "react";
 import IPageView from "../../models/page/pageView";
 import PageProvider from "../../provider/page/pageProvider";
-import {Guid} from "guid-typescript";
-import "./Page.css"
 import {Button, ButtonGroup, Table} from "react-bootstrap";
 import EditPageModal from "./EditPageModal";
+import "./Page.css"
 
 interface IProps {
-    // pageId : string;
+
 }
 
 interface IState {
-    id: string | null
+    id: string
     page: IPageView | null,
-    showModal: boolean
+    showModal: boolean,
+    selectedPageId : string | null
 }
 
 class Page extends React.Component<IProps, IState> {
@@ -21,15 +21,29 @@ class Page extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            id: new URLSearchParams(window.location.search).get("id"),
+            id: new URLSearchParams(window.location.search).get("id") ?? "",
             page: null,
-            showModal: false
+            showModal: false,
+            selectedPageId: null
         }
     }
 
     async componentDidMount() {
         if (this.state.id != null) {
-            let page = await PageProvider.getPage(Guid.parse(this.state.id));
+            let page = await PageProvider.getPage(this.state.id);
+
+            if (page != null) {
+                this.setState({page: page});
+                return;
+            }
+
+            // redirect to error
+        }
+    }
+
+    async componentDidUpdate() {
+        if (this.state.id != null) {
+            let page = await PageProvider.getPage(this.state.id);
 
             if (page != null) {
                 this.setState({page: page});
@@ -83,6 +97,7 @@ class Page extends React.Component<IProps, IState> {
                                             <th>Header</th>
                                             <th>Type</th>
                                             <th>Created</th>
+                                            <th>Edit</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -91,6 +106,15 @@ class Page extends React.Component<IProps, IState> {
                                                 <td>{card.header}</td>
                                                 <td>{card.cardType.name}</td>
                                                 <td>{new Date(Date.parse(card.createdTimestamp)).toLocaleDateString()}</td>
+                                                <td>
+                                                    <Button className="btn btn-outline-dark Table-Button"
+                                                            onClick={() => {
+                                                                this.setState({selectedPageId: card.id});
+                                                                this.showModal();
+                                                            }}>
+                                                        Edit
+                                                    </Button>
+                                                </td>
                                             </tr>
                                         )))}
                                         </tbody>
@@ -102,7 +126,7 @@ class Page extends React.Component<IProps, IState> {
                 </div>
 
                 {this.state.showModal && (
-                    <EditPageModal closeModal={() => this.closeModal()}/>
+                    <EditPageModal pageId={this.state.id} cardId={this.state.selectedPageId} closeModal={() => this.closeModal()}/>
                 )}
 
             </div>

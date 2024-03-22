@@ -41,6 +41,15 @@ button{
     margin-left: 10px;
 }
 
+.Table-Button{
+    background: var(--secondary-text-variant);
+    width: 100px;
+}
+
 .Page-Content-Data{
     margin-top: 20px;
+    padding: 12px;
+}
+
+.Page-Content-Data table{
 }

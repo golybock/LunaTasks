@@ -16,10 +16,11 @@ public interface ICardService
 
 	public Task<CardView?> GetCardAsync(Guid id);
 
-
 	public Task<IEnumerable<CardDomain>> GetCardsDomainAsync(Guid pageId, Guid userId);
 
 	public Task<IEnumerable<CardDomain>> GetCardsDomainAsync(Guid pageId);
+
+	public Task<IEnumerable<CardDomain>> GetCardsPreviewAsync(Guid pageId);
 
 	public Task<IEnumerable<CardDomain>> GetCardsDomainAsync(IEnumerable<Guid> cardIds);
 

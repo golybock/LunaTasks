@@ -126,6 +126,15 @@ public class CardService : ICardService
 		return cardDomains;
 	}
 
+	public async Task<IEnumerable<CardDomain>> GetCardsPreviewAsync(Guid pageId)
+	{
+		var cards = await _cardRepository.GetCardsAsync(pageId);
+
+		var cardDomains = await GetCardDomains(cards);
+
+		return cardDomains;
+	}
+
 	public async Task<IEnumerable<CardDomain>> GetCardsDomainAsync(IEnumerable<Guid> cardIds)
 	{
 		var enumerable = cardIds.ToList();
@@ -404,15 +413,17 @@ public class CardService : ICardService
 	{
 		var cardDomain = new CardDomain(cardDatabase);
 
-		var type = await _typeService.GetTypeAsync(cardDomain.CardTypeId);
+		var typeTask = _typeService.GetTypeAsync(cardDomain.CardTypeId);
+		var commentsTask = _commentService.GetCommentsAsync(cardDomain.Id);
+		var tagsTask = GetCardTagsAsync(cardDomain.Id);
+		var statusesTask = GetCardStatusesAsync(cardDomain.Id);
+		var usersTask = _cardRepository.GetCardUsersAsync(cardDomain.Id);
 
-		var comments = await _commentService.GetCommentsAsync(cardDomain.Id);
-
-		var tags = await GetCardTagsAsync(cardDomain.Id);
-
-		var statuses = await GetCardStatusesAsync(cardDomain.Id);
-
-		var users = await _cardRepository.GetCardUsersAsync(cardDomain.Id);
+		var type = await typeTask;
+		var comments = await commentsTask;
+		var tags = await tagsTask;
+		var statuses = await statusesTask;
+		var users = await usersTask;
 
 		var userIds = users.Select(u => u.UserId);
 

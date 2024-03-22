@@ -1,13 +1,11 @@
 ﻿import ProviderBase from "../providerBase";
 import axios from "axios";
-import {Guid} from "guid-typescript";
 import PageView from "../../models/page/pageView";
-import AuthProvider from "../auth/authProvider";
 import {AuthWrapper} from "../../auth/AuthWrapper";
 
 export default class PageProvider extends ProviderBase {
 
-    static async getPages(workspaceId: Guid): Promise<PageView[]> {
+    static async getPages(workspaceId: string): Promise<PageView[]> {
 
         let url = this.baseAddress + "/Page/GetWorkspacePages?workspaceId=" + workspaceId;
 
@@ -27,7 +25,7 @@ export default class PageProvider extends ProviderBase {
             });
     }
 
-    static async getPage(pageId: Guid): Promise<PageView | null>{
+    static async getPage(pageId: string): Promise<PageView | null>{
         let url = this.baseAddress + "/Page/GetPage?id=" + pageId;
 
         let token = AuthWrapper.user();

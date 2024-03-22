@@ -1,7 +1,5 @@
-﻿import {Guid} from "guid-typescript";
-
-export default class CommentView {
-    constructor(id: number, userId: Guid, comment: string, attachmentUrl: string) {
+﻿export default class CommentView {
+    constructor(id: number, userId: string, comment: string, attachmentUrl: string) {
         this.id = id;
         this.userId = userId;
         this.comment = comment;
@@ -9,7 +7,7 @@ export default class CommentView {
     }
 
     public id: number;
-    public userId: Guid;
+    public userId: string;
     public comment: string;
     public attachmentUrl: string;
 }

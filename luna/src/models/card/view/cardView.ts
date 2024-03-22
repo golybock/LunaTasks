@@ -1,5 +1,4 @@
-﻿import {Guid} from "guid-typescript";
-import TypeView from "./typeView";
+﻿import TypeView from "./typeView";
 import CommentView from "./commentView";
 import TagView from "./tagView";
 import StatusView from "./statusView";
@@ -7,18 +6,18 @@ import StatusView from "./statusView";
 export default class CardView {
 
     constructor(
-        id: Guid,
+        id: string,
         header: string,
         content: string | null,
         description: string | null,
         cardType: TypeView,
-        createdUserId: Guid,
+        createdUserId: string,
         createdTimestamp: string,
         deadline: string | null,
         previousCard: CardView | null,
         comments: CommentView[],
         cardTags: TagView[],
-        users: Guid[],
+        users: string[],
         statuses: StatusView[]
     ) {
         this.id = id;
@@ -36,17 +35,17 @@ export default class CardView {
         this.statuses = statuses;
     }
 
-    public id: Guid;
+    public id: string;
     public header: string;
     public content: string | null;
     public description: string | null;
     public cardType: TypeView;
-    public createdUserId: Guid;
+    public createdUserId: string;
     public createdTimestamp: string;
     public deadline: string | null;
     public previousCard: CardView | null;
     public comments: CommentView[];
     public cardTags: TagView[];
-    public users: Guid[];
+    public users: string[];
     public statuses: StatusView[];
 }

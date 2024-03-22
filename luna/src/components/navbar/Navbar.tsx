@@ -6,7 +6,6 @@ import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
 import {Dropdown} from "react-bootstrap";
 import PageView from "../../models/page/pageView";
 import PageProvider from "../../provider/page/pageProvider";
-import {Guid} from "guid-typescript";
 import MenuItem from "../../models/navigation/menuItem";
 import {AuthWrapper} from "../../auth/AuthWrapper";
 
@@ -14,8 +13,8 @@ interface IProps {
 }
 
 interface IState {
-    selectedWorkspaceId: Guid;
-    selectedPageId: Guid | null;
+    selectedWorkspaceId: string;
+    selectedPageId: string | null;
     workspaces: WorkspaceView[];
     pages: PageView[];
     menuItems: MenuItem[];
@@ -27,8 +26,8 @@ export class Navbar extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            selectedWorkspaceId: Guid.createEmpty(),
-            selectedPageId: Guid.createEmpty(),
+            selectedWorkspaceId: "",
+            selectedPageId: "",
             workspaces: [],
             pages: [],
             menuItems: this.defaultMenuItems
@@ -63,7 +62,7 @@ export class Navbar extends React.Component<IProps, IState> {
     }
 
     // todo add filter
-    async selectWorkspace(id: Guid | null) {
+    async selectWorkspace(id: string | null) {
 
         if(id == null){
             this.setState({selectedWorkspaceId: this.state.workspaces[0]?.id});

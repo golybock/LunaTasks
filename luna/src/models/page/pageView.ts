@@ -1,8 +1,7 @@
-﻿import {Guid} from "guid-typescript";
-import CardView from "../card/cardView";
+﻿import CardView from "../card/view/cardView";
 
 export default interface IPageView{
-    id: Guid;
+    id: string;
     name : string;
     description: string;
     headerImage: string;
