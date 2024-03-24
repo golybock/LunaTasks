@@ -5,7 +5,7 @@ import {AuthWrapper} from "../../auth/AuthWrapper";
 
 export default class PageProvider extends ProviderBase {
 
-    static async getPages(workspaceId: string): Promise<PageView[]> {
+    static async getPages(workspaceId: string): Promise<Array<PageView>> {
 
         let url = this.baseAddress + "/Page/GetWorkspacePages?workspaceId=" + workspaceId;
 

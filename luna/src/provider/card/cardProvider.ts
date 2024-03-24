@@ -1,15 +1,13 @@
 ﻿import ProviderBase from "../providerBase";
 import axios from "axios";
-import {Guid} from "guid-typescript";
-import PageView from "../../models/page/pageView";
-import AuthProvider from "../auth/authProvider";
 import {AuthWrapper} from "../../auth/AuthWrapper";
-import CardView from "../../models/card/view/cardView";
+import ICardView from "../../models/card/view/cardView";
 import CardBlank from "../../models/card/blank/cardBlank";
+import IOption from "../../models/tools/IOption";
 
 export default class CardProvider extends ProviderBase {
 
-    static async getCard(cardId: string): Promise<CardView | null> {
+    static async getCard(cardId: string): Promise<ICardView | null> {
 
         let url = this.baseAddress + "/Card/GetCard?id=" + cardId;
 
@@ -59,5 +57,75 @@ export default class CardProvider extends ProviderBase {
             .catch(() => {
                 return false;
             });
+    }
+
+    static async getStatuses() : Promise<IOption[]>{
+
+        const workspaceId = localStorage.getItem("workspaceId")
+
+        let url = this.baseAddress + "/Status/GetStatuses?workspaceId=" + workspaceId;
+
+        let token = AuthWrapper.user();
+
+        return await axios.get(url,{headers: {"Authorization": `Bearer ${token}`}})
+            .then(async res => {
+
+                if(res.status == 200){
+                    return this.mapToOption(res.data);
+                }
+
+                return [];
+            })
+            .catch(() => {
+                return [];
+            });
+    }
+
+    static async getTags() : Promise<IOption[]>{
+
+        const workspaceId = localStorage.getItem("workspaceId")
+
+        let url = this.baseAddress + "/Tag/GetTags?workspaceId=" + workspaceId;
+
+        let token = AuthWrapper.user();
+
+        return await axios.get(url,{headers: {"Authorization": `Bearer ${token}`}})
+            .then(async res => {
+
+                if(res.status == 200){
+                    return this.mapToOption(res.data);
+                }
+
+                return [];
+            })
+            .catch(() => {
+                return [];
+            });
+    }
+
+    static async getTypes() : Promise<IOption[]>{
+
+        const workspaceId = localStorage.getItem("workspaceId")
+
+        let url = this.baseAddress + "/Type/GetTypes?workspaceId=" + workspaceId;
+
+        let token = AuthWrapper.user();
+
+        return await axios.get(url,{headers: {"Authorization": `Bearer ${token}`}})
+            .then(async res => {
+
+                if(res.status == 200){
+                    return this.mapToOption(res.data);
+                }
+
+                return [];
+            })
+            .catch(() => {
+                return [];
+            });
+    }
+
+    private static mapToOption(data: any[]): IOption[]{
+        return data.map(o => {return{label: o.name, value: o.id}});
     }
 }

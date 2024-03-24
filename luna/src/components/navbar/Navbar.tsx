@@ -66,6 +66,11 @@ export class Navbar extends React.Component<IProps, IState> {
 
         if(id == null){
             this.setState({selectedWorkspaceId: this.state.workspaces[0]?.id});
+
+            if(this.state.selectedWorkspaceId?.length > 0){
+                localStorage.setItem("workspaceId", this.state.selectedWorkspaceId);
+            }
+
             return;
         }
 
@@ -74,6 +79,10 @@ export class Navbar extends React.Component<IProps, IState> {
         }
 
         this.setState({selectedWorkspaceId: id});
+
+        if(this.state.selectedWorkspaceId?.length > 0){
+            localStorage.setItem("workspaceId", this.state.selectedWorkspaceId);
+        }
 
         let pages = await PageProvider.getPages(this.state.selectedWorkspaceId);
 

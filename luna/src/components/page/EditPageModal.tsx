@@ -1,11 +1,14 @@
 ﻿import React from "react";
-import {Button, Modal} from "react-bootstrap";
-import {Guid} from "guid-typescript";
-import CardBlank from "../../models/card/blank/cardBlank";
-import CardView from "../../models/card/view/cardView";
-import CardProvider from "../../provider/card/cardProvider";
 import "./EditPageModal.css";
+import {Button, Modal} from "react-bootstrap";
+import CardBlank from "../../models/card/blank/cardBlank";
+import ICardBlank from "../../models/card/blank/cardBlank";
+import ICardView from "../../models/card/view/cardView";
+import CardProvider from "../../provider/card/cardProvider";
 import Form from "react-bootstrap/Form";
+import IOption from "../../models/tools/IOption";
+import AsyncSelect from "react-select/async";
+import {MultiValue, SingleValue} from "react-select";
 
 interface IProps {
     closeModal: Function,
@@ -15,7 +18,11 @@ interface IProps {
 
 interface IState {
     cardBlank?: CardBlank,
-    cardView?: CardView
+    cardView?: ICardView,
+    selectedType?: IOption,
+    selectedTags: IOption[],
+    selectedStatus?: IOption,
+    selectedUsers: IOption[]
 }
 
 export default class EditPageModal extends React.Component<IProps, IState> {
@@ -25,7 +32,11 @@ export default class EditPageModal extends React.Component<IProps, IState> {
 
         this.state = {
             cardBlank: undefined,
-            cardView: undefined
+            cardView: undefined,
+            selectedType: undefined,
+            selectedStatus: undefined,
+            selectedUsers: [],
+            selectedTags: []
         }
     }
 
@@ -39,21 +50,33 @@ export default class EditPageModal extends React.Component<IProps, IState> {
                 this.setState({cardView: cardView});
             }
         } else {
-            this.setState({cardBlank: new CardBlank("", "", "", "", this.props.pageId, null, null)});
+            this.setState({cardBlank: this.getEmptyBlank()});
         }
     }
 
 
-    fromCardView(cardView: CardView): CardBlank {
-        return new CardBlank(
-            cardView.header,
-            cardView.content,
-            cardView.description,
-            cardView.cardType.id,
-            this.props.pageId,
-            cardView.deadline,
-            cardView.previousCard?.id ?? null
-        );
+    fromCardView(cardView: ICardView): ICardBlank {
+        return {
+            header: cardView.header,
+            content: cardView.content,
+            description: cardView.description,
+            cardTypeId: cardView.cardType.id,
+            pageId: this.props.pageId,
+            deadline: cardView.deadline,
+            previousCardId: cardView.previousCard?.id ?? null
+        };
+    }
+
+    getEmptyBlank() : ICardBlank{
+        return {
+            header: "",
+            content: "",
+            description: "",
+            cardTypeId: "",
+            pageId: this.props.pageId,
+            deadline: null,
+            previousCardId: null
+        };
     }
 
     headerChanged(value: string) {
@@ -108,6 +131,22 @@ export default class EditPageModal extends React.Component<IProps, IState> {
         }
     }
 
+    typeSelected(e: SingleValue<IOption>) {
+        this.setState({selectedType: (e as IOption)})
+    }
+
+    tagSelected(e: MultiValue<IOption>) {
+        this.setState({selectedTags: e.map(o => o)})
+    }
+
+    async getTypes() {
+        return await CardProvider.getTypes();
+    }
+
+    async getTags() {
+        return await CardProvider.getTags();
+    }
+
     render() {
         return (
             <Modal show onHide={() => this.props.closeModal()}>
@@ -120,16 +159,37 @@ export default class EditPageModal extends React.Component<IProps, IState> {
                         <Form.Label>Заголовок</Form.Label>
                         <Form.Control value={this.state.cardBlank?.header || ""}
                                       onChange={(e) => this.headerChanged(e.target.value)}/>
+
                         <Form.Label>Описание</Form.Label>
                         <Form.Control value={this.state.cardBlank?.description || ""}
                                       onChange={(e) => this.descriptionChanged(e.target.value)}/>
+
                         <Form.Label>Текст задачи</Form.Label>
                         <Form.Control value={this.state.cardBlank?.content || ""}
                                       onChange={(e) => this.contentChanged(e.target.value)}/>
+
                         <Form.Label>Дедлайн</Form.Label>
                         <Form.Control value={this.state.cardBlank?.deadline || ""}
                                       type="date"
                                       onChange={(e) => this.deadlineChanged(e.target.value)}/>
+
+                        <Form.Label>Тип</Form.Label>
+                        <AsyncSelect isMulti={false}
+                                     cacheOptions
+                                     defaultOptions
+                                     value={this.state.selectedType}
+                                     loadOptions={this.getTypes}
+                                     onChange={(e) => this.typeSelected(e)}
+                        />
+
+                        <Form.Label>Теги</Form.Label>
+                        <AsyncSelect isMulti={true}
+                                     cacheOptions
+                                     defaultOptions
+                                     value={this.state.selectedTags}
+                                     loadOptions={this.getTags}
+                                     onChange={(e) => this.tagSelected(e)}
+                        />
                     </Form>
                 </Modal.Body>
 

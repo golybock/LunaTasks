@@ -41,18 +41,18 @@ class Page extends React.Component<IProps, IState> {
         }
     }
 
-    async componentDidUpdate() {
-        if (this.state.id != null) {
-            let page = await PageProvider.getPage(this.state.id);
-
-            if (page != null) {
-                this.setState({page: page});
-                return;
-            }
-
-            // redirect to error
-        }
-    }
+    // async componentDidUpdate() {
+    //     if (this.state.id != null) {
+    //         let page = await PageProvider.getPage(this.state.id);
+    //
+    //         if (page != null) {
+    //             this.setState({page: page});
+    //             return;
+    //         }
+    //
+    //         // redirect to error
+    //     }
+    // }
 
     showModal() {
         this.setState({showModal: true})
@@ -105,7 +105,7 @@ class Page extends React.Component<IProps, IState> {
                                             <tr key={card.id.toString()}>
                                                 <td>{card.header}</td>
                                                 <td>{card.cardType.name}</td>
-                                                <td>{new Date(Date.parse(card.createdTimestamp)).toLocaleDateString()}</td>
+                                                <td>{new Date(Date.parse(card.createdTimestamp)).toDateString()}</td>
                                                 <td>
                                                     <Button className="btn btn-outline-dark Table-Button"
                                                             onClick={() => {

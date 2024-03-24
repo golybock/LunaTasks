@@ -1,4 +1,4 @@
-﻿import CardView from "../card/view/cardView";
+﻿import ICardView from "../card/view/cardView";
 
 export default interface IPageView{
     id: string;
@@ -6,5 +6,5 @@ export default interface IPageView{
     description: string;
     headerImage: string;
     createdTimestamp: string;
-    cards: CardView[];
+    cards: ICardView[];
 }
