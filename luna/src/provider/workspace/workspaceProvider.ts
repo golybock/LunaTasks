@@ -24,4 +24,24 @@ export default class WorkspaceProvider extends ProviderBase{
                 return [];
             });
     }
+
+    static async getCurrentWorkspace(): Promise<IWorkspaceView | null> {
+
+        let url = this.baseAddress + "/Workspace/GetWorkspace?id=" + localStorage.getItem("workspaceId");
+
+        let token = AuthWrapper.user();
+
+        return await axios.get(url, { headers: {"Authorization" : `Bearer ${token}`} })
+            .then(async res => {
+
+                if(res.status === 200){
+                    return res.data;
+                }
+
+                return [];
+            })
+            .catch(() => {
+                return null;
+            });
+    }
 }
