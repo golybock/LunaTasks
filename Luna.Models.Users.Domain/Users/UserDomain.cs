@@ -28,4 +28,15 @@ public class UserDomain
 		EmailConfirmed = userDatabase.EmailConfirmed;
 		Image = userDatabase.Image;
 	}
+
+	public UserDomain(Guid id, string username, string email, string? phoneNumber, DateTime createdTimestamp, bool emailConfirmed, string? image)
+	{
+		Id = id;
+		Username = username;
+		Email = email;
+		PhoneNumber = phoneNumber;
+		CreatedTimestamp = createdTimestamp;
+		EmailConfirmed = emailConfirmed;
+		Image = image;
+	}
 }

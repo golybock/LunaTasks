@@ -1,7 +1,5 @@
-﻿import {Guid} from "guid-typescript";
-
-export default interface IUserView{
-    id: Guid;
+﻿export default interface IUserView{
+    id: string;
     username : string;
     email: string;
     phoneNumber: string;

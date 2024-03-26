@@ -2,6 +2,7 @@
 import CommentView from "./commentView";
 import TagView from "./tagView";
 import StatusView from "./statusView";
+import IUserView from "../../user/userView";
 
 export default interface CardView {
     id: string;
@@ -15,6 +16,6 @@ export default interface CardView {
     previousCard: CardView | null;
     comments: CommentView[];
     cardTags: TagView[];
-    users: string[];
+    users: IUserView[];
     statuses: StatusView[];
 }

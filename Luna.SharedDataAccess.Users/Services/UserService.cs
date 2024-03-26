@@ -1,4 +1,5 @@
 ﻿using Grpc.Net.Client;
+using Luna.Models.Users.Domain.Users;
 using Luna.Models.Users.View.Users;
 using Luna.SharedDataAccess.Users.Extensions;
 using Luna.Tools.gRPC;
@@ -45,6 +46,39 @@ public class UserService : GrpcServiceBase, IUserService
 			return null;
 
 		return response.User.ToUserView();
+	}
+
+	public async Task<IEnumerable<UserDomain>> GetUsersDomainAsync()
+	{
+		var client = GetClient();
+
+		var response = await client.GetUsersAsync(new GetUsersRequest());
+
+		return response.Users.ToUsersDomain();
+	}
+
+	public async Task<UserDomain?> GetUserDomainAsync(Guid id)
+	{
+		var client = GetClient();
+
+		var response = await client.GetUserByIdAsync(new GetUserRequest(){Id = id.ToString()});
+
+		if (response.User == null)
+			return null;
+
+		return response.User.ToUserDomain();
+	}
+
+	public async Task<UserDomain?> GetUserDomainAsync(string phoneOrEmail)
+	{
+		var client = GetClient();
+
+		var response = await client.GetUserByPhoneOrEmailAsync(new GetUserByPhoneOrEmailRequest() {Value = phoneOrEmail});
+
+		if (response.User == null)
+			return null;
+
+		return response.User.ToUserDomain();
 	}
 
 	public async Task<Guid> CreateUserAsync(UserBlank userBlank)

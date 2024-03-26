@@ -51,9 +51,9 @@ public interface ICardService
 
 	public Task<StatusView?> GetCurrentCardStatusAsync(Guid cardId);
 
-	public Task<Boolean> CreateCardStatusAsync(Guid cardId, Guid statusId, Guid userId);
+	public Task<Boolean> CreateCardStatusAsync(Guid cardId, Guid statusId);
 
-	public Task<Boolean> DeleteCardStatusAsync(Guid cardId, Guid statusId, Guid userId);
+	public Task<Boolean> DeleteCardStatusAsync(Guid cardId, Guid statusId);
 
 
 	public Task<IEnumerable<TagView>> GetCardTagsAsync(Guid cardId);

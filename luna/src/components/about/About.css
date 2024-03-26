@@ -50,6 +50,19 @@
     margin-top: 10px;
 }
 
+.Item button{
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    color: white;
+}
+
+.Item input{
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+}
+
 .Item label {
     margin: 5px;
 }

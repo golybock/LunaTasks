@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import "./EditPageModal.css";
+import "./EditCardModal.css";
 import {Button, Modal} from "react-bootstrap";
 import CardBlank from "../../models/card/blank/cardBlank";
 import ICardBlank from "../../models/card/blank/cardBlank";
@@ -9,6 +9,10 @@ import Form from "react-bootstrap/Form";
 import IOption from "../../models/tools/IOption";
 import AsyncSelect from "react-select/async";
 import {MultiValue, SingleValue} from "react-select";
+import UserProvider from "../../provider/user/userProvider";
+import TagProvider from "../../provider/card/tagProvider";
+import TypeProvider from "../../provider/card/typeProvider";
+import StatusProvider from "../../provider/card/statusProvider";
 
 interface IProps {
     closeModal: Function,
@@ -25,7 +29,7 @@ interface IState {
     selectedUsers: IOption[]
 }
 
-export default class EditPageModal extends React.Component<IProps, IState> {
+export default class EditCardModal extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
@@ -63,7 +67,10 @@ export default class EditPageModal extends React.Component<IProps, IState> {
             cardTypeId: cardView.cardType.id,
             pageId: this.props.pageId,
             deadline: cardView.deadline,
-            previousCardId: cardView.previousCard?.id ?? null
+            previousCardId: cardView.previousCard?.id ?? null,
+            userIds: cardView.users.map(u => u.id),
+            tagIds: cardView.cardTags.map(t => t.id),
+            statusId: cardView.statuses[0]?.id ?? ""
         };
     }
 
@@ -75,7 +82,10 @@ export default class EditPageModal extends React.Component<IProps, IState> {
             cardTypeId: "",
             pageId: this.props.pageId,
             deadline: null,
-            previousCardId: null
+            previousCardId: null,
+            userIds: [],
+            statusId: "",
+            tagIds: []
         };
     }
 
@@ -133,18 +143,70 @@ export default class EditPageModal extends React.Component<IProps, IState> {
 
     typeSelected(e: SingleValue<IOption>) {
         this.setState({selectedType: (e as IOption)})
+
+        if (this.state.cardBlank != undefined) {
+            this.setState({
+                cardBlank: {
+                    ...this.state.cardBlank,
+                    cardTypeId: e!.value
+                }
+            })
+        }
+    }
+
+    statusSelected(e: SingleValue<IOption>) {
+        this.setState({selectedStatus: (e as IOption)})
+
+        if (this.state.cardBlank != undefined) {
+            this.setState({
+                cardBlank: {
+                    ...this.state.cardBlank,
+                    statusId: e!.value
+                }
+            })
+        }
     }
 
     tagSelected(e: MultiValue<IOption>) {
         this.setState({selectedTags: e.map(o => o)})
+
+        if (this.state.cardBlank != undefined) {
+            this.setState({
+                cardBlank: {
+                    ...this.state.cardBlank,
+                    tagIds: e.map(i => i.value)
+                }
+            })
+        }
+    }
+
+    userSelected(e: MultiValue<IOption>) {
+        this.setState({selectedUsers: e.map(o => o)})
+
+        if (this.state.cardBlank != undefined) {
+            this.setState({
+                cardBlank: {
+                    ...this.state.cardBlank,
+                    userIds: e.map(i => i.value)
+                }
+            })
+        }
     }
 
     async getTypes() {
-        return await CardProvider.getTypes();
+        return await TypeProvider.getTypesOptions();
+    }
+
+    async getStatuses() {
+        return await StatusProvider.getStatusesOptions();
+    }
+
+    async getUsers() {
+        return await UserProvider.getUsersOptions();
     }
 
     async getTags() {
-        return await CardProvider.getTags();
+        return await TagProvider.getTagsOptions();
     }
 
     render() {
@@ -179,8 +241,16 @@ export default class EditPageModal extends React.Component<IProps, IState> {
                                      defaultOptions
                                      value={this.state.selectedType}
                                      loadOptions={this.getTypes}
-                                     onChange={(e) => this.typeSelected(e)}
-                        />
+                                     onChange={(e) => this.typeSelected(e)}/>
+
+                        <Form.Label>Статус</Form.Label>
+                        <AsyncSelect isMulti={false}
+                                     cacheOptions
+                                     defaultOptions
+                                     value={this.state.selectedStatus}
+                                     loadOptions={this.getStatuses}
+                                     onChange={(e) => this.statusSelected(e)}/>
+
 
                         <Form.Label>Теги</Form.Label>
                         <AsyncSelect isMulti={true}
@@ -188,8 +258,15 @@ export default class EditPageModal extends React.Component<IProps, IState> {
                                      defaultOptions
                                      value={this.state.selectedTags}
                                      loadOptions={this.getTags}
-                                     onChange={(e) => this.tagSelected(e)}
-                        />
+                                     onChange={(e) => this.tagSelected(e)}/>
+
+                        <Form.Label>Пользователи</Form.Label>
+                        <AsyncSelect isMulti={true}
+                                     cacheOptions
+                                     defaultOptions
+                                     value={this.state.selectedUsers}
+                                     loadOptions={this.getUsers}
+                                     onChange={(e) => this.userSelected(e)}/>
                     </Form>
                 </Modal.Body>
 

@@ -59,69 +59,19 @@ export default class CardProvider extends ProviderBase {
             });
     }
 
-    static async getStatuses() : Promise<IOption[]>{
+    static async addTagToCard(cardId: string, tagId: string): Promise<boolean> {
 
-        const workspaceId = localStorage.getItem("workspaceId")
-
-        let url = this.baseAddress + "/Status/GetStatuses?workspaceId=" + workspaceId;
+        let url = this.baseAddress + "/Card/AddCardTag?cardId=" + cardId + "&tagId=" + tagId;
 
         let token = AuthWrapper.user();
 
-        return await axios.get(url,{headers: {"Authorization": `Bearer ${token}`}})
+        return await axios.post(url, null, {headers: {"Authorization": `Bearer ${token}`}})
             .then(async res => {
 
-                if(res.status == 200){
-                    return this.mapToOption(res.data);
-                }
-
-                return [];
+                return res.status === 200;
             })
             .catch(() => {
-                return [];
-            });
-    }
-
-    static async getTags() : Promise<IOption[]>{
-
-        const workspaceId = localStorage.getItem("workspaceId")
-
-        let url = this.baseAddress + "/Tag/GetTags?workspaceId=" + workspaceId;
-
-        let token = AuthWrapper.user();
-
-        return await axios.get(url,{headers: {"Authorization": `Bearer ${token}`}})
-            .then(async res => {
-
-                if(res.status == 200){
-                    return this.mapToOption(res.data);
-                }
-
-                return [];
-            })
-            .catch(() => {
-                return [];
-            });
-    }
-
-    static async getTypes() : Promise<IOption[]>{
-
-        const workspaceId = localStorage.getItem("workspaceId")
-
-        let url = this.baseAddress + "/Type/GetTypes?workspaceId=" + workspaceId;
-
-        let token = AuthWrapper.user();
-
-        return await axios.get(url,{headers: {"Authorization": `Bearer ${token}`}})
-            .then(async res => {
-
-                if(res.status == 200){
-                    return this.mapToOption(res.data);
-                }
-
-                return [];
-            })
-            .catch(() => {
-                return [];
+                return false;
             });
     }
 

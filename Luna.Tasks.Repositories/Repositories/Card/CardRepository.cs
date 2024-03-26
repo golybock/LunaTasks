@@ -282,6 +282,18 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		return await ExecuteAsync(query, parameters);
 	}
 
+	// todo make transaction
+	public async Task<bool> CreateCardTagsAsync(IEnumerable<CardTagsDatabase> cardTags)
+	{
+		foreach (var cardTagsDatabase in cardTags)
+		{
+			var res = await CreateCardTagAsync(cardTagsDatabase);
+			if (!res) return false;
+		}
+
+		return true;
+	}
+
 	public async Task<bool> DeleteCardTagAsync(Guid cardId, Guid tagId)
 	{
 		var query = "DELETE FROM card_tags WHERE card_id = $1 and tag_id = $2";
@@ -290,6 +302,18 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		{
 			new NpgsqlParameter() {Value = cardId},
 			new NpgsqlParameter() {Value = tagId}
+		};
+
+		return await ExecuteAsync(query, parameters);
+	}
+
+	public async Task<bool> DeleteCardTagsAsync(Guid cardId)
+	{
+		var query = "DELETE FROM card_tags WHERE card_id = $1";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = cardId},
 		};
 
 		return await ExecuteAsync(query, parameters);
@@ -320,7 +344,7 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		return await GetAsync<CardUsersDatabase>(query, parameters);
 	}
 
-	public async Task<bool> CreateCardUsersAsync(CardUsersDatabase cardUsersDatabase)
+	public async Task<bool> CreateCardUserAsync(CardUsersDatabase cardUsersDatabase)
 	{
 		var query = "INSERT INTO card_users (card_id, user_id) " +
 		            "VALUES ($1, $2)";
@@ -334,7 +358,18 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		return await ExecuteAsync(query, parameters);
 	}
 
-	public async Task<bool> DeleteCardUsersAsync(Guid cardId, Guid userId)
+	public async Task<bool> CreateCardUsersAsync(IEnumerable<CardUsersDatabase> cardUsersDatabase)
+	{
+		foreach (var usersDatabase in cardUsersDatabase)
+		{
+			var res = await CreateCardUserAsync(usersDatabase);
+			if (!res) return false;
+		}
+
+		return true;
+	}
+
+	public async Task<bool> DeleteCardUserAsync(Guid cardId, Guid userId)
 	{
 		var query = "DELETE FROM card_users WHERE card_id = $1 and user_id = $2";
 
@@ -342,6 +377,18 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		{
 			new NpgsqlParameter() {Value = cardId},
 			new NpgsqlParameter() {Value = userId}
+		};
+
+		return await ExecuteAsync(query, parameters);
+	}
+
+	public async Task<bool> DeleteCardUsersAsync(Guid cardId)
+	{
+		var query = "DELETE FROM card_users WHERE card_id = $1";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = cardId}
 		};
 
 		return await ExecuteAsync(query, parameters);

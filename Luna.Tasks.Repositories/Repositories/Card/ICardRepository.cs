@@ -49,14 +49,21 @@ public interface ICardRepository
 
 	public Task<Boolean> CreateCardTagAsync(CardTagsDatabase cardTag);
 
+	public Task<Boolean> CreateCardTagsAsync(IEnumerable<CardTagsDatabase> cardTags);
+
 	public Task<Boolean> DeleteCardTagAsync(Guid cardId, Guid tagId);
 
+	public Task<Boolean> DeleteCardTagsAsync(Guid cardId);
 
 	public Task<IEnumerable<CardUsersDatabase>> GetCardUsersAsync(Guid cardId);
 
 	public Task<CardUsersDatabase?> GetCardUserAsync(Guid cardId, Guid userId);
 
-	public Task<Boolean> CreateCardUsersAsync(CardUsersDatabase cardUsersDatabase);
+	public Task<Boolean> CreateCardUserAsync(CardUsersDatabase cardUsersDatabase);
 
-	public Task<Boolean> DeleteCardUsersAsync(Guid cardId, Guid userId);
+	public Task<Boolean> CreateCardUsersAsync(IEnumerable<CardUsersDatabase> cardUsersDatabase);
+
+	public Task<Boolean> DeleteCardUserAsync(Guid cardId, Guid userId);
+
+	public Task<Boolean> DeleteCardUsersAsync(Guid cardId);
 }

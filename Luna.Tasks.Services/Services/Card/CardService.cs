@@ -171,6 +171,12 @@ public class CardService : ICardService
 
 		var result = await _cardRepository.CreateCardAsync(cardDatabase);
 
+		await UpdateCardTags(cardDatabase.Id, card.TagIds);
+
+		await UpdateCardUsersAsync(cardDatabase.Id, card.UserIds);
+
+		await CreateCardStatusAsync(cardDatabase.Id, card.StatusId);
+
 		return result;
 	}
 
@@ -179,6 +185,12 @@ public class CardService : ICardService
 		var cardDatabase = ToCardDatabase(card, userId);
 
 		var result = await _cardRepository.UpdateCardAsync(id, cardDatabase);
+
+		await UpdateCardTags(id, card.TagIds);
+
+		await UpdateCardUsersAsync(id, card.UserIds);
+
+		await CreateCardStatusAsync(cardDatabase.Id, card.StatusId);
 
 		return result;
 	}
@@ -294,7 +306,7 @@ public class CardService : ICardService
 		return statusView;
 	}
 
-	public async Task<bool> CreateCardStatusAsync(Guid cardId, Guid statusId, Guid userId)
+	public async Task<bool> CreateCardStatusAsync(Guid cardId, Guid statusId)
 	{
 		var cardStatusDatabase = new CardStatusDatabase()
 		{
@@ -306,7 +318,7 @@ public class CardService : ICardService
 		return await _cardRepository.CreateCardStatusAsync(cardStatusDatabase);
 	}
 
-	public async Task<bool> DeleteCardStatusAsync(Guid cardId, Guid statusId, Guid userId)
+	public async Task<bool> DeleteCardStatusAsync(Guid cardId, Guid statusId)
 	{
 		return await _cardRepository.DeleteCardStatusAsync(cardId, statusId);
 	}
@@ -335,7 +347,8 @@ public class CardService : ICardService
 	}
 
 	// get CardTagsDomain by cardId and hash array
-	private async Task<IEnumerable<CardTagsDomain>> GetCardTagsDomainByHashAsync(Guid cardId, HashSet<TagDomain> tagDomains)
+	private async Task<IEnumerable<CardTagsDomain>> GetCardTagsDomainByHashAsync(Guid cardId,
+		HashSet<TagDomain> tagDomains)
 	{
 		var cardTags = await _cardRepository.GetCardTagsAsync(cardId);
 
@@ -375,6 +388,25 @@ public class CardService : ICardService
 		return await _cardRepository.CreateCardTagAsync(cardTagDatabase);
 	}
 
+	private async Task<bool> UpdateCardTags(Guid cardId, IEnumerable<Guid> tagIds)
+	{
+		await DeleteCardTagsAsync(cardId);
+
+		return await CreateCardTagsAsync(cardId, tagIds);
+	}
+
+	private async Task<bool> CreateCardTagsAsync(Guid cardId, IEnumerable<Guid> tagIds)
+	{
+		var tags = tagIds.Select(item => new CardTagsDatabase() {CardId = cardId, TagId = item});
+
+		return await _cardRepository.CreateCardTagsAsync(tags);
+	}
+
+	private async Task<bool> DeleteCardTagsAsync(Guid cardId)
+	{
+		return await _cardRepository.DeleteCardTagsAsync(cardId);
+	}
+
 	public async Task<bool> DeleteCardTagAsync(Guid cardId, Guid tagId, Guid userId)
 	{
 		return await _cardRepository.DeleteCardTagAsync(cardId, tagId);
@@ -399,12 +431,33 @@ public class CardService : ICardService
 			UserId = userId
 		};
 
-		return await _cardRepository.CreateCardUsersAsync(cardUsersDatabase);
+		return await _cardRepository.CreateCardUserAsync(cardUsersDatabase);
+	}
+
+	private async Task<bool> UpdateCardUsersAsync(Guid cardId, IEnumerable<Guid> userIds)
+	{
+		await DeleteCardUsersAsync(cardId);
+
+		return await CreateCardUsersAsync(cardId, userIds);
+	}
+
+	public async Task<bool> CreateCardUsersAsync(Guid cardId, IEnumerable<Guid> userIds)
+	{
+		var users = userIds.Select(item => new CardUsersDatabase() {CardId = cardId, UserId = item});
+
+		return await _cardRepository.CreateCardUsersAsync(users);
 	}
 
 	public async Task<bool> DeleteCardUsersAsync(Guid cardId, Guid userId)
 	{
-		var result = await _cardRepository.DeleteCardUsersAsync(cardId, userId);
+		var result = await _cardRepository.DeleteCardUserAsync(cardId, userId);
+
+		return result;
+	}
+
+	public async Task<bool> DeleteCardUsersAsync(Guid cardId)
+	{
+		var result = await _cardRepository.DeleteCardUsersAsync(cardId);
 
 		return result;
 	}
@@ -427,7 +480,10 @@ public class CardService : ICardService
 
 		var userIds = users.Select(u => u.UserId);
 
-		return new CardView(cardDomain, type, comments, tags, userIds, statuses);
+		var usersViews = await _userService.GetUsersAsync();
+		usersViews = usersViews.Where(c => userIds.Contains(c.Id)).ToList();
+
+		return new CardView(cardDomain, type, comments, tags, usersViews, statuses);
 	}
 
 	// its vety slow
@@ -444,11 +500,13 @@ public class CardService : ICardService
 
 		var users = await _cardRepository.GetCardUsersAsync(cardDatabase.Id);
 
-		var userIds = users.Select(u => u.UserId);
+		var usersDomain = await _userService.GetUsersDomainAsync();
+
+		// var userIds = users.Select(u => u.UserId);
 
 		// todo refactor
-		var cardUsers = userIds.Select(u =>
-			new CardUsersDomain(new CardUsersDatabase() {CardId = cardDatabase.Id, UserId = u}));
+		var cardUsers = users.Select(u =>
+			new CardUsersDomain(u, usersDomain.First(user => user.Id == u.UserId)));
 
 		return new CardDomain(cardDatabase, type, null, null, comments, tags, cardUsers, statuses);
 	}
@@ -481,11 +539,13 @@ public class CardService : ICardService
 		// maybe get for all cards only time
 		var users = await _cardRepository.GetCardUsersAsync(cardDatabase.Id);
 
-		var userIds = users.Select(u => u.UserId);
+		// var userIds = users.Select(u => u.UserId);
+
+		var usersDomain = await _userService.GetUsersDomainAsync();
 
 		// todo refactor
-		var cardUsers = userIds.Select(u =>
-			new CardUsersDomain(new CardUsersDatabase() {CardId = cardDatabase.Id, UserId = u}));
+		var cardUsers = users.Select(u =>
+			new CardUsersDomain(u, usersDomain.First(user => user.Id == u.UserId)));
 
 		return new CardDomain(cardDatabase, type, null, null, comments, tags, cardUsers, statuses);
 	}

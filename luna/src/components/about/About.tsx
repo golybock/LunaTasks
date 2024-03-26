@@ -18,18 +18,18 @@ interface IProps {
 }
 
 interface IState {
-    workspace? : IWorkspaceView,
+    workspace?: IWorkspaceView,
     tags: TagView[],
     statuses: IStatusView[],
     types: TypeView[],
     showTypeModal: boolean,
-    showStatusModal:  boolean
+    showStatusModal: boolean
     showTagModal: boolean
 }
 
 export default class About extends React.Component<IProps, IState> {
 
-    headerUrl ="http://localhost:7005/woodcuts_14.jpg";
+    headerUrl = "http://localhost:7005/woodcuts_14.jpg";
 
     constructor(props: IProps) {
         super(props);
@@ -45,33 +45,33 @@ export default class About extends React.Component<IProps, IState> {
         }
     }
 
-    showTypeModal(){
+    showTypeModal() {
         this.setState({showTypeModal: true})
     }
 
-    async closeTypeModal(){
+    async closeTypeModal() {
         this.setState({showTypeModal: false})
 
         const types = await TypeProvider.getTypes();
         this.setState({types: types});
     }
 
-    showTagModal(){
+    showTagModal() {
         this.setState({showTagModal: true})
     }
 
-    async closeTagModal(){
+    async closeTagModal() {
         this.setState({showTagModal: false})
 
         const tags = await TagProvider.getTags();
         this.setState({tags: tags});
     }
 
-    showStatusModal(){
+    showStatusModal() {
         this.setState({showStatusModal: true})
     }
 
-    async closeStatusModal(){
+    async closeStatusModal() {
         this.setState({showStatusModal: false})
 
         const statuses = await StatusProvider.getStatuses();
@@ -82,7 +82,7 @@ export default class About extends React.Component<IProps, IState> {
 
         const workspace = await WorkspaceProvider.getCurrentWorkspace();
 
-        if(workspace != null){
+        if (workspace != null) {
             this.setState({workspace: workspace});
         }
 
@@ -94,6 +94,27 @@ export default class About extends React.Component<IProps, IState> {
 
         const statuses = await StatusProvider.getStatuses();
         this.setState({statuses: statuses})
+    }
+
+    async deleteStatus(id: string) {
+        const res = await StatusProvider.deleteStatus(id);
+
+        const statuses = await StatusProvider.getStatuses();
+        this.setState({statuses: statuses})
+    }
+
+    async deleteTag(id: string) {
+        const res = await TagProvider.deleteTag(id);
+
+        const tags = await TagProvider.getTags();
+        this.setState({tags: tags});
+    }
+
+    async deleteType(id: string) {
+        const res = await TypeProvider.deleteType(id);
+
+        const types = await TypeProvider.getTypes();
+        this.setState({types: types});
     }
 
     render() {
@@ -114,14 +135,18 @@ export default class About extends React.Component<IProps, IState> {
                             <div className="Item-Block">
                                 <div className="Item-Header">
                                     <h4>Tags</h4>
-                                    <button className="btn btn-outline-dark" onClick={() => this.showTagModal()}>+</button>
+                                    <button className="btn btn-outline-dark" onClick={() => this.showTagModal()}>+
+                                    </button>
                                 </div>
                                 <hr/>
                                 {this.state.tags.length > 0 && (
                                     this.state.tags.map((item) => {
                                         return (<div className="Item" key={item.id}>
                                             <label>{item.name}</label>
-                                            <Form.Control type="color" value={item.color}/>
+                                            <div className="row">
+                                                <Form.Control disabled type="color" value={item.color}/>
+                                                <button className="btn btn-outline-dark" onClick={() => this.deleteTag(item.id)}>-</button>
+                                            </div>
                                         </div>)
                                     })
                                 )}
@@ -132,14 +157,18 @@ export default class About extends React.Component<IProps, IState> {
                             <div className="Item-Block">
                                 <div className="Item-Header">
                                     <h4>Types</h4>
-                                    <button className="btn btn-outline-dark" onClick={() => this.showTypeModal()}>+</button>
+                                    <button className="btn btn-outline-dark" onClick={() => this.showTypeModal()}>+
+                                    </button>
                                 </div>
                                 <hr/>
                                 {this.state.types.length > 0 && (
                                     this.state.types.map((item) => {
                                         return (<div className="Item" key={item.id}>
                                             <label>{item.name}</label>
-                                            <Form.Control type="color" value={item.color}/>
+                                            <div className="row">
+                                                <Form.Control disabled type="color" value={item.color}/>
+                                                <button className="btn btn-outline-dark" onClick={() => this.deleteType(item.id)}>-</button>
+                                            </div>
                                         </div>)
                                     })
                                 )}
@@ -150,14 +179,18 @@ export default class About extends React.Component<IProps, IState> {
                             <div className="Item-Block">
                                 <div className="Item-Header">
                                     <h4>Statuses</h4>
-                                    <button className="btn btn-outline-dark" onClick={() => this.showStatusModal()}>+</button>
+                                    <button className="btn btn-outline-dark" onClick={() => this.showStatusModal()}>+
+                                    </button>
                                 </div>
                                 <hr/>
                                 {this.state.statuses.length > 0 && (
                                     this.state.statuses.map((item) => {
                                         return (<div className="Item" key={item.id}>
                                             <label>{item.name}</label>
-                                            <Form.Control type="color" value={item.color}/>
+                                            <div className="row">
+                                                <Form.Control disabled type="color" value={item.color}/>
+                                                <button className="btn btn-outline-dark" onClick={() => this.deleteStatus(item.id)}>-</button>
+                                            </div>
                                         </div>)
                                     })
                                 )}

@@ -1,5 +1,6 @@
 ﻿using Luna.Models.Tasks.Domain.Card;
 using Luna.Models.Tasks.View.CardAttributes;
+using Luna.Models.Users.View.Users;
 
 namespace Luna.Models.Tasks.View.Card;
 
@@ -28,7 +29,7 @@ public class CardView
 	public IEnumerable<TagView> CardTags { get; set; }
 
 	//todo: add user model
-	public IEnumerable<Guid> Users { get; set; }
+	public IEnumerable<UserView> Users { get; set; }
 
 	public IEnumerable<StatusView> Statuses { get; set; }
 
@@ -45,7 +46,7 @@ public class CardView
 		PreviousCard = cardDomain.PreviousCard == null ? null : new CardView(cardDomain.PreviousCard);
 		Comments = cardDomain.Comments.Select(commentDomain => new CommentView(commentDomain));
 		CardTags = cardDomain.CardTags.Select(tagDomain => new TagView(tagDomain.Tag));
-		Users = cardDomain.Users.Select(c => c.UserId).ToList();
+		Users = cardDomain.Users.Select(c => new UserView(c.User)).ToList();
 		Statuses = cardDomain.Statuses.Select(cardStatusDomain => new StatusView(cardStatusDomain.Status));
 	}
 
@@ -55,7 +56,7 @@ public class CardView
 		TypeView cardType,
 		IEnumerable<CommentView> comments,
 		IEnumerable<TagView> tags,
-		IEnumerable<Guid> users,
+		IEnumerable<UserView> users,
 		IEnumerable<StatusView> statuses
 	)
 	{

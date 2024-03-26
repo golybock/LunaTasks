@@ -2,8 +2,8 @@
 import IPageView from "../../models/page/pageView";
 import PageProvider from "../../provider/page/pageProvider";
 import {Button, ButtonGroup, Table} from "react-bootstrap";
-import EditPageModal from "./EditPageModal";
 import "./Page.css"
+import EditCardModal from "../card/EditCardModal";
 
 interface IProps {
 
@@ -126,7 +126,11 @@ class Page extends React.Component<IProps, IState> {
                 </div>
 
                 {this.state.showModal && (
-                    <EditPageModal pageId={this.state.id} cardId={this.state.selectedPageId} closeModal={() => this.closeModal()}/>
+
+                    <EditCardModal pageId={this.state.id}
+                                   cardId={this.state.selectedPageId}
+                                   closeModal={() => this.closeModal()}/>
+
                 )}
 
             </div>
