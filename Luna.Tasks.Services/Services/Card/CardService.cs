@@ -190,7 +190,7 @@ public class CardService : ICardService
 
 		await UpdateCardUsersAsync(id, card.UserIds);
 
-		await CreateCardStatusAsync(cardDatabase.Id, card.StatusId);
+		await CreateCardStatusAsync(id, card.StatusId);
 
 		return result;
 	}
