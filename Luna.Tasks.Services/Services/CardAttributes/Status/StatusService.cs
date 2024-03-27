@@ -103,9 +103,16 @@ public class StatusService : IStatusService
 
 	public async Task<bool> DeleteStatusAsync(Guid id, Guid userId)
 	{
-		var result = await _statusRepository.DeleteStatusAsync(id);
+		try
+		{
+			var result = await _statusRepository.DeleteStatusAsync(id);
 
-		return result;
+			return result;
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
 	}
 
 	private StatusDatabase ToStatusDatabase(StatusBlank statusBlank)

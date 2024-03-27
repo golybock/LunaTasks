@@ -89,9 +89,16 @@ public class TypeService : ITypeService
 
 	public async Task<bool> DeleteTypeAsync(Guid id)
 	{
-		var result = await _typeRepository.DeleteTypeAsync(id);
+		try
+		{
+			var result = await _typeRepository.DeleteTypeAsync(id);
 
-		return result;
+			return result;
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
 	}
 
 	private TypeDatabase ToTypeDatabase(TypeBlank typeBlank)

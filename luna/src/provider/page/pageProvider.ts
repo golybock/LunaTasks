@@ -2,6 +2,8 @@
 import axios from "axios";
 import PageView from "../../models/page/pageView";
 import {AuthWrapper} from "../../auth/AuthWrapper";
+import IStatusBlank from "../../models/card/blank/statusBlank";
+import IPageBlank from "../../models/page/pageBlank";
 
 export default class PageProvider extends ProviderBase {
 
@@ -41,6 +43,54 @@ export default class PageProvider extends ProviderBase {
             })
             .catch(() => {
                 return null;
+            });
+    }
+
+    static async createPage(pageBlank: IPageBlank) : Promise<boolean>{
+
+        let url = this.baseAddress + "/Page/CreatePage";
+
+        let token = AuthWrapper.user();
+
+        return await axios.post(url, pageBlank,{headers: {"Authorization": `Bearer ${token}`}})
+            .then(async res => {
+
+                return res.status == 200;
+            })
+            .catch(() => {
+                return false;
+            });
+    }
+
+    static async updatePage(id: string, pageBlank: IPageBlank) : Promise<boolean>{
+
+        let url = this.baseAddress + "/Page/UpdatePage?id=" + id;
+
+        let token = AuthWrapper.user();
+
+        return await axios.put(url, pageBlank,{headers: {"Authorization": `Bearer ${token}`}})
+            .then(async res => {
+
+                return res.status == 200;
+            })
+            .catch(() => {
+                return false;
+            });
+    }
+
+    static async deletePage(id: string) : Promise<boolean>{
+
+        let url = this.baseAddress + "/Page/DeletePage?id=" + id;
+
+        let token = AuthWrapper.user();
+
+        return await axios.delete(url,{headers: {"Authorization": `Bearer ${token}`}})
+            .then(async res => {
+
+                return res.status == 200;
+            })
+            .catch(() => {
+                return false;
             });
     }
 }

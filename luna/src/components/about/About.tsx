@@ -12,6 +12,8 @@ import Form from "react-bootstrap/Form";
 import TypeModal from "./modals/TypeModal";
 import TagModal from "./modals/TagModal";
 import StatusModal from "./modals/StatusModal";
+import PageModal from "./modals/PageModal";
+import {Button} from "react-bootstrap";
 
 interface IProps {
 
@@ -24,7 +26,8 @@ interface IState {
     types: TypeView[],
     showTypeModal: boolean,
     showStatusModal: boolean
-    showTagModal: boolean
+    showTagModal: boolean,
+    showPageModal: boolean
 }
 
 export default class About extends React.Component<IProps, IState> {
@@ -41,7 +44,8 @@ export default class About extends React.Component<IProps, IState> {
             types: [],
             showTypeModal: false,
             showStatusModal: false,
-            showTagModal: false
+            showTagModal: false,
+            showPageModal: false
         }
     }
 
@@ -78,6 +82,14 @@ export default class About extends React.Component<IProps, IState> {
         this.setState({statuses: statuses})
     }
 
+    showPageModal() {
+        this.setState({showPageModal: true})
+    }
+
+    closePageModal() {
+        this.setState({showPageModal: false})
+    }
+
     async componentDidMount() {
 
         const workspace = await WorkspaceProvider.getCurrentWorkspace();
@@ -99,22 +111,37 @@ export default class About extends React.Component<IProps, IState> {
     async deleteStatus(id: string) {
         const res = await StatusProvider.deleteStatus(id);
 
-        const statuses = await StatusProvider.getStatuses();
-        this.setState({statuses: statuses})
+        if(res){
+            const statuses = await StatusProvider.getStatuses();
+            this.setState({statuses: statuses})
+        }
+        else{
+            console.log("ошибка удаления")
+        }
     }
 
     async deleteTag(id: string) {
         const res = await TagProvider.deleteTag(id);
 
-        const tags = await TagProvider.getTags();
-        this.setState({tags: tags});
+        if(res){
+            const tags = await TagProvider.getTags();
+            this.setState({tags: tags});
+        }
+        else{
+            console.log("ошибка удаления")
+        }
     }
 
     async deleteType(id: string) {
         const res = await TypeProvider.deleteType(id);
 
-        const types = await TypeProvider.getTypes();
-        this.setState({types: types});
+        if(res){
+            const types = await TypeProvider.getTypes();
+            this.setState({types: types});
+        }
+        else{
+            console.log("ошибка удаления")
+        }
     }
 
     render() {
@@ -129,6 +156,7 @@ export default class About extends React.Component<IProps, IState> {
                             <div>
                                 <h1>Workspace info</h1>
                                 <label></label>
+                                <Button onClick={() => this.showPageModal()}>Create page</Button>
                             </div>
                         </div>
                         <div className="Items">
@@ -212,6 +240,10 @@ export default class About extends React.Component<IProps, IState> {
 
                 {this.state.showStatusModal && (
                     <StatusModal closeModal={() => this.closeStatusModal()}/>
+                )}
+
+                {this.state.showPageModal && (
+                    <PageModal pageId={null} closeModal={() => this.closePageModal()}/>
                 )}
 
             </div>

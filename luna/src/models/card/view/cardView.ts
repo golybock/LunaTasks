@@ -4,7 +4,7 @@ import TagView from "./tagView";
 import StatusView from "./statusView";
 import IUserView from "../../user/userView";
 
-export default interface CardView {
+export default interface ICardView {
     id: string;
     header: string;
     content: string | null;
@@ -13,7 +13,7 @@ export default interface CardView {
     createdUserId: string;
     createdTimestamp: string;
     deadline: string | null;
-    previousCard: CardView | null;
+    previousCard: ICardView | null;
     comments: CommentView[];
     cardTags: TagView[];
     users: IUserView[];

@@ -103,9 +103,16 @@ public class TagService : ITagService
 
 	public async Task<bool> DeleteTagAsync(Guid id)
 	{
-		var result = await _tagRepository.DeleteTagAsync(id);
+		try
+		{
+			var result = await _tagRepository.DeleteTagAsync(id);
 
-        return result;
+			return result;
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
 	}
 
 	private TagDatabase ToTagDatabase(TagBlank tag)

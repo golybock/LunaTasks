@@ -13,6 +13,7 @@ import UserProvider from "../../provider/user/userProvider";
 import TagProvider from "../../provider/card/tagProvider";
 import TypeProvider from "../../provider/card/typeProvider";
 import StatusProvider from "../../provider/card/statusProvider";
+import Loading from "../notifications/Loading";
 
 interface IProps {
     closeModal: Function,
@@ -26,7 +27,8 @@ interface IState {
     selectedType?: IOption,
     selectedTags: IOption[],
     selectedStatus?: IOption,
-    selectedUsers: IOption[]
+    selectedUsers: IOption[],
+    isLoading: boolean
 }
 
 export default class EditCardModal extends React.Component<IProps, IState> {
@@ -40,7 +42,8 @@ export default class EditCardModal extends React.Component<IProps, IState> {
             selectedType: undefined,
             selectedStatus: undefined,
             selectedUsers: [],
-            selectedTags: []
+            selectedTags: [],
+            isLoading: true
         }
     }
 
@@ -52,12 +55,60 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                 const cardBlank = this.fromCardView(cardView);
                 this.setState({cardBlank: cardBlank});
                 this.setState({cardView: cardView});
+
+                this.setSelectedTags();
+                this.setSelectedType();
+                this.setSelectedStatus();
+                this.setSelectedUsers();
+
+                this.setState({isLoading: false});
             }
         } else {
             this.setState({cardBlank: this.getEmptyBlank()});
+
+            this.setState({isLoading: false});
         }
     }
 
+    setSelectedTags() {
+        let tags = this.state.cardView?.cardTags;
+
+        let arr: Array<{ label: string, value: string }> = []
+
+        tags?.forEach(element => {
+            let selected = {label: element.name, value: element.id};
+            arr.push(selected);
+        });
+
+        this.setState({selectedTags: arr})
+    }
+
+    setSelectedUsers() {
+        let users = this.state.cardView?.users;
+
+        let arr: Array<{ label: string, value: string }> = []
+
+        users?.forEach(element => {
+            let selected = {label: element.username, value: element.id};
+            arr.push(selected);
+        });
+
+        this.setState({selectedUsers: arr})
+    }
+
+    setSelectedType() {
+        let type = this.state.cardView?.cardType;
+
+        this.setState({selectedType: {label: type?.name ?? "", value: type?.id ?? ""}})
+    }
+
+    setSelectedStatus() {
+        let status = this.state.cardView?.statuses[0];
+
+        if(status){
+            this.setState({selectedStatus: {label: status.name, value: status.id}})
+        }
+    }
 
     fromCardView(cardView: ICardView): ICardBlank {
         return {
@@ -136,8 +187,22 @@ export default class EditCardModal extends React.Component<IProps, IState> {
     async saveCard() {
         if (this.props.cardId != null) {
             const res = await CardProvider.updateCard(this.props.cardId, this.state.cardBlank!);
+
+            if(res){
+                this.props.closeModal();
+            }
+            else{
+                //error
+            }
         } else {
             const res = await CardProvider.createCard(this.state.cardBlank!);
+
+            if(res){
+                this.props.closeModal();
+            }
+            else{
+                //error
+            }
         }
     }
 
@@ -211,70 +276,77 @@ export default class EditCardModal extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <Modal show onHide={() => this.props.closeModal()}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{this.props.cardId == null ? "Create task" : "Edit task"}</Modal.Title>
-                </Modal.Header>
+            <>
+                {this.state.isLoading && (
+                    <Loading/>
+                )}
+                {!this.state.isLoading && (
+                    <Modal show onHide={() => this.props.closeModal()}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>{this.props.cardId == null ? "Create task" : "Edit task"}</Modal.Title>
+                        </Modal.Header>
 
-                <Modal.Body>
-                    <Form>
-                        <Form.Label>Заголовок</Form.Label>
-                        <Form.Control value={this.state.cardBlank?.header || ""}
-                                      onChange={(e) => this.headerChanged(e.target.value)}/>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Label>Заголовок</Form.Label>
+                                <Form.Control value={this.state.cardBlank?.header || ""}
+                                              onChange={(e) => this.headerChanged(e.target.value)}/>
 
-                        <Form.Label>Описание</Form.Label>
-                        <Form.Control value={this.state.cardBlank?.description || ""}
-                                      onChange={(e) => this.descriptionChanged(e.target.value)}/>
+                                <Form.Label>Описание</Form.Label>
+                                <Form.Control value={this.state.cardBlank?.description || ""}
+                                              onChange={(e) => this.descriptionChanged(e.target.value)}/>
 
-                        <Form.Label>Текст задачи</Form.Label>
-                        <Form.Control value={this.state.cardBlank?.content || ""}
-                                      onChange={(e) => this.contentChanged(e.target.value)}/>
+                                <Form.Label>Текст задачи</Form.Label>
+                                <Form.Control value={this.state.cardBlank?.content || ""}
+                                              onChange={(e) => this.contentChanged(e.target.value)}/>
 
-                        <Form.Label>Дедлайн</Form.Label>
-                        <Form.Control value={this.state.cardBlank?.deadline || ""}
-                                      type="date"
-                                      onChange={(e) => this.deadlineChanged(e.target.value)}/>
+                                <Form.Label>Дедлайн</Form.Label>
+                                <Form.Control value={this.state.cardBlank?.deadline || ""}
+                                              type="date"
+                                              onChange={(e) => this.deadlineChanged(e.target.value)}/>
 
-                        <Form.Label>Тип</Form.Label>
-                        <AsyncSelect isMulti={false}
-                                     cacheOptions
-                                     defaultOptions
-                                     value={this.state.selectedType}
-                                     loadOptions={this.getTypes}
-                                     onChange={(e) => this.typeSelected(e)}/>
+                                <Form.Label>Тип</Form.Label>
+                                <AsyncSelect isMulti={false}
+                                             cacheOptions
+                                             defaultOptions
+                                             value={this.state.selectedType}
+                                             loadOptions={this.getTypes}
+                                             onChange={(e) => this.typeSelected(e)}/>
 
-                        <Form.Label>Статус</Form.Label>
-                        <AsyncSelect isMulti={false}
-                                     cacheOptions
-                                     defaultOptions
-                                     value={this.state.selectedStatus}
-                                     loadOptions={this.getStatuses}
-                                     onChange={(e) => this.statusSelected(e)}/>
+                                <Form.Label>Статус</Form.Label>
+                                <AsyncSelect isMulti={false}
+                                             cacheOptions
+                                             defaultOptions
+                                             value={this.state.selectedStatus}
+                                             loadOptions={this.getStatuses}
+                                             onChange={(e) => this.statusSelected(e)}/>
 
 
-                        <Form.Label>Теги</Form.Label>
-                        <AsyncSelect isMulti={true}
-                                     cacheOptions
-                                     defaultOptions
-                                     value={this.state.selectedTags}
-                                     loadOptions={this.getTags}
-                                     onChange={(e) => this.tagSelected(e)}/>
+                                <Form.Label>Теги</Form.Label>
+                                <AsyncSelect isMulti={true}
+                                             cacheOptions
+                                             defaultOptions
+                                             value={this.state.selectedTags}
+                                             loadOptions={this.getTags}
+                                             onChange={(e) => this.tagSelected(e)}/>
 
-                        <Form.Label>Пользователи</Form.Label>
-                        <AsyncSelect isMulti={true}
-                                     cacheOptions
-                                     defaultOptions
-                                     value={this.state.selectedUsers}
-                                     loadOptions={this.getUsers}
-                                     onChange={(e) => this.userSelected(e)}/>
-                    </Form>
-                </Modal.Body>
+                                <Form.Label>Пользователи</Form.Label>
+                                <AsyncSelect isMulti={true}
+                                             cacheOptions
+                                             defaultOptions
+                                             value={this.state.selectedUsers}
+                                             loadOptions={this.getUsers}
+                                             onChange={(e) => this.userSelected(e)}/>
+                            </Form>
+                        </Modal.Body>
 
-                <Modal.Footer className="Modal-Footer">
-                    <Button className="btn btn-outline-dark" onClick={() => this.saveCard()}>Save</Button>
-                    <Button className="btn btn-outline-dark" onClick={() => this.props.closeModal()}>Cancel</Button>
-                </Modal.Footer>
-            </Modal>
+                        <Modal.Footer className="Modal-Footer">
+                            <Button className="btn btn-outline-dark" onClick={() => this.saveCard()}>Save</Button>
+                            <Button className="btn btn-outline-dark" onClick={() => this.props.closeModal()}>Cancel</Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
+            </>
         );
     }
 }

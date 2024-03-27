@@ -1,0 +1,6 @@
+﻿.Card{
+    background: var(--secondary);
+    color: white;
+    padding: 12px;
+    cursor: pointer;
+}

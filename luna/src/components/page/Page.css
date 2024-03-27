@@ -48,8 +48,15 @@ button{
 
 .Page-Content-Data{
     margin-top: 20px;
-    padding: 12px;
 }
 
 .Page-Content-Data table{
+}
+
+.Cards {
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+
+    grid-gap: 10px;
 }
