@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import IPageBlank from "../../../models/page/pageBlank";
 import PageProvider from "../../../provider/page/pageProvider";
 import IPageView from "../../../models/page/pageView";
+import "./PageModal.css";
 
 interface IProps {
     closeModal: Function,
@@ -140,6 +141,13 @@ export default class PageModal extends React.Component<IProps, IState> {
                         <Form.Control type="text"
                                       value={this.state.pageBlank?.headerImage}
                                       onChange={(e) => this.imageChanged(e.target.value)}/>
+
+                        {this.state.pageBlank?.headerImage && (
+                            <div>
+                                <Form.Label>Preview</Form.Label>
+                                <img src={this.state.pageBlank?.headerImage}/>
+                            </div>
+                        )}
 
                     </Form>
                 </Modal.Body>
