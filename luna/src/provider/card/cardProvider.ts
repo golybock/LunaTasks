@@ -7,6 +7,26 @@ import IOption from "../../models/tools/IOption";
 
 export default class CardProvider extends ProviderBase {
 
+    static async getCards(pageId: string): Promise<Array<ICardView>> {
+
+        let url = this.baseAddress + "/Card/GetCards?pageId=" + pageId;
+
+        let token = AuthWrapper.user();
+
+        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+            .then(async res => {
+
+                if (res.status === 200) {
+                    return res.data;
+                }
+
+                return null;
+            })
+            .catch(() => {
+                return [];
+            });
+    }
+
     static async getCard(cardId: string): Promise<ICardView | null> {
 
         let url = this.baseAddress + "/Card/GetCard?id=" + cardId;

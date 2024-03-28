@@ -6,6 +6,8 @@ import "./Page.css"
 import EditCardModal from "../card/EditCardModal";
 import {CardDisplayMode} from "../../models/tools/CardDisplayMode";
 import TaskCard from "../card/TaskCard";
+import ICardView from "../../models/card/view/cardView";
+import CardProvider from "../../provider/card/cardProvider";
 
 interface IProps {
 
@@ -14,6 +16,7 @@ interface IProps {
 interface IState {
     id: string
     page: IPageView | null,
+    cards: ICardView[],
     showModal: boolean,
     selectedPageId: string | null,
     displayMode: CardDisplayMode
@@ -26,6 +29,7 @@ class Page extends React.Component<IProps, IState> {
         this.state = {
             id: new URLSearchParams(window.location.search).get("id") ?? "",
             page: null,
+            cards: [],
             showModal: false,
             selectedPageId: null,
             displayMode: CardDisplayMode.Table
@@ -38,25 +42,17 @@ class Page extends React.Component<IProps, IState> {
 
             if (page != null) {
                 this.setState({page: page});
+
+                const cards = await CardProvider.getCards(page.id);
+
+                this.setState({cards: cards});
+
                 return;
             }
 
             // redirect to error
         }
     }
-
-    // async componentDidUpdate() {
-    //     if (this.state.id != null) {
-    //         let page = await PageProvider.getPage(this.state.id);
-    //
-    //         if (page != null) {
-    //             this.setState({page: page});
-    //             return;
-    //         }
-    //
-    //         // redirect to error
-    //     }
-    // }
 
     showModal() {
         this.setState({showModal: true})
@@ -107,11 +103,11 @@ class Page extends React.Component<IProps, IState> {
 
                         </div>
                         <div className="Page-Content-Data">
-                            {this.state.page?.cards &&
+                            {this.state.cards &&
                                 (
                                     <>
                                         {this.state.displayMode == CardDisplayMode.Table && (
-                                            <Table className="table-dark">
+                                            <Table className="table-dark table-bordered">
                                                 <thead>
                                                 <tr>
                                                     <th>Header</th>
@@ -121,7 +117,7 @@ class Page extends React.Component<IProps, IState> {
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {this.state.page?.cards.map(((card) => (
+                                                {this.state.cards.map(((card) => (
                                                     <tr key={card.id.toString()}>
                                                         <td>{card.header}</td>
                                                         <td>{card.cardType.name}</td>
@@ -142,7 +138,7 @@ class Page extends React.Component<IProps, IState> {
                                         )}
                                         {this.state.displayMode == CardDisplayMode.Card && (
                                             <div className="Cards">
-                                                {this.state.page?.cards.map(((card) => (
+                                                {this.state.cards.map(((card) => (
                                                     <TaskCard card={card}
                                                               key={card.id}
                                                               onClick={() => {

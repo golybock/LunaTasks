@@ -54,10 +54,9 @@ public class PageService : IPageService
 	// todo get only card preview
 	private async Task<PageDomain> GetPageDomain(PageDatabase pageDatabase)
 	{
-		// todo get only card preview
-		var cards = await _cardService.GetCardsDomainAsync(pageDatabase.Id);
+		// var cards = await _cardService.GetCardsDomainAsync(pageDatabase.Id);
 
-		var pageDomain = new PageDomain(pageDatabase, cards);
+		var pageDomain = new PageDomain(pageDatabase, new List<CardDomain>());
 
 		return pageDomain;
 	}
