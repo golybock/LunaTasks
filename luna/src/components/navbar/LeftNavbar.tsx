@@ -88,7 +88,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
             pages.forEach(page => {
                 pageMenuItems.push(
                     {
-                        href: "/page?id=" + page.id,
+                        href: "/page/" + page.id,
                         title: page.name,
                         image: "/icons/page.svg"
                     }
@@ -138,7 +138,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                         {this.state.selectedWorkspaceId && (
                             <>
                                 {this.state.menuItems.map((item: MenuItem) => (
-                                    <NavLink key={item.title} to={item.href} className="Navbar-Item">
+                                    <NavLink key={item.title} to={item.href} end={true} replace={true} className="Navbar-Item" >
                                         <div className="Navbar-List-Item">
                                             {item.image && (
                                                 <img src={item.image} alt=""/>

@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, {useEffect} from "react";
 import IPageView from "../../models/page/pageView";
 import PageProvider from "../../provider/page/pageProvider";
 import {Button, ButtonGroup, Table} from "react-bootstrap";
@@ -8,9 +8,10 @@ import {CardDisplayMode} from "../../models/tools/CardDisplayMode";
 import TaskCard from "../card/TaskCard";
 import ICardView from "../../models/card/view/cardView";
 import CardProvider from "../../provider/card/cardProvider";
+import {useNavigate, useParams} from "react-router";
 
 interface IProps {
-
+    pageId: string
 }
 
 interface IState {
@@ -22,12 +23,24 @@ interface IState {
     displayMode: CardDisplayMode
 }
 
-class Page extends React.Component<IProps, IState> {
+function Page() {
+    const {pageId} = useParams();
+
+    useEffect(() => {
+        // window.location.reload()
+    })
+
+    return (
+        <PageComponent pageId={pageId ?? ""}/>
+    )
+}
+
+class PageComponent extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {
-            id: new URLSearchParams(window.location.search).get("id") ?? "",
+            id: this.props.pageId,
             page: null,
             cards: [],
             showModal: false,
@@ -39,6 +52,31 @@ class Page extends React.Component<IProps, IState> {
     async componentDidMount() {
         if (this.state.id != null) {
             let page = await PageProvider.getPage(this.state.id);
+
+            if (page != null) {
+                this.setState({page: page});
+
+                const cards = await CardProvider.getCards(page.id);
+
+                this.setState({cards: cards});
+
+                return;
+            }
+
+            // redirect to error
+        }
+    }
+
+    async  componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any) {
+        if (this.props.pageId != prevProps.pageId) {
+
+            // console.log("prev id:" + prevProps.pageId)
+            // console.log("new id:" + this.props.pageId)
+
+            this.setState({id: this.props.pageId});
+            this.setState({cards: []})
+
+            let page = await PageProvider.getPage(this.props.pageId);
 
             if (page != null) {
                 this.setState({page: page});

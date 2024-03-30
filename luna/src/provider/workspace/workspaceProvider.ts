@@ -2,6 +2,7 @@
 import axios from "axios";
 import IWorkspaceView from "../../models/workspace/workspaceView";
 import {AuthWrapper} from "../../auth/AuthWrapper";
+import Auth from "../../App";
 
 export default class WorkspaceProvider extends ProviderBase{
 
@@ -21,7 +22,7 @@ export default class WorkspaceProvider extends ProviderBase{
                 return [];
             })
             .catch(() => {
-                return [];
+                AuthWrapper.userSignOut();
             });
     }
 
@@ -41,7 +42,7 @@ export default class WorkspaceProvider extends ProviderBase{
                 return [];
             })
             .catch(() => {
-                return null;
+                AuthWrapper.userSignOut();
             });
     }
 }

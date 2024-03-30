@@ -36,11 +36,12 @@ export default class Auth extends React.Component<IProps, IState> {
     render() {
         return (
             <Routes>
-                <Route element={ <ProtectedRoute outlet={<LeftNavbar/>}/>}>
+                <Route element={<ProtectedRoute outlet={<LeftNavbar/>}/>}>
                     <Route index path="/" element={<Home/>}/>
-                    <Route path="page" element={<Page/>}/>
+                    <Route path="page/:pageId" element={<Page/>}/>
+                    {/*<Route path="page/" element={<Page/>}/>*/}
                     <Route path="account" element={<Account/>}/>
-                    <Route path="about" element={<About/>} />
+                    <Route path="about" element={<About/>}/>
                 </Route>
                 <Route path="*" element={<p>There's nothing here: 404!</p>}/>
                 <Route path="/signIn" element={<NotAuthedRoute outlet={<SignIn/>}/>}/>

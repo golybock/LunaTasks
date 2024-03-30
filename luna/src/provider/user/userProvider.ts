@@ -18,6 +18,10 @@ export default class UserProvider extends ProviderBase {
                     return res.data;
                 }
 
+                if(res.status == 401){
+                    AuthWrapper.userSignOut();
+                }
+
                 return null;
             })
             .catch(() => {
@@ -38,6 +42,10 @@ export default class UserProvider extends ProviderBase {
                     return res.data;
                 }
 
+                if(res.status == 401){
+                    AuthWrapper.userSignOut();
+                }
+
                 return [];
             })
             .catch(() => {
@@ -56,6 +64,10 @@ export default class UserProvider extends ProviderBase {
 
                 if (res.status === 200) {
                     return this.mapToOption(res.data);
+                }
+
+                if(res.status == 401){
+                    AuthWrapper.userSignOut();
                 }
 
                 return [];

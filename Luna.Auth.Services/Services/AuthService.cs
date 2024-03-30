@@ -58,7 +58,7 @@ public class AuthService: IAuthService
 
 		var secretKey = _jwtOptions.SymmetricSecurityKey;
 		var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-		var expirationTimeStamp = DateTime.Now.AddDays(1);
+		var expirationTimeStamp = DateTime.Now.AddDays(30);
 
 		var tokenOptions = new JwtSecurityToken(
 			issuer: _jwtOptions.Issuer,
@@ -111,7 +111,7 @@ public class AuthService: IAuthService
 
 		var secretKey = _jwtOptions.SymmetricSecurityKey;
 		var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-		var expirationTimeStamp = DateTime.Now.AddDays(1);
+		var expirationTimeStamp = DateTime.Now.AddDays(30);
 
 		var tokenOptions = new JwtSecurityToken(
 			issuer: _jwtOptions.Issuer,

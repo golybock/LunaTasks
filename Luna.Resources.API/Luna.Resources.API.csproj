@@ -19,4 +19,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Luna.Data.Repositories\Luna.Data.Repositories.csproj" />
+      <ProjectReference Include="..\Luna.Data.Services\Luna.Data.Services.csproj" />
+    </ItemGroup>
+
 </Project>
