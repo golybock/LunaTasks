@@ -19,16 +19,12 @@ interface IState {
     page: IPageView | null,
     cards: ICardView[],
     showModal: boolean,
-    selectedPageId: string | null,
+    selectedCardId: string | null,
     displayMode: CardDisplayMode
 }
 
 function Page() {
     const {pageId} = useParams();
-
-    useEffect(() => {
-        // window.location.reload()
-    })
 
     return (
         <PageComponent pageId={pageId ?? ""}/>
@@ -44,7 +40,7 @@ class PageComponent extends React.Component<IProps, IState> {
             page: null,
             cards: [],
             showModal: false,
-            selectedPageId: null,
+            selectedCardId: null,
             displayMode: CardDisplayMode.Table
         }
     }
@@ -67,13 +63,13 @@ class PageComponent extends React.Component<IProps, IState> {
         }
     }
 
-    async  componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any) {
+    async componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any) {
         if (this.props.pageId != prevProps.pageId) {
 
-            // console.log("prev id:" + prevProps.pageId)
-            // console.log("new id:" + this.props.pageId)
+            console.log("prev id:" + prevProps.pageId)
+            console.log("new id:" + this.props.pageId)
 
-            this.setState({id: this.props.pageId});
+            this.setState({id: this.props.pageId})
             this.setState({cards: []})
 
             let page = await PageProvider.getPage(this.props.pageId);
@@ -98,9 +94,9 @@ class PageComponent extends React.Component<IProps, IState> {
 
     async closeModal() {
         this.setState({showModal: false});
-        this.setState({selectedPageId: null});
+        this.setState({selectedCardId: null});
 
-        let page = await PageProvider.getPage(this.state.id);
+        let page = await PageProvider.getPage(this.props.pageId);
 
         if (page != null) {
             this.setState({page: page});
@@ -163,7 +159,7 @@ class PageComponent extends React.Component<IProps, IState> {
                                                         <td>
                                                             <Button className="btn btn-outline-dark Table-Button"
                                                                     onClick={() => {
-                                                                        this.setState({selectedPageId: card.id});
+                                                                        this.setState({selectedCardId: card.id});
                                                                         this.showModal();
                                                                     }}>
                                                                 Edit
@@ -180,7 +176,7 @@ class PageComponent extends React.Component<IProps, IState> {
                                                     <TaskCard card={card}
                                                               key={card.id}
                                                               onClick={() => {
-                                                                  this.setState({selectedPageId: card.id});
+                                                                  this.setState({selectedCardId: card.id});
                                                                   this.showModal();
                                                               }}/>
                                                 )))}
@@ -195,8 +191,8 @@ class PageComponent extends React.Component<IProps, IState> {
 
                 {this.state.showModal && (
 
-                    <EditCardModal pageId={this.state.id}
-                                   cardId={this.state.selectedPageId}
+                    <EditCardModal pageId={this.props.pageId}
+                                   cardId={this.state.selectedCardId}
                                    closeModal={async () => await this.closeModal()}/>
 
                 )}

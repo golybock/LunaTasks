@@ -88,6 +88,8 @@ export default class About extends React.Component<IProps, IState> {
 
     closePageModal() {
         this.setState({showPageModal: false})
+
+        window.location.reload();
     }
 
     async componentDidMount() {
