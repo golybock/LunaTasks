@@ -30,9 +30,9 @@ export default class SignIn extends React.Component<IProps, IState> {
 
         let res = await AuthProvider.signIn(this.state.email, this.state.password)
 
-        if(res){
+        if (res) {
             console.log('authed')
-        }else{
+        } else {
             this.setState({error: "Неверный логин или пароль"});
         }
     }
@@ -65,23 +65,32 @@ export default class SignIn extends React.Component<IProps, IState> {
                         <div className="App-Body-Content">
                             <Form>
                                 <Button className="btn btn-light btn-outline-secondary Outline-Button">Google</Button>
-                                <Button className="btn btn-light btn-outline-secondary Outline-Button">Not Google</Button>
+                                <Button className="btn btn-light btn-outline-secondary Outline-Button">Not
+                                    Google</Button>
                                 <hr/>
+
                                 <Form.Control type="email"
+                                              className="Form-Control"
                                               placeholder="Enter email here..."
                                               value={this.state.email}
                                               onChange={(e) => {
                                                   this.setState({email: e.target.value})
                                               }}/>
+
                                 <Form.Control type="password"
+                                              className="Form-Control"
                                               placeholder="Enter password here..."
                                               value={this.state.password}
                                               onChange={(e) => {
                                                   this.setState({password: e.target.value})
                                               }}/>
-                                <Button className="btn Primary-Button" onClick={async () => {
-                                    await this.signIn();
-                                }}>Continue</Button>
+
+                                <Button className="btn Primary-Button"
+                                        onClick={async () => {
+                                            await this.signIn();
+                                        }}>
+                                    Continue
+                                </Button>
                             </Form>
                         </div>
 

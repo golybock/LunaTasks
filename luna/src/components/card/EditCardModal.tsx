@@ -14,6 +14,7 @@ import TagProvider from "../../provider/card/tagProvider";
 import TypeProvider from "../../provider/card/typeProvider";
 import StatusProvider from "../../provider/card/statusProvider";
 import Loading from "../notifications/Loading";
+import RichTextEditor, {EditorValue} from "react-rte";
 
 interface IProps {
     closeModal: Function,
@@ -28,7 +29,8 @@ interface IState {
     selectedTags: IOption[],
     selectedStatus?: IOption,
     selectedUsers: IOption[],
-    isLoading: boolean
+    isLoading: boolean,
+    rteValue: EditorValue;
 }
 
 export default class EditCardModal extends React.Component<IProps, IState> {
@@ -43,7 +45,8 @@ export default class EditCardModal extends React.Component<IProps, IState> {
             selectedStatus: undefined,
             selectedUsers: [],
             selectedTags: [],
-            isLoading: true
+            isLoading: true,
+            rteValue: RichTextEditor.createValueFromString("", "html"),
         }
     }
 
@@ -184,6 +187,22 @@ export default class EditCardModal extends React.Component<IProps, IState> {
         }
     }
 
+    // set text to blank and rte
+    rteOnChange = async (value: EditorValue) => {
+
+        if (this.state.cardBlank != undefined) {
+            this.setState({
+                cardBlank: {
+                    ...this.state.cardBlank,
+                    content: value.toString("html")
+                }
+            })
+
+            // rendered value
+            this.setState({rteValue: value})
+        }
+    }
+
     async saveCard() {
         if (this.props.cardId != null) {
             const res = await CardProvider.updateCard(this.props.cardId, this.state.cardBlank!);
@@ -297,8 +316,14 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                               onChange={(e) => this.descriptionChanged(e.target.value)}/>
 
                                 <Form.Label>Текст задачи</Form.Label>
-                                <Form.Control value={this.state.cardBlank?.content || ""}
-                                              onChange={(e) => this.contentChanged(e.target.value)}/>
+                                {/*text editor*/}
+                                <RichTextEditor editorClassName="editor"
+                                                toolbarClassName="editor"
+                                                placeholder="Начните ввод..."
+                                                value={this.state.rteValue}
+                                                onChange={this.rteOnChange}/>
+                                {/*<Form.Control value={this.state.cardBlank?.content || ""}*/}
+                                {/*              onChange={(e) => this.contentChanged(e.target.value)}/>*/}
 
                                 <Form.Label>Дедлайн</Form.Label>
                                 <Form.Control value={this.state.cardBlank?.deadline || ""}
