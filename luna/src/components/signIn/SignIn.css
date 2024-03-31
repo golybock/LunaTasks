@@ -40,7 +40,6 @@
         flex-direction: column;
         vertical-align: center;
         horiz-align: center;
-        height: 100%;
         width: 100%;
     }
 }
@@ -123,4 +122,11 @@
 
 .Form-Control{
     margin-top: 12px;
+}
+
+.Error{
+    color: red;
+    font-size: 16px;
+    margin-top: 5px;
+    text-align: center;
 }

@@ -5,7 +5,7 @@ import {AuthWrapper} from "../../auth/AuthWrapper";
 
 export default class AuthProvider extends ProviderBase{
 
-    static async signIn(email: string, password: string): Promise<boolean> {
+    static async signIn(email: string, password: string): Promise<boolean | string> {
 
         let url = this.baseAddress + "/Auth/SignIn";
 
@@ -21,13 +21,18 @@ export default class AuthProvider extends ProviderBase{
 
                  return false;
             })
-            .catch(() => {
+            .catch((res) => {
+
+                if(res.status == 401){
+                    return res.data;
+                }
+
                 return false;
             });
     }
 
     // todo replace to signupblank
-    static async signUp(UserBlank: ISignInBlank): Promise<boolean> {
+    static async signUp(UserBlank: ISignInBlank): Promise<boolean | string> {
 
         let url = this.baseAddress + "/Auth/SignUp";
 
@@ -40,7 +45,12 @@ export default class AuthProvider extends ProviderBase{
 
                 return false;
             })
-            .catch(() => {
+            .catch((res) => {
+
+                if(res.status == 401){
+                    return res.data;
+                }
+
                 return false;
             });
     }

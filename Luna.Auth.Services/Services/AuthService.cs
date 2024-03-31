@@ -35,12 +35,12 @@ public class AuthService: IAuthService
 		var user = await _userService.GetUserAsync(signInBlank.Email);
 
 		if (user == null)
-			return new NotFoundObjectResult("user not found");
+			return new UnauthorizedObjectResult("User not found");
 
 		var auth = await _userAuthRepository.GetAuthUserAsync(user.Id);
 
 		if (auth == null)
-			return new NotFoundObjectResult("pass not found");
+			return new UnauthorizedObjectResult("User not found");
 
 		var authDomain = new UserAuthDomain(auth);
 

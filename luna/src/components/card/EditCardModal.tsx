@@ -14,7 +14,9 @@ import TagProvider from "../../provider/card/tagProvider";
 import TypeProvider from "../../provider/card/typeProvider";
 import StatusProvider from "../../provider/card/statusProvider";
 import Loading from "../notifications/Loading";
-import RichTextEditor, {EditorValue} from "react-rte";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
+import DarkAsyncSelect from "../tools/DarkAsyncSelect";
 
 interface IProps {
     closeModal: Function,
@@ -30,7 +32,7 @@ interface IState {
     selectedStatus?: IOption,
     selectedUsers: IOption[],
     isLoading: boolean,
-    rteValue: EditorValue;
+    rteValue: string;
 }
 
 export default class EditCardModal extends React.Component<IProps, IState> {
@@ -46,7 +48,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
             selectedUsers: [],
             selectedTags: [],
             isLoading: true,
-            rteValue: RichTextEditor.createValueFromString("", "html"),
+            rteValue: "",
         }
     }
 
@@ -108,7 +110,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
     setSelectedStatus() {
         let status = this.state.cardView?.statuses[0];
 
-        if(status){
+        if (status) {
             this.setState({selectedStatus: {label: status.name, value: status.id}})
         }
     }
@@ -128,7 +130,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
         };
     }
 
-    getEmptyBlank() : ICardBlank{
+    getEmptyBlank(): ICardBlank {
         return {
             header: "",
             content: "",
@@ -188,38 +190,36 @@ export default class EditCardModal extends React.Component<IProps, IState> {
     }
 
     // set text to blank and rte
-    rteOnChange = async (value: EditorValue) => {
-
-        if (this.state.cardBlank != undefined) {
-            this.setState({
-                cardBlank: {
-                    ...this.state.cardBlank,
-                    content: value.toString("html")
-                }
-            })
-
-            // rendered value
-            this.setState({rteValue: value})
-        }
-    }
+    // rteOnChange = async (value: EditorValue) => {
+    //
+    //     if (this.state.cardBlank != undefined) {
+    //         this.setState({
+    //             cardBlank: {
+    //                 ...this.state.cardBlank,
+    //                 content: value.toString("html")
+    //             }
+    //         })
+    //
+    //         // rendered value
+    //         this.setState({rteValue: value})
+    //     }
+    // }
 
     async saveCard() {
         if (this.props.cardId != null) {
             const res = await CardProvider.updateCard(this.props.cardId, this.state.cardBlank!);
 
-            if(res){
+            if (res) {
                 this.props.closeModal();
-            }
-            else{
+            } else {
                 //error
             }
         } else {
             const res = await CardProvider.createCard(this.state.cardBlank!);
 
-            if(res){
+            if (res) {
                 this.props.closeModal();
-            }
-            else{
+            } else {
                 //error
             }
         }
@@ -293,6 +293,25 @@ export default class EditCardModal extends React.Component<IProps, IState> {
         return await TagProvider.getTagsOptions();
     }
 
+
+
+    exampleTheme = {
+        ltr: 'ltr',
+        rtl: 'rtl',
+        paragraph: 'editor-paragraph',
+    };
+
+    editorConfig = {
+        namespace: 'CardContent',
+        nodes: [],
+        // Handling of errors during update
+        onError(error: Error) {
+            throw error;
+        },
+        // The editor theme
+        theme: this.exampleTheme
+    };
+
     render() {
         return (
             <>
@@ -300,74 +319,82 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                     <Loading/>
                 )}
                 {!this.state.isLoading && (
-                    <Modal show onHide={() => this.props.closeModal()}>
+                    <Modal dialogClassName="Modal" data-bs-theme="dark" show onHide={() => this.props.closeModal()}>
+
                         <Modal.Header closeButton>
-                            <Modal.Title>{this.props.cardId == null ? "Create task" : "Edit task"}</Modal.Title>
+                            <Modal.Title
+                                className="Modal-Header">{this.props.cardId == null ? "Create task" : "Edit task"}</Modal.Title>
                         </Modal.Header>
 
-                        <Modal.Body>
+                        <Modal.Body className="Modal-Content">
                             <Form>
-                                <Form.Label>Заголовок</Form.Label>
-                                <Form.Control value={this.state.cardBlank?.header || ""}
-                                              onChange={(e) => this.headerChanged(e.target.value)}/>
+                                <div className="Modal-Body">
 
-                                <Form.Label>Описание</Form.Label>
-                                <Form.Control value={this.state.cardBlank?.description || ""}
-                                              onChange={(e) => this.descriptionChanged(e.target.value)}/>
+                                    <div className="Modal-Body-Header">
+                                        <div className="Modal-Body-Item">
 
-                                <Form.Label>Текст задачи</Form.Label>
-                                {/*text editor*/}
-                                <RichTextEditor editorClassName="editor"
-                                                toolbarClassName="editor"
-                                                placeholder="Начните ввод..."
+                                            <Form.Label>Заголовок</Form.Label>
+                                            <Form.Control value={this.state.cardBlank?.header || ""}
+                                                          onChange={(e) => this.headerChanged(e.target.value)}/>
+
+                                            <Form.Label>Описание</Form.Label>
+                                            <Form.Control value={this.state.cardBlank?.description || ""}
+                                                          onChange={(e) => this.descriptionChanged(e.target.value)}/>
+
+                                            <Form.Label>Дедлайн</Form.Label>
+                                            <Form.Control value={this.state.cardBlank?.deadline || ""}
+                                                          type="date"
+                                                          onChange={(e) => this.deadlineChanged(e.target.value)}/>
+                                        </div>
+                                        <div className="Modal-Body-Item">
+
+                                            <Form.Label>Тип</Form.Label>
+                                            <DarkAsyncSelect isMulti={false}
+                                                         cacheOptions
+                                                         defaultOptions
+                                                         value={this.state.selectedType}
+                                                         loadOptions={this.getTypes}
+                                                         onChange={(e: SingleValue<IOption>) => this.typeSelected(e)}/>
+
+                                            <Form.Label>Статус</Form.Label>
+                                            <DarkAsyncSelect isMulti={false}
+                                                         cacheOptions
+                                                         defaultOptions
+                                                         value={this.state.selectedStatus}
+                                                         loadOptions={this.getStatuses}
+                                                         onChange={(e: SingleValue<IOption>) => this.statusSelected(e)}/>
+
+
+                                            <Form.Label>Теги</Form.Label>
+                                            <DarkAsyncSelect isMulti={true}
+                                                         cacheOptions
+                                                         defaultOptions
+                                                         value={this.state.selectedTags}
+                                                         loadOptions={this.getTags}
+                                                         onChange={(e: MultiValue<IOption>) => this.tagSelected(e)}/>
+
+                                            <Form.Label>Пользователи</Form.Label>
+                                            <DarkAsyncSelect isMulti={true}
+                                                             cacheOptions
+                                                             defaultOptions
+                                                             value={this.state.selectedUsers}
+                                                             loadOptions={this.getUsers}
+                                                             onChange={(e: MultiValue<IOption>) => this.userSelected(e)}/>
+                                        </div>
+                                    </div>
+
+                                    <Form.Label>Текст задачи</Form.Label>
+                                    <ReactQuill theme="snow"
                                                 value={this.state.rteValue}
-                                                onChange={this.rteOnChange}/>
-                                {/*<Form.Control value={this.state.cardBlank?.content || ""}*/}
-                                {/*              onChange={(e) => this.contentChanged(e.target.value)}/>*/}
-
-                                <Form.Label>Дедлайн</Form.Label>
-                                <Form.Control value={this.state.cardBlank?.deadline || ""}
-                                              type="date"
-                                              onChange={(e) => this.deadlineChanged(e.target.value)}/>
-
-                                <Form.Label>Тип</Form.Label>
-                                <AsyncSelect isMulti={false}
-                                             cacheOptions
-                                             defaultOptions
-                                             value={this.state.selectedType}
-                                             loadOptions={this.getTypes}
-                                             onChange={(e) => this.typeSelected(e)}/>
-
-                                <Form.Label>Статус</Form.Label>
-                                <AsyncSelect isMulti={false}
-                                             cacheOptions
-                                             defaultOptions
-                                             value={this.state.selectedStatus}
-                                             loadOptions={this.getStatuses}
-                                             onChange={(e) => this.statusSelected(e)}/>
-
-
-                                <Form.Label>Теги</Form.Label>
-                                <AsyncSelect isMulti={true}
-                                             cacheOptions
-                                             defaultOptions
-                                             value={this.state.selectedTags}
-                                             loadOptions={this.getTags}
-                                             onChange={(e) => this.tagSelected(e)}/>
-
-                                <Form.Label>Пользователи</Form.Label>
-                                <AsyncSelect isMulti={true}
-                                             cacheOptions
-                                             defaultOptions
-                                             value={this.state.selectedUsers}
-                                             loadOptions={this.getUsers}
-                                             onChange={(e) => this.userSelected(e)}/>
+                                                onChange={(value) => this.setState({rteValue: value})}/>
+                                </div>
                             </Form>
                         </Modal.Body>
 
                         <Modal.Footer className="Modal-Footer">
                             <Button className="btn btn-outline-dark" onClick={() => this.saveCard()}>Save</Button>
-                            <Button className="btn btn-outline-dark" onClick={() => this.props.closeModal()}>Cancel</Button>
+                            <Button className="btn btn-outline-dark"
+                                    onClick={() => this.props.closeModal()}>Cancel</Button>
                         </Modal.Footer>
                     </Modal>
                 )}

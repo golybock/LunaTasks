@@ -1,0 +1,58 @@
+.Modal-Header {
+    color: white;
+}
+
+.Modal-Content {
+    color: white;
+}
+
+.Modal-Content label {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+@media screen and (max-width: 751px) {
+    .Modal {
+        width: 90%;
+        max-width: 750px;
+        min-width: 400px;
+    }
+
+    .Modal-Body-Header {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .Modal-Body-Item {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 751px) {
+
+    .Modal {
+        width: 90%;
+        max-width: 900px;
+        min-width: 751px;
+    }
+
+    .Modal-Body-Header {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+
+    .Modal-Body-Item {
+        display: flex;
+        width: 48%;
+        flex-direction: column;
+    }
+}
+
+.Modal-Body {
+    display: flex;
+    flex-direction: column;
+}
