@@ -32,7 +32,7 @@ interface IState {
     selectedStatus?: IOption,
     selectedUsers: IOption[],
     isLoading: boolean,
-    rteValue: string;
+    rteValue: string | null;
 }
 
 export default class EditCardModal extends React.Component<IProps, IState> {
@@ -60,6 +60,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                 const cardBlank = this.fromCardView(cardView);
                 this.setState({cardBlank: cardBlank});
                 this.setState({cardView: cardView});
+                this.setState({rteValue: cardView.content})
 
                 this.setSelectedTags();
                 this.setSelectedType();
@@ -151,17 +152,6 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                 cardBlank: {
                     ...this.state.cardBlank,
                     header: value ?? ""
-                }
-            })
-        }
-    }
-
-    contentChanged(value: string) {
-        if (this.state.cardBlank != undefined) {
-            this.setState({
-                cardBlank: {
-                    ...this.state.cardBlank,
-                    content: value ?? ""
                 }
             })
         }
@@ -277,6 +267,19 @@ export default class EditCardModal extends React.Component<IProps, IState> {
         }
     }
 
+    contentChanged(value: string) {
+        this.setState({rteValue: value})
+
+        if (this.state.cardBlank != undefined) {
+            this.setState({
+                cardBlank: {
+                    ...this.state.cardBlank,
+                    content: value
+                }
+            })
+        }
+    }
+
     async getTypes() {
         return await TypeProvider.getTypesOptions();
     }
@@ -385,8 +388,8 @@ export default class EditCardModal extends React.Component<IProps, IState> {
 
                                     <Form.Label>Текст задачи</Form.Label>
                                     <ReactQuill theme="snow"
-                                                value={this.state.rteValue}
-                                                onChange={(value) => this.setState({rteValue: value})}/>
+                                                value={this.state.rteValue ?? ""}
+                                                onChange={(value) => this.contentChanged(value)}/>
                                 </div>
                             </Form>
                         </Modal.Body>
