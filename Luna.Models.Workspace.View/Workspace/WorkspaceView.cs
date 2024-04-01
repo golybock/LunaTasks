@@ -1,4 +1,5 @@
-﻿using Luna.Models.Workspace.Domain.Workspace;
+﻿using Luna.Models.Users.View.Users;
+using Luna.Models.Workspace.Domain.Workspace;
 
 namespace Luna.Models.Workspace.View.Workspace;
 
@@ -12,7 +13,7 @@ public class WorkspaceView
 
 	public Guid CreatedUserId { get; set; }
 
-	public IEnumerable<Guid> WorkspaceUsersDomains { get; set; }
+	public IEnumerable<UserView> WorkspaceUsers { get; set; }
 
 	public WorkspaceView(WorkspaceDomain workspaceDomain)
 	{
@@ -20,15 +21,15 @@ public class WorkspaceView
 		Name = workspaceDomain.Name;
 		CreatedTimestamp = workspaceDomain.CreatedTimestamp;
 		CreatedUserId = workspaceDomain.CreatedUserId;
-		WorkspaceUsersDomains = new List<Guid>();
+		WorkspaceUsers = new List<UserView>();
 	}
 
-	public WorkspaceView(WorkspaceDomain workspaceDomain, IEnumerable<Guid> workspaceUsers)
+	public WorkspaceView(WorkspaceDomain workspaceDomain, IEnumerable<UserView> workspaceUsers)
 	{
 		Id = workspaceDomain.Id;
 		Name = workspaceDomain.Name;
 		CreatedTimestamp = workspaceDomain.CreatedTimestamp;
 		CreatedUserId = workspaceDomain.CreatedUserId;
-		WorkspaceUsersDomains = workspaceUsers;
+		WorkspaceUsers = workspaceUsers;
 	}
 }

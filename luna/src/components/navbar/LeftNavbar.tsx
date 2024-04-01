@@ -58,7 +58,14 @@ export class LeftNavbar extends React.Component<IProps, IState> {
 
         this.setState({workspaces: workspaces});
 
-        await this.selectWorkspace(localStorage.getItem("workspaceId"))
+        const workspaceId = localStorage.getItem("workspaceId");
+
+        if(workspaceId){
+            await this.selectWorkspace(workspaceId)
+        }
+        else{
+            localStorage.setItem("workspaceId", workspaces[0].id)
+        }
     }
 
     async selectWorkspace(id: string | null) {

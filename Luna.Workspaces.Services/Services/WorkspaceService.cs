@@ -1,7 +1,9 @@
-﻿using Luna.Models.Workspace.Blank.Workspace;
+﻿using Luna.Models.Users.View.Users;
+using Luna.Models.Workspace.Blank.Workspace;
 using Luna.Models.Workspace.Database.Workspace;
 using Luna.Models.Workspace.Domain.Workspace;
 using Luna.Models.Workspace.View.Workspace;
+using Luna.SharedDataAccess.Users.Services;
 using Luna.Workspaces.Repositories.Repositories;
 
 namespace Luna.Workspaces.Services.Services;
@@ -9,10 +11,12 @@ namespace Luna.Workspaces.Services.Services;
 public class WorkspaceService: IWorkspaceService
 {
 	private readonly IWorkspaceRepository _workspaceRepository;
+	private readonly IUserService _userService;
 
-	public WorkspaceService(IWorkspaceRepository workspaceRepository)
+	public WorkspaceService(IWorkspaceRepository workspaceRepository, IUserService userService)
 	{
 		_workspaceRepository = workspaceRepository;
+		_userService = userService;
 	}
 
 	public async Task<IEnumerable<WorkspaceView>> GetWorkspacesAsync()
@@ -29,9 +33,13 @@ public class WorkspaceService: IWorkspaceService
 	{
 		var workspace = await _workspaceRepository.GetWorkspaceAsync(id);
 
+		var workspaceUsers = await GetWorkspaceUserIdsAsync(id);
+
+		var users = await _userService.GetUsersAsync();
+
 		if (workspace == null) return null;
 
-		return WorkspaceToView(workspace);
+		return WorkspaceToView(workspace, users.Where(user => workspaceUsers.Contains(user.Id)).ToList());
 	}
 
 	public async Task<IEnumerable<WorkspaceView>> GetWorkspacesByUserAsync(Guid userId)
@@ -50,6 +58,24 @@ public class WorkspaceService: IWorkspaceService
 		var workspacesView = WorkspacesToView(workspaces);
 
 		return workspacesView;
+	}
+
+	public async Task<IEnumerable<Guid>> GetWorkspaceUserIdsAsync(Guid workspaceId)
+	{
+		var workspaceUsers  = await _workspaceRepository.GetWorkspaceUsersAsync(workspaceId);
+
+		var workspaceUsersIds = workspaceUsers.Select(user => user.UserId);
+
+		return workspaceUsersIds;
+	}
+
+	public async Task<IEnumerable<UserView>> GetWorkspaceUsersAsync(Guid workspaceId)
+	{
+		var workspaceUsers = await GetWorkspaceUserIdsAsync(workspaceId);
+
+		var users = await _userService.GetUsersAsync();
+
+		return users;
 	}
 
 	public async Task<Boolean> CreateWorkspaceAsync(WorkspaceBlank workspaceBlank, Guid userId)
@@ -81,9 +107,17 @@ public class WorkspaceService: IWorkspaceService
 	}
 
 	// todo add checks on owner userId
-	public async Task<Boolean> AddUserToWorkspace(Guid workspaceId, Guid userId, Guid operationBy)
+	public async Task<Boolean> AddUserToWorkspace(Guid workspaceId, Guid userId)
 	{
-		return await _workspaceRepository.AddUserToWorkspace(workspaceId, userId);
+		try
+		{
+			return await _workspaceRepository.AddUserToWorkspace(workspaceId, userId);
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			return false;
+		}
 	}
 
 	// todo add checks on owner userId
@@ -116,5 +150,12 @@ public class WorkspaceService: IWorkspaceService
 		var workspacesDomain = new WorkspaceDomain(workspaceDatabases);
 
 		return new WorkspaceView(workspacesDomain);
+	}
+
+	private WorkspaceView WorkspaceToView(WorkspaceDatabase workspaceDatabases, IEnumerable<UserView> userViews)
+	{
+		var workspacesDomain = new WorkspaceDomain(workspaceDatabases);
+
+		return new WorkspaceView(workspacesDomain, userViews);
 	}
 }

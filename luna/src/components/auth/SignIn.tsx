@@ -3,6 +3,7 @@ import './SignIn.css';
 import Form from "react-bootstrap/Form";
 import {Button} from "react-bootstrap";
 import AuthProvider from "../../provider/auth/authProvider";
+import {NavLink} from "react-router-dom";
 
 interface IProps {
     // auth: Function;
@@ -106,6 +107,9 @@ export default class SignIn extends React.Component<IProps, IState> {
                         </div>
 
                         <div className="App-Body-Footer">
+                            <NavLink to="/signUp">
+                                <label>No account?</label>
+                            </NavLink>
                             <label>Forgot pass?</label>
                             <label>privacy</label>
                         </div>

@@ -1,0 +1,25 @@
+﻿.Invite-Content{
+    display: flex;
+    flex-direction: column;
+    margin-top: 40vh;
+    align-items: center;
+}
+
+.Toolbar-Items{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+
+.Invite-Accept{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+
+.btn {
+    margin-top: 12px;
+    width: 200px;
+}

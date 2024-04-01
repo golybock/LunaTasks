@@ -12,6 +12,8 @@ public interface IWorkspaceRepository
 
 	public Task<IEnumerable<WorkspaceDatabase>> GetWorkspacesByCreatorAsync(Guid userId);
 
+	public Task<IEnumerable<WorkspaceUsersDatabase>> GetWorkspaceUsersAsync(Guid workspaceId);
+
 	public Task<Boolean> CreateWorkspaceAsync(WorkspaceDatabase workspaceDatabase);
 
 	public Task<Boolean> UpdateWorkspaceAsync(Guid id, WorkspaceDatabase workspaceDatabase);

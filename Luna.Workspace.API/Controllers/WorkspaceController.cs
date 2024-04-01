@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Luna.Models.Users.View.Users;
 using Luna.Models.Workspace.Blank.Workspace;
 using Luna.Models.Workspace.View.Workspace;
 using Luna.Workspaces.Services.Services;
@@ -78,12 +79,18 @@ public class WorkspaceController : ControllerBase
 		return res ? Ok() : BadRequest();
 	}
 
-	[HttpPost("[action]")]
-	public async Task<IActionResult> AddUserToWorkspace(Guid workspaceId, Guid userId)
+	[HttpGet("[action]")]
+	public async Task<IEnumerable<UserView>> GetWorkspaceUsersAsync(Guid workspaceId)
 	{
-		var res = await _workspaceService.AddUserToWorkspace(workspaceId, userId, UserId);
+		return await _workspaceService.GetWorkspaceUsersAsync(workspaceId);
+	}
 
-		return res ? Ok() : BadRequest();
+	[HttpPost("[action]")]
+	public async Task<IActionResult> JoinToWorkspace(Guid workspaceId)
+	{
+		var res = await _workspaceService.AddUserToWorkspace(workspaceId, UserId);
+
+		return res ? Ok() : BadRequest("Вы уже участник этого пространства!");
 	}
 
 	[HttpDelete("[action]")]

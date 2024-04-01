@@ -14,6 +14,8 @@ import TagModal from "./modals/TagModal";
 import StatusModal from "./modals/StatusModal";
 import PageModal from "./modals/PageModal";
 import {Button} from "react-bootstrap";
+import {Await} from "react-router";
+import IUserView from "../../models/user/userView";
 
 interface IProps {
 
@@ -24,6 +26,7 @@ interface IState {
     tags: TagView[],
     statuses: IStatusView[],
     types: TypeView[],
+    users: IUserView[],
     showTypeModal: boolean,
     showStatusModal: boolean
     showTagModal: boolean,
@@ -42,6 +45,7 @@ export default class About extends React.Component<IProps, IState> {
             tags: [],
             statuses: [],
             types: [],
+            users: [],
             showTypeModal: false,
             showStatusModal: false,
             showTagModal: false,
@@ -86,6 +90,12 @@ export default class About extends React.Component<IProps, IState> {
         this.setState({showPageModal: true})
     }
 
+    async copyInviteLink() {
+        const link = "http://localhost:3000/inviteWorkspace/" + this.state.workspace?.id;
+
+        await navigator.clipboard.writeText(link);
+    }
+
     closePageModal() {
         this.setState({showPageModal: false})
 
@@ -108,16 +118,18 @@ export default class About extends React.Component<IProps, IState> {
 
         const statuses = await StatusProvider.getStatuses();
         this.setState({statuses: statuses})
+
+        const users = await WorkspaceProvider.getWorkspaceUsers(localStorage.getItem("workspaceId") ?? "");
+        this.setState({users: users});
     }
 
     async deleteStatus(id: string) {
         const res = await StatusProvider.deleteStatus(id);
 
-        if(res){
+        if (res) {
             const statuses = await StatusProvider.getStatuses();
             this.setState({statuses: statuses})
-        }
-        else{
+        } else {
             console.log("ошибка удаления")
         }
     }
@@ -125,11 +137,10 @@ export default class About extends React.Component<IProps, IState> {
     async deleteTag(id: string) {
         const res = await TagProvider.deleteTag(id);
 
-        if(res){
+        if (res) {
             const tags = await TagProvider.getTags();
             this.setState({tags: tags});
-        }
-        else{
+        } else {
             console.log("ошибка удаления")
         }
     }
@@ -137,11 +148,10 @@ export default class About extends React.Component<IProps, IState> {
     async deleteType(id: string) {
         const res = await TypeProvider.deleteType(id);
 
-        if(res){
+        if (res) {
             const types = await TypeProvider.getTypes();
             this.setState({types: types});
-        }
-        else{
+        } else {
             console.log("ошибка удаления")
         }
     }
@@ -155,10 +165,12 @@ export default class About extends React.Component<IProps, IState> {
                 <div className="About-Content">
                     <div>
                         <div className="Header">
-                            <div>
+                            <div className="Workspace-Header">
                                 <h1>Workspace info</h1>
-                                <label></label>
-                                <Button onClick={() => this.showPageModal()}>Create page</Button>
+                                <div className="Workspace-Header-Toolbar">
+                                    <Button className="btn btn-light btn-outline-secondary Outline-Button" onClick={() => this.showPageModal()}>Create page</Button>
+                                    <Button className="btn btn-light btn-outline-secondary Outline-Button" onClick={() => this.copyInviteLink()}>Invite user</Button>
+                                </div>
                             </div>
                         </div>
                         <div className="Items">
@@ -169,18 +181,20 @@ export default class About extends React.Component<IProps, IState> {
                                     </button>
                                 </div>
                                 <hr/>
-                                {this.state.tags.length > 0 && (
+                                {this.state.tags && (
                                     this.state.tags.map((item) => {
                                         return (<div className="Item" key={item.id}>
                                             <label>{item.name}</label>
                                             <div className="row">
                                                 <Form.Control disabled type="color" value={item.color}/>
-                                                <button className="btn btn-outline-dark" onClick={() => this.deleteTag(item.id)}>-</button>
+                                                <button className="btn btn-outline-dark"
+                                                        onClick={() => this.deleteTag(item.id)}>-
+                                                </button>
                                             </div>
                                         </div>)
                                     })
                                 )}
-                                {this.state.tags.length == 0 && (
+                                {!this.state.tags && (
                                     <div>No elements</div>
                                 )}
                             </div>
@@ -191,18 +205,20 @@ export default class About extends React.Component<IProps, IState> {
                                     </button>
                                 </div>
                                 <hr/>
-                                {this.state.types.length > 0 && (
+                                {this.state.types && (
                                     this.state.types.map((item) => {
                                         return (<div className="Item" key={item.id}>
                                             <label>{item.name}</label>
                                             <div className="row">
                                                 <Form.Control disabled type="color" value={item.color}/>
-                                                <button className="btn btn-outline-dark" onClick={() => this.deleteType(item.id)}>-</button>
+                                                <button className="btn btn-outline-dark"
+                                                        onClick={() => this.deleteType(item.id)}>-
+                                                </button>
                                             </div>
                                         </div>)
                                     })
                                 )}
-                                {this.state.types.length == 0 && (
+                                {!this.state.types && (
                                     <div>No elements</div>
                                 )}
                             </div>
@@ -213,18 +229,43 @@ export default class About extends React.Component<IProps, IState> {
                                     </button>
                                 </div>
                                 <hr/>
-                                {this.state.statuses.length > 0 && (
+                                {this.state.statuses.length && (
                                     this.state.statuses.map((item) => {
                                         return (<div className="Item" key={item.id}>
                                             <label>{item.name}</label>
                                             <div className="row">
                                                 <Form.Control disabled type="color" value={item.color}/>
-                                                <button className="btn btn-outline-dark" onClick={() => this.deleteStatus(item.id)}>-</button>
+                                                <button className="btn btn-outline-dark"
+                                                        onClick={() => this.deleteStatus(item.id)}>-
+                                                </button>
                                             </div>
                                         </div>)
                                     })
                                 )}
-                                {this.state.statuses.length == 0 && (
+                                {!this.state.statuses && (
+                                    <div>No elements</div>
+                                )}
+                            </div>
+                            <div className="Item-Block">
+                                <div className="Item-Header">
+                                    <h4>Users</h4>
+                                    <button className="btn btn-outline-dark" onClick={() => this.showStatusModal()}>+
+                                    </button>
+                                </div>
+                                <hr/>
+                                {this.state.users && (
+                                    this.state.users.map((item) => {
+                                        return (<div className="Item" key={item.id}>
+                                            <label>{item.username}</label>
+                                            <div className="row">
+                                                <button className="btn btn-outline-dark"
+                                                        onClick={() => this.deleteStatus(item.id)}>-
+                                                </button>
+                                            </div>
+                                        </div>)
+                                    })
+                                )}
+                                {!this.state.users && (
                                     <div>No elements</div>
                                 )}
                             </div>

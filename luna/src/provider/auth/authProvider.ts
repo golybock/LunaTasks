@@ -39,7 +39,7 @@ export default class AuthProvider extends ProviderBase{
         return await axios.post(url, UserBlank)
             .then(async res => {
                 if(res.status === 200){
-                    localStorage.setItem("user", res.data)
+                    AuthWrapper.userSignIn(res.data);
                     return true;
                 }
 

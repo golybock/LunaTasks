@@ -1,3 +1,4 @@
+using Luna.SharedDataAccess.Users.Services;
 using Luna.Tools.Auth.Options;
 using Luna.Workspaces.Repositories.Repositories;
 using Luna.Workspaces.Services.Services;
@@ -61,6 +62,9 @@ builder.Services.AddSingleton<IDatabaseOptions>(_ => options);
 builder.Services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
 
 builder.Services.AddScoped<IWorkspaceService, WorkspaceService>();
+
+// grpc
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

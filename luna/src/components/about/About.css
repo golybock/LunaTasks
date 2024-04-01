@@ -70,3 +70,18 @@
 .Item input {
     margin: 0 10px;
 }
+
+.Workspace-Header{
+    display: flex;
+    flex-direction: column;
+}
+
+.Workspace-Header-Toolbar{
+    display: flex;
+    flex-direction: row;
+}
+
+.Workspace-Header button{
+    margin-top: 12px;
+    margin-right: 12px;
+}

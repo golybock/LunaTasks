@@ -1,0 +1,132 @@
+﻿.Image-Block{
+    text-align: center;
+}
+
+.SignIn-Block{
+    min-width: 400px;
+}
+
+@media screen and (max-width: 950px){
+    .Image-Block{
+        width: 0;
+        visibility: collapse;
+    }
+
+    .SignIn-Block{
+        width: 60%;
+    }
+
+    .App-Body{
+        display: flex;
+        flex-direction: column;
+        vertical-align: center;
+        horiz-align: center;
+        width: 100vw;
+    }
+}
+
+@media screen and (min-width: 951px){
+    .Image-Block{
+        width: 70%;
+    }
+
+    .SignIn-Block{
+        min-width: 400px;
+        width: 30%;
+    }
+
+    .App-Body{
+        display: flex;
+        flex-direction: column;
+        vertical-align: center;
+        horiz-align: center;
+        width: 100%;
+    }
+}
+
+.App {
+    width: 100%;
+    flex-direction: row;
+    display: inline-flex;
+}
+
+.App-logo {
+    height: 560px;
+    padding: 12px;
+}
+
+.App-header {
+    background-color: black;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.App-Logo-Block{
+    font-size: 20px;
+    display: inline-flex;
+    flex-direction: row;
+}
+
+.App-Logo-Block label{
+    padding: 12px 0;
+}
+
+.App-Logo-Block img{
+    height: 56px;
+    width: 56px;
+}
+
+.App-Header{
+    display: inline-flex;
+    flex-direction: row;
+    padding: 12px
+}
+
+.App-Header-Language{
+    right: 0;
+    padding: 16px 12px;
+    position: absolute;
+}
+
+.App-Body-Content{
+    margin: 12px;
+    width: 50%;
+    max-width: 300px;
+    min-width: 250px;
+    align-self: center;
+}
+
+.App-Body-Content button{
+    width: 100%;
+    margin-top: 12px;
+}
+
+.App-Body-Header{
+    margin-top: 20%;
+    font-size: 20px;
+    text-align: center;
+}
+
+.App-Body-Footer{
+    display: inline-flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.App-Body-Footer label{
+    cursor: pointer;
+    color: var(--secondary-text);
+}
+
+.Form-Control{
+    margin-top: 12px;
+}
+
+.Error{
+    color: red;
+    font-size: 16px;
+    margin-top: 5px;
+    text-align: center;
+}

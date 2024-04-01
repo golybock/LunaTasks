@@ -56,6 +56,18 @@ public class WorkspaceRepository: NpgsqlRepository, IWorkspaceRepository
 		return await GetListAsync<WorkspaceDatabase>(query, parameters);
 	}
 
+	public async Task<IEnumerable<WorkspaceUsersDatabase>> GetWorkspaceUsersAsync(Guid workspaceId)
+	{
+		var query = $"select * from {WorkspaceUsersTableName} where workspace_id = $1";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = workspaceId}
+		};
+
+		return await GetListAsync<WorkspaceUsersDatabase>(query, parameters);
+	}
+
 	public async Task<bool> CreateWorkspaceAsync(WorkspaceDatabase workspaceDatabase)
 	{
 		var query = $"insert into {WorkspaceTableName} (id, name,  created_user_id) " +
