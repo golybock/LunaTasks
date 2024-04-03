@@ -17,6 +17,7 @@ import Loading from "../notifications/Loading";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import DarkAsyncSelect from "../tools/DarkAsyncSelect";
+import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
 
 interface IProps {
     closeModal: Function,
@@ -289,7 +290,11 @@ export default class EditCardModal extends React.Component<IProps, IState> {
     }
 
     async getUsers() {
-        return await UserProvider.getUsersOptions();
+        const workspaceId = localStorage.getItem("workspaceId");
+
+        if(workspaceId){
+            return await WorkspaceProvider.getWorkspaceUsers(workspaceId);
+        }
     }
 
     async getTags() {

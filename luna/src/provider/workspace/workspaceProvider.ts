@@ -31,6 +31,30 @@ export default class WorkspaceProvider extends ProviderBase {
             });
     }
 
+    static async getUserWorkspacesAsync(): Promise<IWorkspaceView[]> {
+
+        let url = this.baseAddress + "/Workspace/GetUserWorkspaces";
+
+        let token = AuthWrapper.user();
+
+        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+            .then(async res => {
+
+                if (res.status === 200) {
+                    return res.data;
+                }
+
+                return [];
+            })
+            .catch((res) => {
+                if(res.status == 401){
+                    AuthWrapper.userSignOut();
+                }
+
+                console.log(res)
+            });
+    }
+
     static async getCurrentWorkspace(): Promise<IWorkspaceView | null> {
 
         let url = this.baseAddress + "/Workspace/GetWorkspace?id=" + localStorage.getItem("workspaceId");

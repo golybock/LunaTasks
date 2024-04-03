@@ -54,7 +54,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
     ];
 
     async componentDidMount() {
-        let workspaces = await WorkspaceProvider.getWorkspaces();
+        let workspaces = await WorkspaceProvider.getUserWorkspacesAsync();
 
         this.setState({workspaces: workspaces});
 

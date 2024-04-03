@@ -44,7 +44,12 @@ public class WorkspaceService: IWorkspaceService
 
 	public async Task<IEnumerable<WorkspaceView>> GetWorkspacesByUserAsync(Guid userId)
 	{
-		var workspaces = await _workspaceRepository.GetWorkspacesByUserAsync(userId);
+		var joinedWorkspaces = await _workspaceRepository.GetWorkspacesByUserAsync(userId);
+
+		var createdWorkspaces = await _workspaceRepository.GetWorkspacesByCreatorAsync(userId);
+
+		var workspaces = joinedWorkspaces.ToList();
+		workspaces.AddRange(createdWorkspaces);
 
 		var workspacesView = WorkspacesToView(workspaces);
 
@@ -71,11 +76,20 @@ public class WorkspaceService: IWorkspaceService
 
 	public async Task<IEnumerable<UserView>> GetWorkspaceUsersAsync(Guid workspaceId)
 	{
+		var workspace = await GetWorkspaceAsync(workspaceId);
+
+		if (workspace == null)
+		{
+			return Array.Empty<UserView>();
+		}
+
 		var workspaceUsers = await GetWorkspaceUserIdsAsync(workspaceId);
 
 		var users = await _userService.GetUsersAsync();
 
-		return users;
+		var workspaceUsersView = users.Where(user => workspaceUsers.Contains(user.Id) || user.Id == workspace.CreatedUserId).ToList();
+
+		return workspaceUsersView;
 	}
 
 	public async Task<Boolean> CreateWorkspaceAsync(WorkspaceBlank workspaceBlank, Guid userId)

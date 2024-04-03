@@ -169,7 +169,6 @@ export default class About extends React.Component<IProps, IState> {
                                 <h1>Workspace info</h1>
                                 <div className="Workspace-Header-Toolbar">
                                     <Button className="btn btn-light btn-outline-secondary Outline-Button" onClick={() => this.showPageModal()}>Create page</Button>
-                                    <Button className="btn btn-light btn-outline-secondary Outline-Button" onClick={() => this.copyInviteLink()}>Invite user</Button>
                                 </div>
                             </div>
                         </div>
@@ -222,34 +221,34 @@ export default class About extends React.Component<IProps, IState> {
                                     <div>No elements</div>
                                 )}
                             </div>
-                            <div className="Item-Block">
-                                <div className="Item-Header">
-                                    <h4>Statuses</h4>
-                                    <button className="btn btn-outline-dark" onClick={() => this.showStatusModal()}>+
-                                    </button>
-                                </div>
-                                <hr/>
-                                {this.state.statuses.length && (
-                                    this.state.statuses.map((item) => {
-                                        return (<div className="Item" key={item.id}>
-                                            <label>{item.name}</label>
-                                            <div className="row">
-                                                <Form.Control disabled type="color" value={item.color}/>
-                                                <button className="btn btn-outline-dark"
-                                                        onClick={() => this.deleteStatus(item.id)}>-
-                                                </button>
-                                            </div>
-                                        </div>)
-                                    })
-                                )}
-                                {!this.state.statuses && (
-                                    <div>No elements</div>
-                                )}
-                            </div>
+                            {/*<div className="Item-Block">*/}
+                            {/*    <div className="Item-Header">*/}
+                            {/*        <h4>Statuses</h4>*/}
+                            {/*        <button className="btn btn-outline-dark" onClick={() => this.showStatusModal()}>+*/}
+                            {/*        </button>*/}
+                            {/*    </div>*/}
+                            {/*    <hr/>*/}
+                            {/*    {this.state.statuses.length && (*/}
+                            {/*        this.state.statuses.map((item) => {*/}
+                            {/*            return (<div className="Item" key={item.id}>*/}
+                            {/*                <label>{item.name}</label>*/}
+                            {/*                <div className="row">*/}
+                            {/*                    <Form.Control disabled type="color" value={item.color}/>*/}
+                            {/*                    <button className="btn btn-outline-dark"*/}
+                            {/*                            onClick={() => this.deleteStatus(item.id)}>-*/}
+                            {/*                    </button>*/}
+                            {/*                </div>*/}
+                            {/*            </div>)*/}
+                            {/*        })*/}
+                            {/*    )}*/}
+                            {/*    {!this.state.statuses && (*/}
+                            {/*        <div>No elements</div>*/}
+                            {/*    )}*/}
+                            {/*</div>*/}
                             <div className="Item-Block">
                                 <div className="Item-Header">
                                     <h4>Users</h4>
-                                    <button className="btn btn-outline-dark" onClick={() => this.showStatusModal()}>+
+                                    <button className="btn btn-outline-dark" onClick={() => this.copyInviteLink()}>+
                                     </button>
                                 </div>
                                 <hr/>
