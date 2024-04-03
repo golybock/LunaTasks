@@ -83,7 +83,7 @@ public class AuthService: IAuthService
 		var newUser = new UserBlank()
 		{
 			Email = signUpBlank.Email,
-			Username = signUpBlank.Email
+			Username = signUpBlank.Username
 		};
 
 		var newUserId = await _userService.CreateUserAsync(newUser);

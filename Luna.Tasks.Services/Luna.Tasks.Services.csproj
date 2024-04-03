@@ -17,4 +17,8 @@
       <ProjectReference Include="..\Luna.Tasks.Repositories\Luna.Tasks.Repositories.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="EPPlus" Version="7.1.0" />
+    </ItemGroup>
+
 </Project>

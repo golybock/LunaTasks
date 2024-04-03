@@ -62,6 +62,7 @@ public interface ICardService
 
 	public Task<Boolean> DeleteCardTagAsync(Guid cardId, Guid tagId, Guid userId);
 
+	public Task<Byte[]> GetCardsXlsx(Guid pageId);
 
 	public Task<IEnumerable<UserView>> GetCardUsersAsync(Guid cardId);
 

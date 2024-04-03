@@ -2,6 +2,7 @@
 import axios from "axios";
 import ISignInBlank from "../../models/auth/signInBlank";
 import {AuthWrapper} from "../../auth/AuthWrapper";
+import ISignUpBlank from "../../models/auth/signUpBlank";
 
 export default class AuthProvider extends ProviderBase{
 
@@ -32,7 +33,7 @@ export default class AuthProvider extends ProviderBase{
     }
 
     // todo replace to signupblank
-    static async signUp(UserBlank: ISignInBlank): Promise<boolean | string> {
+    static async signUp(UserBlank: ISignUpBlank): Promise<boolean | string> {
 
         let url = this.baseAddress + "/Auth/SignUp";
 
@@ -47,7 +48,7 @@ export default class AuthProvider extends ProviderBase{
             })
             .catch((res) => {
 
-                if(res.status == 401){
+                if(res.status == 400){
                     return res.data;
                 }
 

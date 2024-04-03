@@ -42,6 +42,14 @@ public class CardController : ControllerBase
 		return result ? Ok() : BadRequest();
 	}
 
+	[HttpGet("[action]")]
+	public async Task<IActionResult> GetCardsXlsx(Guid pageId)
+	{
+		var report = await _cardService.GetCardsXlsx(pageId);
+
+		return File(report, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	}
+
 	[HttpPost("[action]")]
 	public async Task<IActionResult> UpdateCardAsync(Guid id, CardBlank card)
 	{

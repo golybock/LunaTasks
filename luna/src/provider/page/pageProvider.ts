@@ -27,6 +27,34 @@ export default class PageProvider extends ProviderBase {
             });
     }
 
+    static async getPageReport(pageId: string){
+        let url = this.baseAddress + "/Card/GetCardsXlsx?pageId=" + pageId;
+
+        let token = AuthWrapper.user();
+
+        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}, responseType: "blob"})
+            .then(async res => {
+
+                if (res.status === 200) {
+                    const href = URL.createObjectURL(res.data);
+
+                    const link = document.createElement('a');
+                    link.href = href;
+                    link.setAttribute('download', 'report.xlsx'); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(href);
+                }
+
+                return null;
+            })
+            .catch(() => {
+                return null;
+            });
+    }
+
     static async getPage(pageId: string): Promise<PageView | null>{
         let url = this.baseAddress + "/Page/GetPage?id=" + pageId;
 

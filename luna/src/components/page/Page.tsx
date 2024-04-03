@@ -135,6 +135,10 @@ class PageComponent extends React.Component<IProps, IState> {
                                 this.setState({showModal: true})
                             }}>New</Button>
 
+                            <Button className="btn btn-outline-dark Button" onClick={async () => {
+                               await PageProvider.getPageReport(this.props.pageId);
+                            }}>Get xlsx</Button>
+
                         </div>
                         <div className="Page-Content-Data">
                             {this.state.cards &&

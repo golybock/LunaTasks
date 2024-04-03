@@ -12,6 +12,7 @@ interface IProps {
 interface IState {
     email: string;
     password: string;
+    username: string;
     error: string;
 }
 
@@ -23,13 +24,18 @@ export default class SignUp extends React.Component<IProps, IState> {
         this.state = {
             email: "aboba@aboba.com",
             password: "aboba",
-            error: ""
+            error: "",
+            username: ""
         }
+    }
+
+    getBlank(){
+        return {email: this.state.email, password: this.state.password, username: this.state.username};
     }
 
     signUp = async () => {
 
-        let res = await AuthProvider.signUp({email: this.state.email, password: this.state.password})
+        let res = await AuthProvider.signUp(this.getBlank())
 
         if (res) {
             console.log('authed')
@@ -77,6 +83,14 @@ export default class SignUp extends React.Component<IProps, IState> {
                                               value={this.state.email}
                                               onChange={(e) => {
                                                   this.setState({email: e.target.value})
+                                              }}/>
+
+                                <Form.Control type="text"
+                                              className="Form-Control"
+                                              placeholder="Enter username here..."
+                                              value={this.state.username}
+                                              onChange={(e) => {
+                                                  this.setState({username: e.target.value})
                                               }}/>
 
                                 <Form.Control type="password"

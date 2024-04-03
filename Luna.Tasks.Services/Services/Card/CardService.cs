@@ -1,4 +1,5 @@
-﻿using Luna.Models.Tasks.Blank.Card;
+﻿using System.Text.Json;
+using Luna.Models.Tasks.Blank.Card;
 using Luna.Models.Tasks.Database.Card;
 using Luna.Models.Tasks.Database.CardAttributes;
 using Luna.Models.Tasks.Domain.Card;
@@ -13,6 +14,7 @@ using Luna.Tasks.Services.Services.CardAttributes.Role;
 using Luna.Tasks.Services.Services.CardAttributes.Status;
 using Luna.Tasks.Services.Services.CardAttributes.Tag;
 using Luna.Tasks.Services.Services.CardAttributes.Type;
+using OfficeOpenXml;
 
 namespace Luna.Tasks.Services.Services.Card;
 
@@ -410,6 +412,51 @@ public class CardService : ICardService
 	public async Task<bool> DeleteCardTagAsync(Guid cardId, Guid tagId, Guid userId)
 	{
 		return await _cardRepository.DeleteCardTagAsync(cardId, tagId);
+	}
+
+	public async Task<byte[]> GetCardsXlsx(Guid pageId)
+	{
+		var cards = await GetCardsAsync(pageId);
+
+		var package = new ExcelPackage();
+
+		var sheet = package.Workbook.Worksheets.Add("Tasks");
+
+		// header
+		sheet.Cells["A1"].Value = "Id";
+		sheet.Cells["B1"].Value = "Header";
+		sheet.Cells["C1"].Value = "Content";
+		sheet.Cells["D1"].Value = "Description";
+		sheet.Cells["E1"].Value = "Type";
+		sheet.Cells["F1"].Value = "CreatedBy";
+		sheet.Cells["G1"].Value = "Deadline";
+		sheet.Cells["H1"].Value = "PreviousCardId";
+		sheet.Cells["I1"].Value = "Comments";
+		sheet.Cells["J1"].Value = "CardTags";
+		sheet.Cells["K1"].Value = "Users";
+		sheet.Cells["L1"].Value = "Statuses";
+
+		sheet.Cells["A1:L1"].Style.Font.Bold = true;
+
+		for (int i = 2; i < cards.Count(); i++)
+		{
+			var card = cards.ElementAt(i);
+
+			sheet.Cells[i, 1].Value = card.Id;
+			sheet.Cells[i, 2].Value = card.Header;
+			sheet.Cells[i, 3].Value = card.Content;
+			sheet.Cells[i, 4].Value = card.Description;
+			sheet.Cells[i, 5].Value = card.CardType.Name;
+			sheet.Cells[i, 6].Value = card.CreatedUserId;
+			sheet.Cells[i, 7].Value = card.Deadline;
+			sheet.Cells[i, 8].Value = card.PreviousCard?.Id;
+			sheet.Cells[i, 9].Value = JsonSerializer.Serialize(card.Comments);
+			sheet.Cells[i, 10].Value = JsonSerializer.Serialize(card.CardTags);
+			sheet.Cells[i, 11].Value = JsonSerializer.Serialize(card.Users);
+			sheet.Cells[i, 12].Value = JsonSerializer.Serialize(card.Statuses);
+		}
+
+		return await package.GetAsByteArrayAsync();
 	}
 
 	public async Task<IEnumerable<UserView>> GetCardUsersAsync(Guid cardId)
