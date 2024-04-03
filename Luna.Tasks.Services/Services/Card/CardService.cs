@@ -438,6 +438,8 @@ public class CardService : ICardService
 
 		sheet.Cells["A1:L1"].Style.Font.Bold = true;
 
+		Console.WriteLine(cards.Count());
+
 		for (int i = 2; i < cards.Count(); i++)
 		{
 			var card = cards.ElementAt(i);

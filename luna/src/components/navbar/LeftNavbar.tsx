@@ -8,6 +8,7 @@ import PageView from "../../models/page/pageView";
 import PageProvider from "../../provider/page/pageProvider";
 import MenuItem from "../../models/navigation/menuItem";
 import {AuthWrapper} from "../../auth/AuthWrapper";
+import {WorkspaceManager} from "../../tools/WorkspaceManager";
 
 interface IProps {
 }
@@ -27,7 +28,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
 
         this.state = {
             selectedWorkspaceId: "",
-            selectedPageId: "",
+            selectedPageId: null,
             workspaces: [],
             pages: [],
             menuItems: this.defaultMenuItems
@@ -58,24 +59,17 @@ export class LeftNavbar extends React.Component<IProps, IState> {
 
         this.setState({workspaces: workspaces});
 
-        const workspaceId = localStorage.getItem("workspaceId");
+        const workspaceId = WorkspaceManager.getWorkspace();
 
-        if(workspaceId){
-            await this.selectWorkspace(workspaceId)
-        }
-        else{
-            localStorage.setItem("workspaceId", workspaces[0].id)
-        }
+        await this.selectWorkspace(workspaceId)
     }
 
     async selectWorkspace(id: string | null) {
 
-        if (id == null) {
-            this.setState({selectedWorkspaceId: this.state.workspaces[0]?.id});
+        if (!id) {
+            this.setState({selectedWorkspaceId: this.state.workspaces[0].id});
 
-            if (this.state.selectedWorkspaceId?.length > 0) {
-                localStorage.setItem("workspaceId", this.state.selectedWorkspaceId);
-            }
+            WorkspaceManager.workspaceSelected(this.state.workspaces[0].id)
 
             return;
         }
@@ -83,10 +77,10 @@ export class LeftNavbar extends React.Component<IProps, IState> {
         this.setState({selectedWorkspaceId: id});
 
         if (this.state.selectedWorkspaceId?.length > 0) {
-            localStorage.setItem("workspaceId", this.state.selectedWorkspaceId);
+            WorkspaceManager.workspaceSelected(this.state.workspaces[0].id)
         }
 
-        let pages = await PageProvider.getPages(this.state.selectedWorkspaceId);
+        let pages = await PageProvider.getPages(WorkspaceManager.getWorkspace()!);
 
         let pageMenuItems: MenuItem[] = [];
 
@@ -106,7 +100,6 @@ export class LeftNavbar extends React.Component<IProps, IState> {
         this.setState({menuItems: [...this.defaultMenuItems, ...pageMenuItems]})
 
         this.setState({pages: pages});
-        this.setState({selectedPageId: pages[0]?.id})
     }
 
     render() {
@@ -145,7 +138,8 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                         {this.state.selectedWorkspaceId && (
                             <>
                                 {this.state.menuItems.map((item: MenuItem) => (
-                                    <NavLink key={item.title} to={item.href} end={true} replace={true} className="Navbar-Item" >
+                                    <NavLink key={item.title} to={item.href} end={true} replace={true}
+                                             className="Navbar-Item">
                                         <div className="Navbar-List-Item">
                                             {item.image && (
                                                 <img src={item.image} alt=""/>

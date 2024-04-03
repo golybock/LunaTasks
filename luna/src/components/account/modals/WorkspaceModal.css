@@ -1,0 +1,7 @@
+﻿form img{
+    margin: 12px;
+    width: 440px;
+    height: 100px;
+    object-fit: cover;
+    object-position: 0 50%;
+}

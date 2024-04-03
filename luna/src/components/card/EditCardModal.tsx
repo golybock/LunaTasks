@@ -18,6 +18,7 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import DarkAsyncSelect from "../tools/DarkAsyncSelect";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
+import {WorkspaceManager} from "../../tools/WorkspaceManager";
 
 interface IProps {
     closeModal: Function,
@@ -180,22 +181,6 @@ export default class EditCardModal extends React.Component<IProps, IState> {
         }
     }
 
-    // set text to blank and rte
-    // rteOnChange = async (value: EditorValue) => {
-    //
-    //     if (this.state.cardBlank != undefined) {
-    //         this.setState({
-    //             cardBlank: {
-    //                 ...this.state.cardBlank,
-    //                 content: value.toString("html")
-    //             }
-    //         })
-    //
-    //         // rendered value
-    //         this.setState({rteValue: value})
-    //     }
-    // }
-
     async saveCard() {
         if (this.props.cardId != null) {
             const res = await CardProvider.updateCard(this.props.cardId, this.state.cardBlank!);
@@ -290,35 +275,12 @@ export default class EditCardModal extends React.Component<IProps, IState> {
     }
 
     async getUsers() {
-        const workspaceId = localStorage.getItem("workspaceId");
-
-        if(workspaceId){
-            return await WorkspaceProvider.getWorkspaceUsers(workspaceId);
-        }
+        return await WorkspaceProvider.getWorkspaceUsersOptions(WorkspaceManager.getWorkspace()!);
     }
 
     async getTags() {
         return await TagProvider.getTagsOptions();
     }
-
-
-
-    exampleTheme = {
-        ltr: 'ltr',
-        rtl: 'rtl',
-        paragraph: 'editor-paragraph',
-    };
-
-    editorConfig = {
-        namespace: 'CardContent',
-        nodes: [],
-        // Handling of errors during update
-        onError(error: Error) {
-            throw error;
-        },
-        // The editor theme
-        theme: this.exampleTheme
-    };
 
     render() {
         return (

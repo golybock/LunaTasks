@@ -3,13 +3,15 @@ import IUserView from "../../models/user/userView";
 import UserProvider from "../../provider/user/userProvider";
 import "./Account.css"
 import {Button} from "react-bootstrap";
+import WorkspaceModal from "./modals/WorkspaceModal";
 
 interface IProps {
 
 }
 
 interface IState {
-    user: IUserView | null
+    user: IUserView | null,
+    showWorkspaceModal: boolean
 }
 
 export default class Account extends React.Component<IProps, IState> {
@@ -20,7 +22,8 @@ export default class Account extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            user: null
+            user: null,
+            showWorkspaceModal: false
         }
     }
 
@@ -28,6 +31,14 @@ export default class Account extends React.Component<IProps, IState> {
         const user = await UserProvider.getMe();
 
         this.setState({user: user})
+    }
+
+    openWorkspaceModal() {
+        this.setState({showWorkspaceModal: true})
+    }
+
+    closeWorkspaceModal() {
+        this.setState({showWorkspaceModal: false})
     }
 
     render() {
@@ -59,10 +70,18 @@ export default class Account extends React.Component<IProps, IState> {
                                 <hr/>
                                 <Button className="btn btn-outline-dark">Edit</Button>
                                 <Button className="btn btn-outline-dark">Delete</Button>
+                                <Button className="btn btn-outline-dark" onClick={() => {
+                                    this.openWorkspaceModal();
+                                }}>New workspace</Button>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {this.state.showWorkspaceModal && (
+                    <WorkspaceModal closeModal={() => this.closeWorkspaceModal()}/>
+                )}
+
             </div>
         );
     }
