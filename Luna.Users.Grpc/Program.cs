@@ -1,3 +1,4 @@
+using Luna.Users.Grpc.RabbitMQ;
 using Luna.Users.Grpc.Services;
 using Luna.Users.Repositories.Repositories;
 using Luna.Users.Services.Services;
@@ -15,6 +16,7 @@ var options = new DatabaseOptions() {ConnectionString = connectionString!};
 builder.Services.AddSingleton<IDatabaseOptions>(_ => options);
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRegistrationService, UserRegistrationService>();
 
 var app = builder.Build();
 

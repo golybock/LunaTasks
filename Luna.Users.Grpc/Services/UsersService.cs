@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using Luna.Users.Grpc.Extensions;
+using Luna.Users.Grpc.RabbitMQ;
 using Luna.Users.Services.Services;
 
 namespace Luna.Users.Grpc.Services;
@@ -10,10 +11,13 @@ public class UsersService : Grpc.UsersService.UsersServiceBase
 
 	private readonly IUserService _userService;
 
-	public UsersService(ILogger<UsersService> logger, IUserService userService)
+	private readonly IUserRegistrationService _registrationService;
+
+	public UsersService(ILogger<UsersService> logger, IUserService userService, IUserRegistrationService registrationService)
 	{
 		_logger = logger;
 		_userService = userService;
+		_registrationService = registrationService;
 	}
 
 	public override async Task<UsersList> GetUsers(GetUsersRequest request, ServerCallContext context)
@@ -46,6 +50,11 @@ public class UsersService : Grpc.UsersService.UsersServiceBase
 	public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
 	{
 		var result = await _userService.CreateUserAsync(request.UserBlank.ToUserBlank());
+
+		if (result != Guid.Empty)
+		{
+			_registrationService.CreateWorkspace(result);
+		}
 
 		return new CreateUserResponse() {Id = result.ToString()};
 	}

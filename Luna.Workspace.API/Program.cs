@@ -66,6 +66,9 @@ builder.Services.AddScoped<IWorkspaceService, WorkspaceService>();
 // grpc
 builder.Services.AddScoped<IUserService, UserService>();
 
+//rabbit
+builder.Services.AddHostedService<RegistrationService>();
+
 var app = builder.Build();
 
 app.UseSwagger();
