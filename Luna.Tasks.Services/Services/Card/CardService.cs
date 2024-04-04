@@ -440,9 +440,9 @@ public class CardService : ICardService
 
 		Console.WriteLine(cards.Count());
 
-		for (int i = 2; i < cards.Count(); i++)
+		for (int i = 2; i < cards.Count() + 2; i++)
 		{
-			var card = cards.ElementAt(i);
+			var card = cards.ElementAt(i-2);
 
 			sheet.Cells[i, 1].Value = card.Id;
 			sheet.Cells[i, 2].Value = card.Header;

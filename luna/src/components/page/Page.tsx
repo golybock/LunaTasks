@@ -9,6 +9,11 @@ import TaskCard from "../card/TaskCard";
 import ICardView from "../../models/card/view/cardView";
 import CardProvider from "../../provider/card/cardProvider";
 import {useNavigate, useParams} from "react-router";
+import DarkAsyncSelect from "../tools/DarkAsyncSelect";
+import {MultiValue, SingleValue} from "react-select";
+import IOption from "../../models/tools/IOption";
+import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
+import {WorkspaceManager} from "../../tools/WorkspaceManager";
 
 interface IProps {
     pageId: string
@@ -20,7 +25,8 @@ interface IState {
     cards: ICardView[],
     showModal: boolean,
     selectedCardId: string | null,
-    displayMode: CardDisplayMode
+    displayMode: CardDisplayMode,
+    filterUserId: IOption | null
 }
 
 function Page() {
@@ -41,7 +47,8 @@ class PageComponent extends React.Component<IProps, IState> {
             cards: [],
             showModal: false,
             selectedCardId: null,
-            displayMode: CardDisplayMode.Table
+            displayMode: CardDisplayMode.Card,
+            filterUserId: null
         }
     }
 
@@ -104,6 +111,25 @@ class PageComponent extends React.Component<IProps, IState> {
         }
     }
 
+    async getUsers() {
+        return await WorkspaceProvider.getWorkspaceUsersOptions(WorkspaceManager.getWorkspace()!);
+    }
+
+    async userSelected(e: SingleValue<IOption>) {
+        this.setState({filterUserId: e})
+
+        if (e) {
+            const cards = await CardProvider.getCardsByUser(this.props.pageId, e.value);
+
+            this.setState({cards: cards});
+        } else {
+            const cards = await CardProvider.getCards(this.props.pageId);
+
+            this.setState({cards: cards});
+        }
+    }
+
+
     render() {
         return (
             <div>
@@ -136,8 +162,15 @@ class PageComponent extends React.Component<IProps, IState> {
                             }}>New</Button>
 
                             <Button className="btn btn-outline-dark Button" onClick={async () => {
-                               await PageProvider.getPageReport(this.props.pageId);
+                                await PageProvider.getPageReport(this.props.pageId);
                             }}>Get xlsx</Button>
+
+                            <DarkAsyncSelect isMulti={false}
+                                             cacheOptions
+                                             defaultOptions
+                                             value={this.state.filterUserId}
+                                             loadOptions={this.getUsers}
+                                             onChange={(e: SingleValue<IOption>) => this.userSelected(e)}/>
 
                         </div>
                         <div className="Page-Content-Data">

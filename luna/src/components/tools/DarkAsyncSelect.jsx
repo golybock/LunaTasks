@@ -6,7 +6,7 @@ export default class DarkAsyncSelect extends React.Component {
 
 	render() {
 		return (<div>
-			<AsyncSelect  isMulti={this.props.isMulti}
+			<AsyncSelect isMulti={this.props.isMulti}
 						 cacheOptions
 						 defaultOptions
 						 className="react-select-container"

@@ -1,33 +1,38 @@
 ﻿.react-select-container {
     .react-select__control {
-        background-color: var(--black);
-        border-color: var(--black);
+        background-color: var(--secondary-dark);
+        border-color: var(--secondary);
         transition: none;
 
         &:hover {
-            border-color: var(--black);
+            border-color: var(--secondary);
         }
     }
 
     .react-select__menu {
-        background-color: var(--black);
-        border: 1px solid var(--black);
+        background-color: var(--secondary);
+        border: 1px solid var(--secondary-dark);
     }
 
     .react-select__option {
-        background-color: var(--black);
+        background-color: var(--secondary);
 
         &:hover {
-            background-color: var(--black);
+            background-color: var(--secondary-dark);
         }
     }
 
     .react-select__indicator-separator {
-        background-color: var(--black);
+        background-color: var(--secondary-dark);
     }
 
     .react-select__placeholder,
     .react-select__single-value {
-        color: var(--black);
+        color: white;
+    }
+
+    .react-select__multi-value {
+        background: var(--secondary-text);
+        color: var(--white);
     }
 }

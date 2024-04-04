@@ -14,8 +14,8 @@ import TagModal from "./modals/TagModal";
 import StatusModal from "./modals/StatusModal";
 import PageModal from "./modals/PageModal";
 import {Button} from "react-bootstrap";
-import { Store } from 'react-notifications-component';
 import IUserView from "../../models/user/userView";
+import NotificationManager from "../../tools/NotificationManager";
 
 interface IProps {
 
@@ -130,7 +130,7 @@ export default class About extends React.Component<IProps, IState> {
             const statuses = await StatusProvider.getStatuses();
             this.setState({statuses: statuses})
         } else {
-            Store.addNotification({title: "Error", type: "danger", insert: "top", container: "top-right", dismiss: {duration: 2000}})
+            NotificationManager.makeError("Error")
         }
     }
 
@@ -141,7 +141,7 @@ export default class About extends React.Component<IProps, IState> {
             const users = await WorkspaceProvider.getWorkspaceUsers();
             this.setState({users: users});
         } else {
-            Store.addNotification({title: "Error", type: "danger", insert: "top", container: "top-right", dismiss: {duration: 2000}})
+            NotificationManager.makeError("Error")
         }
     }
 
@@ -152,7 +152,7 @@ export default class About extends React.Component<IProps, IState> {
             const tags = await TagProvider.getTags();
             this.setState({tags: tags});
         } else {
-            Store.addNotification({title: "Error", type: "danger", insert: "top", container: "top-right", dismiss: {duration: 2000}})
+            NotificationManager.makeError("Error")
         }
     }
 
@@ -163,7 +163,7 @@ export default class About extends React.Component<IProps, IState> {
             const types = await TypeProvider.getTypes();
             this.setState({types: types});
         } else {
-            Store.addNotification({title: "Error", type: "danger", insert: "top", container: "top-right", dismiss: {duration: 2000}})
+            NotificationManager.makeError("Error")
         }
     }
 
