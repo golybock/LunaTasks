@@ -8,8 +8,8 @@ import About from "./components/about/About";
 import Page from "./components/page/Page";
 import {NotAuthedRoute, ProtectedRoute} from "./auth/AuthWrapper";
 import InviteWorkspacePage from "./components/about/InviteWorkspacePage";
-import './App.css';
 import SignUp from "./components/auth/SignUp";
+import './App.css';
 
 interface IProps {
 
@@ -44,7 +44,8 @@ export default class Auth extends React.Component<IProps, IState> {
                     <Route path="account" element={<Account/>}/>
                     <Route path="about" element={<About/>}/>
                 </Route>
-                <Route path="inviteWorkspace/:workspaceId" element={<ProtectedRoute outlet={<InviteWorkspacePage/>}/>}/>
+                <Route path="inviteWorkspace/:workspaceId"
+                       element={<ProtectedRoute outlet={<InviteWorkspacePage/>}/>}/>
                 <Route path="*" element={<p>There's nothing here: 404!</p>}/>
                 <Route path="/signIn" element={<NotAuthedRoute outlet={<SignIn/>}/>}/>
                 <Route path="/signUp" element={<NotAuthedRoute outlet={<SignUp/>}/>}/>

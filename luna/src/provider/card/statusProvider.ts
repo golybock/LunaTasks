@@ -4,6 +4,7 @@ import {AuthWrapper} from "../../auth/AuthWrapper";
 import IOption from "../../models/tools/IOption";
 import StatusView from "../../models/card/view/statusView";
 import IStatusBlank from "../../models/card/blank/statusBlank";
+import {WorkspaceManager} from "../../tools/WorkspaceManager";
 
 export default class StatusProvider extends ProviderBase {
 
@@ -51,9 +52,7 @@ export default class StatusProvider extends ProviderBase {
 
     static async getStatusesOptions() : Promise<Array<IOption>>{
 
-        const workspaceId = localStorage.getItem("workspaceId")
-
-        let url = this.baseAddress + "/Status/GetStatuses?workspaceId=" + workspaceId;
+        let url = this.baseAddress + "/Status/GetStatuses?workspaceId=" + WorkspaceManager.getWorkspace();
 
         let token = AuthWrapper.user();
 

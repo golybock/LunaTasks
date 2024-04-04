@@ -14,7 +14,7 @@ import TagModal from "./modals/TagModal";
 import StatusModal from "./modals/StatusModal";
 import PageModal from "./modals/PageModal";
 import {Button} from "react-bootstrap";
-import {Await} from "react-router";
+import { Store } from 'react-notifications-component';
 import IUserView from "../../models/user/userView";
 
 interface IProps {
@@ -119,7 +119,7 @@ export default class About extends React.Component<IProps, IState> {
         const statuses = await StatusProvider.getStatuses();
         this.setState({statuses: statuses})
 
-        const users = await WorkspaceProvider.getWorkspaceUsers(localStorage.getItem("workspaceId") ?? "");
+        const users = await WorkspaceProvider.getWorkspaceUsers();
         this.setState({users: users});
     }
 
@@ -130,7 +130,18 @@ export default class About extends React.Component<IProps, IState> {
             const statuses = await StatusProvider.getStatuses();
             this.setState({statuses: statuses})
         } else {
-            console.log("ошибка удаления")
+            Store.addNotification({title: "Error", type: "danger", insert: "top", container: "top-right", dismiss: {duration: 2000}})
+        }
+    }
+
+    async deleteUser(id: string) {
+        const res = await WorkspaceProvider.deleteUserFromWorkspace(id);
+
+        if (res) {
+            const users = await WorkspaceProvider.getWorkspaceUsers();
+            this.setState({users: users});
+        } else {
+            Store.addNotification({title: "Error", type: "danger", insert: "top", container: "top-right", dismiss: {duration: 2000}})
         }
     }
 
@@ -141,7 +152,7 @@ export default class About extends React.Component<IProps, IState> {
             const tags = await TagProvider.getTags();
             this.setState({tags: tags});
         } else {
-            console.log("ошибка удаления")
+            Store.addNotification({title: "Error", type: "danger", insert: "top", container: "top-right", dismiss: {duration: 2000}})
         }
     }
 
@@ -152,7 +163,7 @@ export default class About extends React.Component<IProps, IState> {
             const types = await TypeProvider.getTypes();
             this.setState({types: types});
         } else {
-            console.log("ошибка удаления")
+            Store.addNotification({title: "Error", type: "danger", insert: "top", container: "top-right", dismiss: {duration: 2000}})
         }
     }
 
@@ -261,7 +272,7 @@ export default class About extends React.Component<IProps, IState> {
                                                 <label>{item.username}</label>
                                                 <div className="row">
                                                     <button className="btn btn-outline-dark"
-                                                            onClick={() => this.deleteStatus(item.id)}>-
+                                                            onClick={() => this.deleteUser(item.id)}>-
                                                     </button>
                                                 </div>
                                             </div>)

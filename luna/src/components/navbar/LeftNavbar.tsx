@@ -9,6 +9,8 @@ import PageProvider from "../../provider/page/pageProvider";
 import MenuItem from "../../models/navigation/menuItem";
 import {AuthWrapper} from "../../auth/AuthWrapper";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
+import {ReactNotifications} from "react-notifications-component";
+import 'react-notifications-component/dist/theme.css'
 
 interface IProps {
 }
@@ -157,6 +159,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                     </nav>
                 </aside>
                 <main className="Navbar-Container-Content">
+                    <ReactNotifications/>
                     <Outlet/>
                 </main>
             </div>

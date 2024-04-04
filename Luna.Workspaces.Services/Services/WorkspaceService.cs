@@ -137,6 +137,11 @@ public class WorkspaceService: IWorkspaceService
 	// todo add checks on owner userId
 	public async Task<Boolean> DeleteUserFromWorkspace(Guid workspaceId, Guid userId, Guid operationBy)
 	{
+		if (operationBy == userId)
+		{
+			return false;
+		}
+
 		return await _workspaceRepository.DeleteUserFromWorkspace(workspaceId, userId);
 	}
 

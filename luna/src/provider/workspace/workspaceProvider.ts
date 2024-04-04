@@ -7,6 +7,7 @@ import IUserView from "../../models/user/userView";
 import IOption from "../../models/tools/IOption";
 import IPageBlank from "../../models/page/pageBlank";
 import IWorkspaceBlank from "../../models/workspace/workspaceBlank";
+import {WorkspaceManager} from "../../tools/WorkspaceManager";
 
 export default class WorkspaceProvider extends ProviderBase {
 
@@ -60,7 +61,7 @@ export default class WorkspaceProvider extends ProviderBase {
 
     static async getCurrentWorkspace(): Promise<IWorkspaceView | null> {
 
-        let url = this.baseAddress + "/Workspace/GetWorkspace?id=" + localStorage.getItem("workspaceId");
+        let url = this.baseAddress + "/Workspace/GetWorkspace?id=" + WorkspaceManager.getWorkspace();
 
         let token = AuthWrapper.user();
 
@@ -82,8 +83,8 @@ export default class WorkspaceProvider extends ProviderBase {
             });
     }
 
-    static async getWorkspaceUsers(workspaceId: string): Promise<Array<IUserView>>{
-        let url = this.baseAddress + "/Workspace/GetWorkspaceUsers?workspaceId=" + workspaceId;
+    static async getWorkspaceUsers(): Promise<Array<IUserView>>{
+        let url = this.baseAddress + "/Workspace/GetWorkspaceUsers?workspaceId=" + WorkspaceManager.getWorkspace();
 
         let token = AuthWrapper.user();
 
@@ -189,6 +190,24 @@ export default class WorkspaceProvider extends ProviderBase {
                 }
 
                 return res.response.data;
+            });
+    }
+
+    static async deleteUserFromWorkspace(userId: string): Promise<boolean>{
+        let url = this.baseAddress + "/Workspace/DeleteUserFromWorkspace?workspaceId=" + WorkspaceManager.getWorkspace() + "&userId=" + userId;
+
+        let token = AuthWrapper.user();
+
+        return await axios.delete(url, {headers: {"Authorization": `Bearer ${token}`}})
+            .then(async res => {
+                return res.status === 200;
+            })
+            .catch((res) => {
+                if(res.status == 401){
+                    AuthWrapper.userSignOut();
+                }
+
+                return false;
             });
     }
 
