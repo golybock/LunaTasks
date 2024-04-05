@@ -22,10 +22,6 @@ export default class TaskCard extends React.Component<IProps, IState>{
         return (
             <Card className="Card" onClick={() => this.props.onClick()}>
 
-                {/*<Card.Img variant="top"*/}
-                {/*          style={{padding: "15px"}}*/}
-                {/*          src={this.props.card.im}/>*/}
-
                 <Card.Title>
                     <Card.Text>
                         {this.props.card.header}
@@ -35,11 +31,11 @@ export default class TaskCard extends React.Component<IProps, IState>{
                 <Card.Body>
 
                     <Card.Text>
-                        Description: {this.props.card.description}
+                        {this.props.card.description}
                     </Card.Text>
 
                     <Card.Text>
-                        Created: {this.props.card.createdTimestamp}
+                        {this.props.card.createdTimestamp}
                     </Card.Text>
 
                 </Card.Body>

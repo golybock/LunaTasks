@@ -117,6 +117,8 @@ builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 
+builder.Services.AddScoped<IUserService, UserService>();
+
 var app = builder.Build();
 
 app.UseSwagger();

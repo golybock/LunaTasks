@@ -65,7 +65,7 @@ public class PageRepository : NpgsqlRepository, IPageRepository
 
 	public async Task<Boolean> UpdatePageAsync(Guid id, PageDatabase page)
 	{
-		var query = "UPDATE page SET name = $2, description = $3, header_image = $4 WHERE id = $1";
+		var query = "UPDATE page SET name = $2, description = $3, header_image = $4, deleted = $5 WHERE id = $1";
 
 		var parameters = new NpgsqlParameter[]
 		{
@@ -73,6 +73,7 @@ public class PageRepository : NpgsqlRepository, IPageRepository
 			new NpgsqlParameter() {Value = page.Name},
 			new NpgsqlParameter() {Value = page.Description},
 			new NpgsqlParameter() {Value = page.HeaderImage},
+			new NpgsqlParameter() {Value = page.Deleted},
 		};
 
 		return await ExecuteAsync(query, parameters);

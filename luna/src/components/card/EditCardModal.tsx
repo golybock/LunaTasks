@@ -362,8 +362,8 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                         </Modal.Body>
 
                         <Modal.Footer className="Modal-Footer">
-                            <Button className="btn btn-outline-dark" onClick={() => this.saveCard()}>Save</Button>
-                            <Button className="btn btn-outline-dark"
+                            <Button className="btn Primary-Button" onClick={() => this.saveCard()}>Save</Button>
+                            <Button className="btn Primary-Button"
                                     onClick={() => this.props.closeModal()}>Cancel</Button>
                         </Modal.Footer>
                     </Modal>

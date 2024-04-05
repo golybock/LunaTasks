@@ -1,4 +1,4 @@
-﻿import React, {useEffect} from "react";
+﻿import React from "react";
 import IPageView from "../../models/page/pageView";
 import PageProvider from "../../provider/page/pageProvider";
 import {Button, ButtonGroup, Table} from "react-bootstrap";
@@ -8,9 +8,9 @@ import {CardDisplayMode} from "../../models/tools/CardDisplayMode";
 import TaskCard from "../card/TaskCard";
 import ICardView from "../../models/card/view/cardView";
 import CardProvider from "../../provider/card/cardProvider";
-import {useNavigate, useParams} from "react-router";
+import {useParams} from "react-router";
 import DarkAsyncSelect from "../tools/DarkAsyncSelect";
-import {MultiValue, SingleValue} from "react-select";
+import {SingleValue} from "react-select";
 import IOption from "../../models/tools/IOption";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
@@ -147,30 +147,33 @@ class PageComponent extends React.Component<IProps, IState> {
                         <div className="Page-Content-Toolbar">
 
                             <ButtonGroup>
-                                <Button className="btn btn-outline-dark"
+                                <Button className="Primary-Button"
                                         onClick={() => {
                                             this.setState({displayMode: CardDisplayMode.Table});
                                         }}>Table</Button>
-                                <Button className="btn btn-outline-dark"
+                                <Button className="Primary-Button"
                                         onClick={() => {
                                             this.setState({displayMode: CardDisplayMode.Card});
                                         }}>Cards</Button>
                             </ButtonGroup>
 
-                            <Button className="btn btn-outline-dark Button" onClick={() => {
+                            <Button className="Primary-Button Button" onClick={() => {
                                 this.setState({showModal: true})
                             }}>New</Button>
 
-                            <Button className="btn btn-outline-dark Button" onClick={async () => {
+                            <Button className="Primary-Button Button" onClick={async () => {
                                 await PageProvider.getPageReport(this.props.pageId);
                             }}>Get xlsx</Button>
 
-                            <DarkAsyncSelect isMulti={false}
-                                             cacheOptions
-                                             defaultOptions
-                                             value={this.state.filterUserId}
-                                             loadOptions={this.getUsers}
-                                             onChange={(e: SingleValue<IOption>) => this.userSelected(e)}/>
+
+                            <div className="Button Page-Content-Toolbar-Select">
+                                <DarkAsyncSelect isMulti={false}
+                                                 cacheOptions
+                                                 defaultOptions
+                                                 value={this.state.filterUserId}
+                                                 loadOptions={this.getUsers}
+                                                 onChange={(e: SingleValue<IOption>) => this.userSelected(e)}/>
+                            </div>
 
                         </div>
                         <div className="Page-Content-Data">
@@ -194,7 +197,7 @@ class PageComponent extends React.Component<IProps, IState> {
                                                         <td>{card.cardType.name}</td>
                                                         <td>{new Date(Date.parse(card.createdTimestamp)).toDateString()}</td>
                                                         <td>
-                                                            <Button className="btn btn-outline-dark Table-Button"
+                                                            <Button className="Primary-Button"
                                                                     onClick={() => {
                                                                         this.setState({selectedCardId: card.id});
                                                                         this.showModal();

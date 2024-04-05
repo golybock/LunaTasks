@@ -26,12 +26,6 @@ public class PageController : ControllerBase
 	}
 
 	[HttpGet("[action]")]
-	public async Task<IEnumerable<PageView>> GetPages()
-	{
-		return await _pageService.GetPagesByUserAsync(UserId);
-	}
-
-	[HttpGet("[action]")]
 	public async Task<PageView?> GetPage(Guid id)
 	{
 		return await _pageService.GetPageAsync(id);
@@ -42,15 +36,19 @@ public class PageController : ControllerBase
 	{
 		var result = await _pageService.CreatePageAsync(page, UserId);
 
-		return result ? Ok() : BadRequest();
+		return result;
 	}
 
 	[HttpPut("[action]")]
 	public async Task<IActionResult> UpdatePage(Guid id, PageBlank page)
 	{
-		var result = await _pageService.UpdatePageAsync(id, page, UserId);
+		return await _pageService.UpdatePageAsync(id, page, UserId);
+	}
 
-		return result ? Ok() : BadRequest();
+	[HttpDelete("[action]")]
+	public async Task<IActionResult> TrashPageAsync(Guid id)
+	{
+		return await _pageService.TrashPageAsync(id, UserId);
 	}
 
 	[HttpDelete("[action]")]
@@ -58,6 +56,6 @@ public class PageController : ControllerBase
 	{
 		var result = await _pageService.DeletePageAsync(id, UserId);
 
-		return result ? Ok() : BadRequest();
+		return result;
 	}
 }

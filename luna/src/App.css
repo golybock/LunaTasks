@@ -26,6 +26,12 @@
     color: var(--text);
 }
 
+.Primary-Button:active{
+    background: var(--primary-variant-darker);
+    border: var(--primary-variant);
+    color: var(--text);
+}
+
 .Secondary-Button{
     background: var(--secondary);
     color: var(--text);
@@ -33,12 +39,12 @@
 
 .Outline-Button{
     border-color: var(--primary);
-    background: var(--white);
-    color: var(--black);
+    background: var(--secondary-container);
+    color: var(--text);
 }
 
 .Outline-Button:hover{
-    color: var(--white );
+    color: var(--text);
     border-color: var(--primary);
     background: var(--primary);
 }

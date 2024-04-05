@@ -69,9 +69,9 @@ export default class Account extends React.Component<IProps, IState> {
                             <div className="Link-Block">
                                 <h4>Actions</h4>
                                 <hr/>
-                                <Button className="btn btn-outline-dark">Edit</Button>
-                                <Button className="btn btn-outline-dark">Delete</Button>
-                                <Button className="btn btn-outline-dark" onClick={() => {
+                                <Button className="btn btn-outline-dark Outline-Button">Edit</Button>
+                                <Button className="btn btn-outline-dark Outline-Button">Delete</Button>
+                                <Button className="btn btn-outline-dark Outline-Button" onClick={() => {
                                     this.openWorkspaceModal();
                                 }}>New workspace</Button>
                             </div>

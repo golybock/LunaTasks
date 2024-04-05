@@ -34,16 +34,16 @@ button{
     width: 125px;
     margin-top: 10px;
     align-items: flex-start;
-    background: var(--secondary-text-variant);
+}
+
+.Page-Content-Toolbar-Select{
+    margin-top: 10px;
+    width: 200px;
+    height: 35px;
 }
 
 .Button{
     margin-left: 10px;
-}
-
-.Table-Button{
-    background: var(--secondary-text-variant);
-    width: 100px;
 }
 
 .Page-Content-Data{

@@ -11,6 +11,7 @@ export default class DarkAsyncSelect extends React.Component {
 						 defaultOptions
 						 className="react-select-container"
 						 classNamePrefix="react-select"
+						 isClearable={true}
 						 value={this.props.value}
 						 loadOptions={this.props.loadOptions}
 						 onChange={(e) => this.props.onChange(e)}/>

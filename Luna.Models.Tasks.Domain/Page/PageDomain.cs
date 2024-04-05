@@ -1,6 +1,8 @@
 ﻿using Luna.Models.Tasks.Database.Card;
 using Luna.Models.Tasks.Database.Page;
 using Luna.Models.Tasks.Domain.Card;
+using Luna.Models.Users.Domain.Users;
+using Luna.Models.Users.View.Users;
 
 namespace Luna.Models.Tasks.Domain.Page;
 
@@ -18,11 +20,9 @@ public class PageDomain
 
 	public Guid CreatedUserId { get; set; }
 
-	public Guid WorkspaceId { get; set; }
+	public UserDomain CreatedUser { get; set; }
 
-	public IEnumerable<CardDomain> Cards { get; set; }
-
-	public PageDomain(PageDatabase pageDatabase, IEnumerable<CardDomain> cards)
+	public PageDomain(PageDatabase pageDatabase, UserDomain userDomain)
 	{
 		Id = pageDatabase.Id;
 		Name = pageDatabase.Name;
@@ -30,7 +30,6 @@ public class PageDomain
 		HeaderImage = pageDatabase.HeaderImage;
 		CreatedTimestamp = pageDatabase.CreatedTimestamp;
 		CreatedUserId = pageDatabase.CreatedUserId;
-		WorkspaceId = pageDatabase.WorkspaceId;
-		Cards = cards.ToList();
+		CreatedUser = userDomain;
 	}
 }

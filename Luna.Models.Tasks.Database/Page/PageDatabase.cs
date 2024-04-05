@@ -15,4 +15,6 @@ public class PageDatabase
 	public Guid CreatedUserId { get; set; }
 
 	public Guid WorkspaceId { get; set; }
+
+	public Boolean Deleted { get; set; }
 }

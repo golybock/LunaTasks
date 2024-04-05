@@ -3,9 +3,11 @@ using Luna.Models.Tasks.Database.Page;
 using Luna.Models.Tasks.Domain.Card;
 using Luna.Models.Tasks.Domain.Page;
 using Luna.Models.Tasks.View.Page;
+using Luna.SharedDataAccess.Users.Services;
 using Luna.Tasks.Repositories.Repositories.Card;
 using Luna.Tasks.Repositories.Repositories.Page;
 using Luna.Tasks.Services.Services.Card;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Luna.Tasks.Services.Services.Page;
 
@@ -14,18 +16,20 @@ public class PageService : IPageService
 {
 	private readonly IPageRepository _pageRepository;
 	private readonly ICardService _cardService;
+	private readonly IUserService _userService;
 
-	public PageService(IPageRepository pageRepository, ICardService cardService)
+	public PageService(IPageRepository pageRepository, ICardService cardService, IUserService userService)
 	{
 		_pageRepository = pageRepository;
 		_cardService = cardService;
+		_userService = userService;
 	}
 
 	public async Task<IEnumerable<PageView>> GetWorkspacePagesAsync(Guid workspaceId)
 	{
 		var pages = await _pageRepository.GetWorkspacePagesAsync(workspaceId);
 
-		var pagesView = new List<PageView>();
+		var pagesView = new List<PageView>(pages.Count());
 
 		foreach (var page in pages)
 		{
@@ -40,7 +44,7 @@ public class PageService : IPageService
 	{
 		var pages = await _pageRepository.GetPagesByUserAsync(userId);
 
-		var pagesView = new List<PageView>();
+		var pagesView = new List<PageView>(pages.Count());
 
 		foreach (var page in pages)
 		{
@@ -51,12 +55,11 @@ public class PageService : IPageService
 		return pagesView;
 	}
 
-	// todo get only card preview
 	private async Task<PageDomain> GetPageDomain(PageDatabase pageDatabase)
 	{
-		// var cards = await _cardService.GetCardsDomainAsync(pageDatabase.Id);
+		var user = await _userService.GetUserDomainAsync(pageDatabase.CreatedUserId);
 
-		var pageDomain = new PageDomain(pageDatabase, new List<CardDomain>());
+		var pageDomain = new PageDomain(pageDatabase, user ?? throw new ArgumentNullException(nameof(user)));
 
 		return pageDomain;
 	}
@@ -73,32 +76,54 @@ public class PageService : IPageService
 		return ToPageView(pageDomain);
 	}
 
-	public async Task<bool> CreatePageAsync(PageBlank page, Guid userId)
+	public async Task<IActionResult> CreatePageAsync(PageBlank page, Guid userId)
 	{
 		var pageDatabase = ToPageDatabase(page, userId);
 
 		var result = await _pageRepository.CreatePageAsync(pageDatabase);
 
-		return result;
+		return result ? new OkObjectResult("Успешно создано") : new BadRequestObjectResult("Ошибка создания");
 	}
 
-	public async Task<bool> UpdatePageAsync(Guid id, PageBlank page, Guid userId)
+	public async Task<IActionResult> UpdatePageAsync(Guid id, PageBlank page, Guid userId)
 	{
 		var pageDatabase = ToPageDatabase(page, userId);
 
 		var result = await _pageRepository.UpdatePageAsync(id, pageDatabase);
 
-		return result;
+		return result ? new OkObjectResult("Успешно обновлено") : new BadRequestObjectResult("Ошибка обновления");
 	}
 
-	public async Task<bool> DeletePageAsync(Guid id, Guid userId)
+	public async Task<IActionResult> TrashPageAsync(Guid id, Guid userId)
 	{
+		var page = await _pageRepository.GetPageAsync(id);
+
+		if (page == null)
+			return new NotFoundResult();
+
+		if (page.CreatedUserId != userId)
+			return new BadRequestObjectResult("Карточку может удалить только ее создатель");
+
+		page.Deleted = true;
+
+		var result = await _pageRepository.UpdatePageAsync(id, page);
+
+		return result ? new OkObjectResult("Успешно удалено") : new BadRequestObjectResult("Ошибка удаления");
+	}
+
+	public async Task<IActionResult> DeletePageAsync(Guid id, Guid userId)
+	{
+		var page = await _pageRepository.GetPageAsync(id);
+
+		if (page == null)
+			return new NotFoundResult();
+
 		var result = await _pageRepository.DeletePageAsync(id);
 
-		return result;
+		return result ? new OkObjectResult("Успешно удалено") : new BadRequestObjectResult("Ошибка удаления");
 	}
 
-	public async Task<bool> DeleteWorkspacePagesAsync(Guid workspaceId)
+	public async Task<Boolean> DeleteWorkspacePagesAsync(Guid workspaceId)
 	{
 		var result = await _pageRepository.DeleteWorkspacePagesAsync(workspaceId);
 
@@ -119,7 +144,6 @@ public class PageService : IPageService
 		};
 	}
 
-	// todo add cards
 	private PageView ToPageView(PageDomain pageDomain)
 	{
 		var pageView = new PageView(pageDomain);

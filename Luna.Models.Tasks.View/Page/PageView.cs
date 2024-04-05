@@ -1,5 +1,6 @@
 ﻿using Luna.Models.Tasks.Domain.Page;
 using Luna.Models.Tasks.View.Card;
+using Luna.Models.Users.View.Users;
 
 namespace Luna.Models.Tasks.View.Page;
 
@@ -7,15 +8,15 @@ public class PageView
 {
 	public Guid Id { get; set; }
 
-	public String Name { get; set; } = null!;
+	public String Name { get; set; }
 
-	public String Description { get; set; } = null!;
+	public String Description { get; set; }
 
-	public String HeaderImage { get; set; } = null!;
+	public String HeaderImage { get; set; }
 
 	public DateTime CreatedTimestamp { get; set; }
 
-	public IEnumerable<CardView> Cards { get; set; }
+	public UserView CreatedUser { get; set; }
 
 	public PageView(PageDomain pageDomain)
 	{
@@ -24,6 +25,6 @@ public class PageView
 		Description = pageDomain.Description;
 		HeaderImage = pageDomain.HeaderImage;
 		CreatedTimestamp = pageDomain.CreatedTimestamp;
-		Cards = pageDomain.Cards.Select(cardDomain => new CardView(cardDomain));
+		CreatedUser = new UserView(pageDomain.CreatedUser);
 	}
 }
