@@ -1,33 +1,3 @@
-:root {
-    --black: black;
-    --white: white;
-    --primary: #00A3FF;
-    --secondary: #2E2E2E;
-    --danger: red;
-    --secondary-text: #7B7B7B;
-    --secondary-text-variant: #777777;
-    --secondary-dark: #1D1D1D;
-}
-
-.Primary-Button{
-    background: var(--primary);
-    border: var(--primary);
-}
-
-.Secondary-Button{
-    background: var(--secondary);
-}
-
-.Outline-Button{
-    color: var(--black);
-    background: var(--white);
-}
-
-.Outline-Button:hover{
-    color: var(--white );
-    background: var(--black);
-}
-
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -42,4 +12,33 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary);
+}
+
+.Primary-Button{
+    background: var(--primary);
+    border: var(--primary);
+    color: var(--text);
+}
+
+.Primary-Button:hover{
+    background: var(--primary-variant-darker);
+    border: var(--primary-variant);
+    color: var(--text);
+}
+
+.Secondary-Button{
+    background: var(--secondary);
+    color: var(--text);
+}
+
+.Outline-Button{
+    border-color: var(--primary);
+    background: var(--white);
+    color: var(--black);
+}
+
+.Outline-Button:hover{
+    color: var(--white );
+    border-color: var(--primary);
+    background: var(--primary);
 }

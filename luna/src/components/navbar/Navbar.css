@@ -10,7 +10,7 @@
     height: 100vh;
     top: 0;
     width: 240px;
-    background: var(--secondary);
+    background: var(--primary-container);
     padding: 12px;
 }
 
@@ -46,19 +46,19 @@
 
 .Workspace-Dropdown{
     width: 200px;
-    background: var(--secondary);
+    background: var(--primary-container);
     margin: 12px;
 }
 
 .Workspace-Dropdown-Item{
     width: 200px;
     color: var(--secondary-text);
-    background: var(--secondary);
+    background: var(--secondary-container);
 }
 
 .Navbar-Container-Content{
     flex: 1;
     width: calc(100% - 240px);
-    color: white;
-    background: var(--secondary-dark);
+    color: var(--text);
+    background: var(--secondary-container);
 }

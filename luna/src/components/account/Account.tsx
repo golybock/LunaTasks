@@ -4,6 +4,7 @@ import UserProvider from "../../provider/user/userProvider";
 import "./Account.css"
 import {Button} from "react-bootstrap";
 import WorkspaceModal from "./modals/WorkspaceModal";
+import ImageManager from "../../tools/ImageManager";
 
 interface IProps {
 
@@ -16,7 +17,7 @@ interface IState {
 
 export default class Account extends React.Component<IProps, IState> {
 
-    headerUrl = "http://localhost:7005/woodcuts_14.jpg";
+    headerUrl = ImageManager.getImageSrc("woodcuts_14.jpg");
 
     constructor(props: IProps) {
         super(props);

@@ -10,6 +10,7 @@ import {NotAuthedRoute, ProtectedRoute} from "./auth/AuthWrapper";
 import InviteWorkspacePage from "./components/about/InviteWorkspacePage";
 import SignUp from "./components/auth/SignUp";
 import './App.css';
+import './dark.css';
 
 interface IProps {
 
@@ -37,22 +38,21 @@ export default class Auth extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <Routes>
-                <Route element={<ProtectedRoute outlet={<LeftNavbar/>}/>}>
-                    <Route index path="/" element={<Home/>}/>
-                    <Route path="page/:pageId" element={<Page/>}/>
-                    <Route path="account" element={<Account/>}/>
-                    <Route path="about" element={<About/>}/>
-                </Route>
-                <Route path="inviteWorkspace/:workspaceId"
-                       element={<ProtectedRoute outlet={<InviteWorkspacePage/>}/>}/>
-                <Route path="*" element={<p>There's nothing here: 404!</p>}/>
-                <Route path="/signIn" element={<NotAuthedRoute outlet={<SignIn/>}/>}/>
-                <Route path="/signUp" element={<NotAuthedRoute outlet={<SignUp/>}/>}/>
+                <Routes>
+                    <Route element={<ProtectedRoute outlet={<LeftNavbar/>}/>}>
+                        <Route index path="/" element={<Home/>}/>
+                        <Route path="page/:pageId" element={<Page/>}/>
+                        <Route path="account" element={<Account/>}/>
+                        <Route path="about" element={<About/>}/>
+                    </Route>
+                    <Route path="inviteWorkspace/:workspaceId"
+                           element={<ProtectedRoute outlet={<InviteWorkspacePage/>}/>}/>
+                    <Route path="*" element={<p>There's nothing here: 404!</p>}/>
+                    <Route path="/signIn" element={<NotAuthedRoute outlet={<SignIn/>}/>}/>
+                    <Route path="/signUp" element={<NotAuthedRoute outlet={<SignUp/>}/>}/>
 
-            </Routes>
+                </Routes>
         );
     }
-
 }
 

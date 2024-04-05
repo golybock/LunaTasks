@@ -68,20 +68,20 @@ export class LeftNavbar extends React.Component<IProps, IState> {
 
     async selectWorkspace(id: string | null) {
 
+        //id empty
         if (!id) {
+            // set first available workspaceId
             this.setState({selectedWorkspaceId: this.state.workspaces[0].id});
 
-            WorkspaceManager.workspaceSelected(this.state.workspaces[0].id)
+            WorkspaceManager.setWorkspace(this.state.workspaces[0].id)
+        } else {
+            // workspace not empty - set new workspaceid
+            this.setState({selectedWorkspaceId: id});
 
-            return;
+            WorkspaceManager.setWorkspace(id)
         }
 
-        this.setState({selectedWorkspaceId: id});
-
-        if (this.state.selectedWorkspaceId?.length > 0) {
-            WorkspaceManager.workspaceSelected(this.state.workspaces[0].id)
-        }
-
+        // load pages
         let pages = await PageProvider.getPages(WorkspaceManager.getWorkspace()!);
 
         let pageMenuItems: MenuItem[] = [];
@@ -137,8 +137,8 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                         )}
                     </div>
                     <nav className="Navbar-List">
-                        {this.state.selectedWorkspaceId && (
-                            <>
+                        {this.state.menuItems && (
+                            <div>
                                 {this.state.menuItems.map((item: MenuItem) => (
                                     <NavLink key={item.title} to={item.href} end={true} replace={true}
                                              className="Navbar-Item">
@@ -150,11 +150,11 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                                         </div>
                                     </NavLink>
                                 ))}
-                            </>
+                            </div>
                         )}
-                        <div className="Navbar-List-Item">
+                        <div className="Navbar-List-Item" onClick={() => AuthWrapper.userSignOut()}>
                             <img src={"/icons/signOut.svg"} alt=""/>
-                            <label onClick={() => AuthWrapper.userSignOut()}>SignOut</label>
+                            <label>SignOut</label>
                         </div>
                     </nav>
                 </aside>

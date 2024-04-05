@@ -2,18 +2,18 @@
 import Form from "react-bootstrap/Form";
 import {Button} from "react-bootstrap";
 import AuthProvider from "../../provider/auth/authProvider";
-import './SignUp.css';
 import {NavLink} from "react-router-dom";
+import NotificationManager from "../../tools/NotificationManager";
+import ImageManager from "../../tools/ImageManager";
+// import './SiggIn.css';
 
 interface IProps {
-    // auth: Function;
 }
 
 interface IState {
     email: string;
     password: string;
     username: string;
-    error: string;
 }
 
 export default class SignUp extends React.Component<IProps, IState> {
@@ -22,9 +22,8 @@ export default class SignUp extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            email: "aboba@aboba.com",
-            password: "aboba",
-            error: "",
+            email: "",
+            password: "",
             username: ""
         }
     }
@@ -40,7 +39,7 @@ export default class SignUp extends React.Component<IProps, IState> {
         if (res) {
             console.log('authed')
         } else {
-            this.setState({error: "Не удалось зарегистрировать пользователя"});
+            NotificationManager.makeError("Не удалось зарегистрировать пользователя")
         }
     }
 
@@ -50,7 +49,7 @@ export default class SignUp extends React.Component<IProps, IState> {
 
                 <div className="Image-Block">
                     <header className="App-header">
-                        <img src="/resources/background-transparent.png" className="App-logo" alt="logo"/>
+                        <img src={ImageManager.getImageSrc("background-4.jpg")} className="App-logo" alt="logo"/>
                     </header>
                 </div>
 
@@ -107,15 +106,6 @@ export default class SignUp extends React.Component<IProps, IState> {
                                         }}>
                                     Continue
                                 </Button>
-
-                                <>
-                                    {this.state.error && (
-                                        <div className="Error">
-                                            <label>{this.state.error}</label>
-                                        </div>
-                                    )
-                                    }
-                                </>
 
                             </Form>
                         </div>
