@@ -41,9 +41,9 @@ public class DataController : ControllerBase
 
 	[Authorize]
 	[HttpPost("[action]")]
-	public async Task<Boolean> CreateFileAsyncAsync(IFormFile fileDatabase, Guid workspaceId)
+	public async Task<Boolean> CreateFileAsyncAsync(IFormFile file, Guid workspaceId)
 	{
-		return await _dataService.CreateFileAsyncAsync(fileDatabase, workspaceId, UserId);
+		return await _dataService.CreateFileAsyncAsync(file, workspaceId, UserId);
 	}
 
 	[Authorize]

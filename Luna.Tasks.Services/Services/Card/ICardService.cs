@@ -11,6 +11,8 @@ public interface ICardService
 {
 	public Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, List<Guid> userIds, List<Guid> tagIds);
 
+	public Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, List<Guid> userIds);
+
 	public Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, Boolean deleted = false);
 
 	public Task<IEnumerable<CardView>> GetCardsAsync(IEnumerable<Guid> cardIds);
@@ -57,7 +59,6 @@ public interface ICardService
 	public Task<Boolean> CreateCardStatusAsync(Guid cardId, Guid statusId);
 
 	public Task<Boolean> DeleteCardStatusAsync(Guid cardId, Guid statusId);
-
 
 	public Task<IEnumerable<TagView>> GetCardTagsAsync(Guid cardId);
 

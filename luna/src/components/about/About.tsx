@@ -94,6 +94,8 @@ export default class About extends React.Component<IProps, IState> {
         const link = "http://localhost:3000/inviteWorkspace/" + this.state.workspace?.id;
 
         await navigator.clipboard.writeText(link);
+
+        NotificationManager.makeSuccess("Link copied to clipboard!")
     }
 
     closePageModal() {

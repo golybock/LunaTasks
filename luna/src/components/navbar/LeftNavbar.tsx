@@ -158,10 +158,13 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                         </div>
                     </nav>
                 </aside>
+
                 <main className="Navbar-Container-Content">
-                    <ReactNotifications/>
                     <Outlet/>
                 </main>
+
+                <ReactNotifications/>
+
             </div>
         );
     }

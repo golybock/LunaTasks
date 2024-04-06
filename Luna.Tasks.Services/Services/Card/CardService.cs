@@ -57,6 +57,15 @@ public class CardService : ICardService
 		return cardViews;
 	}
 
+	public async Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, List<Guid> userIds)
+	{
+		var cards = await _cardRepository.GetCardsAsync(pageId);
+
+		var cardViews = await GetCardsByAsync(cards, userIds);
+
+		return cardViews;
+	}
+
 	// for trash or get witouh filter
 	public async Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, bool deleted = false)
 	{
@@ -92,6 +101,22 @@ public class CardService : ICardService
 		await Parallel.ForEachAsync(enumerable, async (cardDatabase, ct) =>
 		{
 			var card = await GetCardViewBy(cardDatabase, userIds, tagIds);
+
+			if (card != null) cardViews.Add(card);
+		});
+
+		return cardViews;
+	}
+
+	private async Task<IEnumerable<CardView>> GetCardsByAsync(IEnumerable<CardDatabase> cardDatabases, List<Guid> userIds)
+	{
+		var enumerable = cardDatabases.ToList();
+
+		List<CardView> cardViews = new List<CardView>(enumerable.Count());
+
+		await Parallel.ForEachAsync(enumerable, async (cardDatabase, ct) =>
+		{
+			var card = await GetCardViewBy(cardDatabase, userIds);
 
 			if (card != null) cardViews.Add(card);
 		});
@@ -558,6 +583,36 @@ public class CardService : ICardService
 			if (!tags.ToList().Select(c => c.Id).Intersect(tagIds).Any())
 				return null;
 		}
+
+		if (userIds.Any())
+		{
+			if (!cardUserIds.Intersect(userIds).Any())
+				return null;
+		}
+
+		var usersViews = await _userService.GetUsersAsync();
+		usersViews = usersViews.Where(c => userIds.Contains(c.Id)).ToList();
+
+		return new CardView(cardDomain, type, comments, tags, usersViews, statuses);
+	}
+
+	private async Task<CardView?> GetCardViewBy(CardDatabase cardDatabase, List<Guid> userIds)
+	{
+		var cardDomain = new CardDomain(cardDatabase);
+
+		var typeTask = _typeService.GetTypeAsync(cardDomain.CardTypeId);
+		var commentsTask = _commentService.GetCommentsAsync(cardDomain.Id);
+		var tagsTask = GetCardTagsAsync(cardDomain.Id);
+		var statusesTask = GetCardStatusesAsync(cardDomain.Id);
+		var usersTask = _cardRepository.GetCardUsersAsync(cardDomain.Id);
+
+		var type = await typeTask;
+		var comments = await commentsTask;
+		var tags = await tagsTask;
+		var statuses = await statusesTask;
+		var users = await usersTask;
+
+		var cardUserIds = users.Select(u => u.UserId);
 
 		if (userIds.Any())
 		{

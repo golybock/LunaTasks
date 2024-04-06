@@ -1,6 +1,9 @@
 ﻿.Card{
     background: var(--primary-container);
     color: white;
-    padding: 12px;
     cursor: pointer;
+}
+
+.Card-Title{
+    margin: 10px 0 0 15px;
 }

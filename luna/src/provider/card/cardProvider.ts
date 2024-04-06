@@ -27,9 +27,13 @@ export default class CardProvider extends ProviderBase {
             });
     }
 
-    static async getCardsByUser(pageId: string, userId: string): Promise<Array<ICardView>> {
+    static async getCardsByUserIds(pageId: string, userIds: string[]): Promise<Array<ICardView>> {
 
-        let url = this.baseAddress + "/Card/GetCards?pageId=" + pageId + "&userId=" + userId;
+        let url = this.baseAddress + "/Card/GetCards?pageId=" + pageId;
+
+        userIds.forEach(i => {
+            url += "&userIds" + i;
+        })
 
         let token = AuthWrapper.user();
 
@@ -90,22 +94,6 @@ export default class CardProvider extends ProviderBase {
         let token = AuthWrapper.user();
 
         return await axios.post(url, cardBlank, {headers: {"Authorization": `Bearer ${token}`}})
-            .then(async res => {
-
-                return res.status === 200;
-            })
-            .catch(() => {
-                return false;
-            });
-    }
-
-    static async addTagToCard(cardId: string, tagId: string): Promise<boolean> {
-
-        let url = this.baseAddress + "/Card/AddCardTag?cardId=" + cardId + "&tagId=" + tagId;
-
-        let token = AuthWrapper.user();
-
-        return await axios.post(url, null, {headers: {"Authorization": `Bearer ${token}`}})
             .then(async res => {
 
                 return res.status === 200;

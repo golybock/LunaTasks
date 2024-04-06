@@ -1,0 +1,16 @@
+﻿.Badge-Container{
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+}
+
+.Tag{
+    margin: 2px;
+    display: inline-flex;
+    padding: 2px 12px;
+    overflow: hidden;
+    position: relative;
+    align-items: center;
+    border-radius: 16px;
+    color: black;
+}
