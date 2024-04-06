@@ -32,11 +32,11 @@ public class CommentController: ControllerBase
 	}
 
 	[HttpPost("[action]")]
-	public async Task<IActionResult> CreateCommentAsync(CommentBlank comment, Guid userId)
+	public async Task<IActionResult> CreateCommentAsync(CommentBlank comment)
 	{
-		var result = await _commentService.CreateCommentAsync(comment, userId);
+		var result = await _commentService.CreateCommentAsync(comment, UserId);
 
-		return result ? Ok() : BadRequest();
+		return result;
 	}
 
 	[HttpPut("[action]")]
@@ -44,7 +44,7 @@ public class CommentController: ControllerBase
 	{
 		var result = await _commentService.UpdateCommentAsync(id, comment, UserId);
 
-		return result ? Ok() : BadRequest();
+		return result;
 	}
 
 	[HttpDelete("[action]")]
@@ -52,6 +52,6 @@ public class CommentController: ControllerBase
 	{
 		var result = await _commentService.DeleteCommentAsync(id);
 
-		return result ? Ok() : BadRequest();
+		return result;
 	}
 }

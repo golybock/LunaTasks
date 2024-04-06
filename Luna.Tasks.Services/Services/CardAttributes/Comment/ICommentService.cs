@@ -1,6 +1,7 @@
 ﻿using Luna.Models.Tasks.Blank.CardAttributes;
 using Luna.Models.Tasks.Domain.CardAttributes;
 using Luna.Models.Tasks.View.CardAttributes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Luna.Tasks.Services.Services.CardAttributes.Comment;
 
@@ -18,11 +19,11 @@ public interface ICommentService
 
 	public Task<CommentDomain?> GetCommentDomainAsync(Int32 commentId);
 
-	public Task<Boolean> CreateCommentAsync(CommentBlank comment, Guid userId);
+	public Task<IActionResult> CreateCommentAsync(CommentBlank comment, Guid userId);
 
-	public Task<Boolean> UpdateCommentAsync(Int32 id, CommentBlank comment, Guid userId);
+	public Task<IActionResult> UpdateCommentAsync(Int32 id, CommentBlank comment, Guid userId);
 
-	public Task<Boolean> DeleteCommentAsync(Int32 id);
+	public Task<IActionResult> DeleteCommentAsync(Int32 id);
 
 	public Task<Boolean> DeleteCardCommentsAsync(Guid cardId);
 

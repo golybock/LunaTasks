@@ -47,16 +47,18 @@ public class CardService : ICardService
 		_commentService = commentService;
 	}
 
-	public async Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, Guid userId)
+	// get cards with filter
+	public async Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, List<Guid> userIds, List<Guid> tagIds)
 	{
-		var cards = await _cardRepository.GetCardsAsync(pageId, userId);
+		var cards = await _cardRepository.GetCardsAsync(pageId);
 
-		var cardViews = await GetCardsAsync(cards);
+		var cardViews = await GetCardsByAsync(cards, userIds, tagIds);
 
 		return cardViews;
 	}
 
-	public async Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId)
+	// for trash or get witouh filter
+	public async Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, bool deleted = false)
 	{
 		var cards = await _cardRepository.GetCardsAsync(pageId);
 
@@ -76,6 +78,22 @@ public class CardService : ICardService
 			var card = await GetCardAsync(cardId);
 
 			cardViews.Add(card);
+		});
+
+		return cardViews;
+	}
+
+	private async Task<IEnumerable<CardView>> GetCardsByAsync(IEnumerable<CardDatabase> cardDatabases, List<Guid> userIds, List<Guid> tagIds)
+	{
+		var enumerable = cardDatabases.ToList();
+
+		List<CardView> cardViews = new List<CardView>(enumerable.Count());
+
+		await Parallel.ForEachAsync(enumerable, async (cardDatabase, ct) =>
+		{
+			var card = await GetCardViewBy(cardDatabase, userIds, tagIds);
+
+			if (card != null) cardViews.Add(card);
 		});
 
 		return cardViews;
@@ -195,6 +213,11 @@ public class CardService : ICardService
 		await CreateCardStatusAsync(id, card.StatusId);
 
 		return result;
+	}
+
+	public async Task<bool> ToTrashCardAsync(Guid id, Guid userId)
+	{
+		throw new NotImplementedException();
 	}
 
 	public async Task<bool> DeleteCardAsync(Guid id, Guid userId)
@@ -414,6 +437,7 @@ public class CardService : ICardService
 		return await _cardRepository.DeleteCardTagAsync(cardId, tagId);
 	}
 
+	// todo вынести в отдельный сервайс
 	public async Task<byte[]> GetCardsXlsx(Guid pageId)
 	{
 		var cards = await GetCardsAsync(pageId);
@@ -511,6 +535,42 @@ public class CardService : ICardService
 		return result;
 	}
 
+	private async Task<CardView?> GetCardViewBy(CardDatabase cardDatabase, List<Guid> userIds, List<Guid> tagIds)
+	{
+		var cardDomain = new CardDomain(cardDatabase);
+
+		var typeTask = _typeService.GetTypeAsync(cardDomain.CardTypeId);
+		var commentsTask = _commentService.GetCommentsAsync(cardDomain.Id);
+		var tagsTask = GetCardTagsAsync(cardDomain.Id);
+		var statusesTask = GetCardStatusesAsync(cardDomain.Id);
+		var usersTask = _cardRepository.GetCardUsersAsync(cardDomain.Id);
+
+		var type = await typeTask;
+		var comments = await commentsTask;
+		var tags = await tagsTask;
+		var statuses = await statusesTask;
+		var users = await usersTask;
+
+		var cardUserIds = users.Select(u => u.UserId);
+
+		if (tagIds.Any())
+		{
+			if (!tags.ToList().Select(c => c.Id).Intersect(tagIds).Any())
+				return null;
+		}
+
+		if (userIds.Any())
+		{
+			if (!cardUserIds.Intersect(userIds).Any())
+				return null;
+		}
+
+		var usersViews = await _userService.GetUsersAsync();
+		usersViews = usersViews.Where(c => userIds.Contains(c.Id)).ToList();
+
+		return new CardView(cardDomain, type, comments, tags, usersViews, statuses);
+	}
+
 	private async Task<CardView> GetCardView(CardDatabase cardDatabase)
 	{
 		var cardDomain = new CardDomain(cardDatabase);
@@ -576,7 +636,7 @@ public class CardService : ICardService
 			}
 		}
 
-		// uniwue
+		// unique
 		var comments = await _commentService.GetCommentsDomainAsync(cardDatabase.Id);
 
 		var tags = await GetCardTagsDomainByHashAsync(cardDatabase.Id, tagDomains);

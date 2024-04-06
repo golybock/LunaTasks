@@ -3,6 +3,7 @@ using Luna.Models.Tasks.Database.CardAttributes;
 using Luna.Models.Tasks.Domain.CardAttributes;
 using Luna.Models.Tasks.View.CardAttributes;
 using Luna.Tasks.Repositories.Repositories.CardAttributes.Comment;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Luna.Tasks.Services.Services.CardAttributes.Comment;
 
@@ -63,26 +64,39 @@ public class CommentService : ICommentService
 		return ToCommentDomain(comment);
 	}
 
-	public async Task<bool> CreateCommentAsync(CommentBlank comment, Guid userId)
+	public async Task<IActionResult> CreateCommentAsync(CommentBlank comment, Guid userId)
 	{
 		var commentDatabase = ToCommentDatabase(comment, userId);
 
-		return await _commentRepository.CreateCommentAsync(commentDatabase);
+		var res = await _commentRepository.CreateCommentAsync(commentDatabase);
+
+		return res ? new OkResult() : new BadRequestResult();
 	}
 
-	public async Task<bool> UpdateCommentAsync(int id, CommentBlank comment, Guid userId)
+	public async Task<IActionResult> UpdateCommentAsync(int id, CommentBlank comment, Guid userId)
 	{
 		var commentDatabase = ToCommentDatabase(comment, userId);
 
-		return await _commentRepository.UpdateCommentAsync(id, commentDatabase);
+		var res = await _commentRepository.UpdateCommentAsync(id, commentDatabase);
+
+		return res ? new OkResult() : new BadRequestResult();
 	}
 
-	public async Task<bool> DeleteCommentAsync(int id)
+	public async Task<IActionResult> DeleteCommentAsync(int id)
 	{
-		return await _commentRepository.DeleteCommentAsync(id);
+		var comment = await _commentRepository.GetCommentAsync(id);
+
+		if (comment == null)
+			return new NotFoundResult();
+
+		comment.Deleted = true;
+
+		var res = await _commentRepository.UpdateCommentAsync(id, comment);
+
+		return res ? new OkResult() : new BadRequestResult();
 	}
 
-	public async Task<bool> DeleteCardCommentsAsync(Guid cardId)
+	public async Task<Boolean> DeleteCardCommentsAsync(Guid cardId)
 	{
 		return await _commentRepository.DeleteCardCommentsAsync(cardId);
 	}

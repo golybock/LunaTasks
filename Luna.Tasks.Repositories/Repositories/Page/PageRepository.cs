@@ -7,27 +7,31 @@ namespace Luna.Tasks.Repositories.Repositories.Page;
 
 public class PageRepository : NpgsqlRepository, IPageRepository
 {
-	public PageRepository(IDatabaseOptions databaseOptions) : base(databaseOptions) { }
-
-	public async Task<IEnumerable<PageDatabase>> GetWorkspacePagesAsync(Guid workspaceId)
+	public PageRepository(IDatabaseOptions databaseOptions) : base(databaseOptions)
 	{
-		var query = "SELECT * FROM page WHERE workspace_id = $1";
+	}
+
+	public async Task<IEnumerable<PageDatabase>> GetWorkspacePagesAsync(Guid workspaceId, bool deleted = false)
+	{
+		var query = "SELECT * FROM page WHERE workspace_id = $1 and deleted = $2";
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = workspaceId}
+			new NpgsqlParameter() {Value = workspaceId},
+			new NpgsqlParameter() {Value = deleted},
 		};
 
 		return await GetListAsync<PageDatabase>(query, parameters);
 	}
 
-	public async Task<IEnumerable<PageDatabase>> GetPagesByUserAsync(Guid userId)
+	public async Task<IEnumerable<PageDatabase>> GetPagesByUserAsync(Guid userId, bool deleted = false)
 	{
-		var query = "SELECT * FROM page WHERE created_user_id = $1";
+		var query = "SELECT * FROM page WHERE created_user_id = $1 and deleted = $2";
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = userId}
+			new NpgsqlParameter() {Value = userId},
+			new NpgsqlParameter() {Value = deleted},
 		};
 
 		return await GetListAsync<PageDatabase>(query, parameters);
@@ -79,7 +83,19 @@ public class PageRepository : NpgsqlRepository, IPageRepository
 		return await ExecuteAsync(query, parameters);
 	}
 
-	public  Task<Boolean> DeletePageAsync(Guid id)
+	public async Task<bool> ToTrashPageAsync(Guid id)
+	{
+		var query = "UPDATE page SET deleted = true WHERE id = $1";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = id}
+		};
+
+		return await ExecuteAsync(query, parameters);
+	}
+
+	public Task<Boolean> DeletePageAsync(Guid id)
 	{
 		return DeleteAsync("page", "id", id);
 	}

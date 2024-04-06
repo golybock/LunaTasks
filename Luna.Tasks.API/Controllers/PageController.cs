@@ -20,9 +20,9 @@ public class PageController : ControllerBase
 	}
 
 	[HttpGet("[action]")]
-	public async Task<IEnumerable<PageView>> GetWorkspacePages(Guid workspaceId)
+	public async Task<IEnumerable<PageView>> GetWorkspacePages(Guid workspaceId, Boolean deleted = false)
 	{
-		return await _pageService.GetWorkspacePagesAsync(workspaceId);
+		return await _pageService.GetWorkspacePagesAsync(workspaceId, deleted);
 	}
 
 	[HttpGet("[action]")]
@@ -34,9 +34,7 @@ public class PageController : ControllerBase
 	[HttpPost("[action]")]
 	public async Task<IActionResult> CreatePage(PageBlank page)
 	{
-		var result = await _pageService.CreatePageAsync(page, UserId);
-
-		return result;
+		return await _pageService.CreatePageAsync(page, UserId);
 	}
 
 	[HttpPut("[action]")]
@@ -48,14 +46,12 @@ public class PageController : ControllerBase
 	[HttpDelete("[action]")]
 	public async Task<IActionResult> TrashPageAsync(Guid id)
 	{
-		return await _pageService.TrashPageAsync(id, UserId);
+		return await _pageService.ToTrashPageAsync(id, UserId);
 	}
 
 	[HttpDelete("[action]")]
 	public async Task<IActionResult> DeletePage(Guid id)
 	{
-		var result = await _pageService.DeletePageAsync(id, UserId);
-
-		return result;
+		return await _pageService.DeletePageAsync(id, UserId);
 	}
 }

@@ -20,12 +20,19 @@ public class CardController : ControllerBase
 	}
 
 	[HttpGet("[action]")]
-	public async Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, Guid? userId)
+	public async Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, List<Guid> userIds, List<Guid> tagIds)
 	{
-		if (userId != null)
-			return await _cardService.GetCardsAsync(pageId, userId.Value);
+		if (!userIds.Any() && !tagIds.Any())
+			return await _cardService.GetCardsAsync(pageId);
 
-		return await _cardService.GetCardsAsync(pageId);
+		return await _cardService.GetCardsAsync(pageId, userIds, tagIds);
+	}
+
+
+	[HttpGet("[action]")]
+	public async Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, Boolean deleted = false)
+	{
+		return await _cardService.GetCardsAsync(pageId, deleted);
 	}
 
 	[HttpGet("[action]")]

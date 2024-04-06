@@ -15,44 +15,12 @@ namespace Luna.Tasks.Services.Services.Page;
 public class PageService : IPageService
 {
 	private readonly IPageRepository _pageRepository;
-	private readonly ICardService _cardService;
 	private readonly IUserService _userService;
 
-	public PageService(IPageRepository pageRepository, ICardService cardService, IUserService userService)
+	public PageService(IPageRepository pageRepository,IUserService userService)
 	{
 		_pageRepository = pageRepository;
-		_cardService = cardService;
 		_userService = userService;
-	}
-
-	public async Task<IEnumerable<PageView>> GetWorkspacePagesAsync(Guid workspaceId)
-	{
-		var pages = await _pageRepository.GetWorkspacePagesAsync(workspaceId);
-
-		var pagesView = new List<PageView>(pages.Count());
-
-		foreach (var page in pages)
-		{
-			var pageDomain = await GetPageDomain(page);
-			pagesView.Add(ToPageView(pageDomain));
-		}
-
-		return pagesView;
-	}
-
-	public async Task<IEnumerable<PageView>> GetPagesByUserAsync(Guid userId)
-	{
-		var pages = await _pageRepository.GetPagesByUserAsync(userId);
-
-		var pagesView = new List<PageView>(pages.Count());
-
-		foreach (var page in pages)
-		{
-			var pageDomain = await GetPageDomain(page);
-			pagesView.Add(ToPageView(pageDomain));
-		}
-
-		return pagesView;
 	}
 
 	private async Task<PageDomain> GetPageDomain(PageDatabase pageDatabase)
@@ -62,6 +30,36 @@ public class PageService : IPageService
 		var pageDomain = new PageDomain(pageDatabase, user ?? throw new ArgumentNullException(nameof(user)));
 
 		return pageDomain;
+	}
+
+	public async Task<IEnumerable<PageView>> GetWorkspacePagesAsync(Guid workspaceId, bool deleted = false)
+	{
+		var pages = await _pageRepository.GetWorkspacePagesAsync(workspaceId, deleted);
+
+		var pagesView = new List<PageView>(pages.Count());
+
+		foreach (var page in pages)
+		{
+			var pageDomain = await GetPageDomain(page);
+			pagesView.Add(ToPageView(pageDomain));
+		}
+
+		return pagesView;
+	}
+
+	public async Task<IEnumerable<PageView>> GetPagesByUserAsync(Guid userId, bool deleted = false)
+	{
+		var pages = await _pageRepository.GetPagesByUserAsync(userId, deleted);
+
+		var pagesView = new List<PageView>(pages.Count());
+
+		foreach (var page in pages)
+		{
+			var pageDomain = await GetPageDomain(page);
+			pagesView.Add(ToPageView(pageDomain));
+		}
+
+		return pagesView;
 	}
 
 	public async Task<PageView?> GetPageAsync(Guid id)
@@ -94,7 +92,7 @@ public class PageService : IPageService
 		return result ? new OkObjectResult("Успешно обновлено") : new BadRequestObjectResult("Ошибка обновления");
 	}
 
-	public async Task<IActionResult> TrashPageAsync(Guid id, Guid userId)
+	public async Task<IActionResult> ToTrashPageAsync(Guid id, Guid userId)
 	{
 		var page = await _pageRepository.GetPageAsync(id);
 
@@ -104,9 +102,7 @@ public class PageService : IPageService
 		if (page.CreatedUserId != userId)
 			return new BadRequestObjectResult("Карточку может удалить только ее создатель");
 
-		page.Deleted = true;
-
-		var result = await _pageRepository.UpdatePageAsync(id, page);
+		var result = await _pageRepository.ToTrashPageAsync(id);
 
 		return result ? new OkObjectResult("Успешно удалено") : new BadRequestObjectResult("Ошибка удаления");
 	}

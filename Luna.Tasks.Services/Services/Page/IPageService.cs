@@ -6,9 +6,9 @@ namespace Luna.Tasks.Services.Services.Page;
 
 public interface IPageService
 {
-	public Task<IEnumerable<PageView>> GetWorkspacePagesAsync(Guid workspaceId);
+	public Task<IEnumerable<PageView>> GetWorkspacePagesAsync(Guid workspaceId, Boolean deleted = false);
 
-	public Task<IEnumerable<PageView>> GetPagesByUserAsync(Guid userId);
+	public Task<IEnumerable<PageView>> GetPagesByUserAsync(Guid userId, Boolean deleted = false);
 
 	public Task<PageView?> GetPageAsync(Guid id);
 
@@ -16,7 +16,7 @@ public interface IPageService
 
 	public Task<IActionResult> UpdatePageAsync(Guid id, PageBlank page, Guid userId);
 
-	public Task<IActionResult> TrashPageAsync(Guid id, Guid userId);
+	public Task<IActionResult> ToTrashPageAsync(Guid id, Guid userId);
 
 	public Task<IActionResult> DeletePageAsync(Guid id, Guid userId);
 
