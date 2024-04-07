@@ -39,14 +39,14 @@ public class CardDomain
 
 	public IEnumerable<CardUsersDomain> Users { get; set; }
 
-	public IEnumerable<CardStatusDomain> Statuses { get; set; }
+	public CardStatusDomain Status { get; set; }
 
 	public CardDomain
 	(
 		CardDatabase cardDatabase, TypeDomain typeDomain,
 		CardDomain? previousCard, BlockedCardDomain? blockedCardDomain,
 		IEnumerable<CommentDomain> comments, IEnumerable<CardTagsDomain> cardTags,
-		IEnumerable<CardUsersDomain> users, IEnumerable<CardStatusDomain> statuses
+		IEnumerable<CardUsersDomain> users, CardStatusDomain status
 	)
 	{
 		Id = cardDatabase.Id;
@@ -67,7 +67,7 @@ public class CardDomain
 		Comments = comments;
 		CardTags = cardTags;
 		Users = users;
-		Statuses = statuses;
+		Status = status;
 	}
 
 	public CardDomain(CardDatabase cardDatabase) {

@@ -4,10 +4,10 @@ import {LeftNavbar} from "./components/navbar/LeftNavbar";
 import SignIn from "./components/auth/SignIn";
 import Home from "./components/home/Home";
 import Account from "./components/account/Account";
-import About from "./components/about/About";
+import Settings from "./components/settings/Settings";
 import Page from "./components/page/Page";
 import {NotAuthedRoute, ProtectedRoute} from "./auth/AuthWrapper";
-import InviteWorkspacePage from "./components/about/InviteWorkspacePage";
+import InviteWorkspacePage from "./components/settings/InviteWorkspacePage";
 import SignUp from "./components/auth/SignUp";
 import './App.css';
 import './dark.css';
@@ -51,10 +51,9 @@ export default class Auth extends React.Component<IProps, IState> {
                         <Route index path="/" element={<Home/>}/>
                         <Route path="page/:pageId" element={<Page/>}/>
                         <Route path="account" element={<Account/>}/>
-                        <Route path="about" element={<About/>}/>
+                        <Route path="settings" element={<Settings/>}/>
                     </Route>
-                    <Route path="inviteWorkspace/:workspaceId"
-                           element={<ProtectedRoute outlet={<InviteWorkspacePage/>}/>}/>
+                    <Route path="inviteWorkspace/:workspaceId" element={<ProtectedRoute outlet={<InviteWorkspacePage/>}/>}/>
                     <Route path="*" element={<p>There's nothing here: 404!</p>}/>
                     <Route path="/signIn" element={<NotAuthedRoute outlet={<SignIn/>}/>}/>
                     <Route path="/signUp" element={<NotAuthedRoute outlet={<SignUp/>}/>}/>

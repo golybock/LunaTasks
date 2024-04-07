@@ -17,5 +17,5 @@ export default interface ICardView {
     comments: CommentView[];
     cardTags: TagView[];
     users: IUserView[];
-    statuses: StatusView[];
+    status: StatusView;
 }

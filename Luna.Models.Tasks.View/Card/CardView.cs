@@ -31,7 +31,7 @@ public class CardView
 	//todo: add user model
 	public IEnumerable<UserView> Users { get; set; }
 
-	public IEnumerable<StatusView> Statuses { get; set; }
+	public StatusView Status { get; set; }
 
 	public CardView(CardDomain cardDomain)
 	{
@@ -47,7 +47,7 @@ public class CardView
 		Comments = cardDomain.Comments.Select(commentDomain => new CommentView(commentDomain));
 		CardTags = cardDomain.CardTags.Select(tagDomain => new TagView(tagDomain.Tag));
 		Users = cardDomain.Users.Select(c => new UserView(c.User)).ToList();
-		Statuses = cardDomain.Statuses.Select(cardStatusDomain => new StatusView(cardStatusDomain.Status));
+		Status = new StatusView(cardDomain.Status.Status);
 	}
 
 	public CardView
@@ -57,7 +57,7 @@ public class CardView
 		IEnumerable<CommentView> comments,
 		IEnumerable<TagView> tags,
 		IEnumerable<UserView> users,
-		IEnumerable<StatusView> statuses
+		StatusView status
 	)
 	{
 		Id = cardDomain.Id;
@@ -69,10 +69,9 @@ public class CardView
 		Deadline = cardDomain.Deadline;
 
 		CardType = cardType;
-		// PreviousCard = cardDomain.PreviousCard == null ? null : new CardView(cardDomain.PreviousCard);
 		Comments = comments;
 		CardTags = tags;
 		Users = users;
-		Statuses = statuses;
+		Status = status;
 	}
 }

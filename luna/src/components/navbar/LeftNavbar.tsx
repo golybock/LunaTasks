@@ -50,9 +50,9 @@ export class LeftNavbar extends React.Component<IProps, IState> {
             image: "/icons/account.svg"
         },
         {
-            href: "/about",
-            title: "About",
-            image: "/icons/about.svg"
+            href: "/settings",
+            title: "Settings",
+            image: "/icons/settings.svg"
         }
     ];
 

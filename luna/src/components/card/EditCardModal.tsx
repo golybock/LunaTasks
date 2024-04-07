@@ -111,7 +111,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
     }
 
     setSelectedStatus() {
-        let status = this.state.cardView?.statuses[0];
+        let status = this.state.cardView?.status;
 
         if (status) {
             this.setState({selectedStatus: {label: status.name, value: status.id}})
@@ -129,7 +129,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
             previousCardId: cardView.previousCard?.id ?? null,
             userIds: cardView.users.map(u => u.id),
             tagIds: cardView.cardTags.map(t => t.id),
-            statusId: cardView.statuses[0]?.id ?? ""
+            statusId: cardView.status.id ?? ""
         };
     }
 

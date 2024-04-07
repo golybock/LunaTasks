@@ -7,7 +7,6 @@ import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
 import TagProvider from "../../provider/card/tagProvider";
 import TypeProvider from "../../provider/card/typeProvider";
 import StatusProvider from "../../provider/card/statusProvider";
-import "./About.css";
 import Form from "react-bootstrap/Form";
 import TypeModal from "./modals/TypeModal";
 import TagModal from "./modals/TagModal";
@@ -16,6 +15,7 @@ import PageModal from "./modals/PageModal";
 import {Button} from "react-bootstrap";
 import IUserView from "../../models/user/userView";
 import NotificationManager from "../../tools/NotificationManager";
+import "./Settings.css";
 
 interface IProps {
 
@@ -33,7 +33,7 @@ interface IState {
     showPageModal: boolean
 }
 
-export default class About extends React.Component<IProps, IState> {
+export default class Settings extends React.Component<IProps, IState> {
 
     headerUrl = "http://localhost:7005/woodcuts_14.jpg";
 

@@ -504,7 +504,7 @@ public class CardService : ICardService
 			sheet.Cells[i, 9].Value = JsonSerializer.Serialize(card.Comments);
 			sheet.Cells[i, 10].Value = JsonSerializer.Serialize(card.CardTags);
 			sheet.Cells[i, 11].Value = JsonSerializer.Serialize(card.Users);
-			sheet.Cells[i, 12].Value = JsonSerializer.Serialize(card.Statuses);
+			sheet.Cells[i, 12].Value = JsonSerializer.Serialize(card.Status);
 		}
 
 		return await package.GetAsByteArrayAsync();
@@ -593,7 +593,7 @@ public class CardService : ICardService
 		var usersViews = await _userService.GetUsersAsync();
 		usersViews = usersViews.Where(c => userIds.Contains(c.Id)).ToList();
 
-		return new CardView(cardDomain, type, comments, tags, usersViews, statuses);
+		return new CardView(cardDomain, type, comments, tags, usersViews, statuses.LastOrDefault());
 	}
 
 	private async Task<CardView?> GetCardViewBy(CardDatabase cardDatabase, List<Guid> userIds)
@@ -623,7 +623,7 @@ public class CardService : ICardService
 		var usersViews = await _userService.GetUsersAsync();
 		usersViews = usersViews.Where(c => userIds.Contains(c.Id)).ToList();
 
-		return new CardView(cardDomain, type, comments, tags, usersViews, statuses);
+		return new CardView(cardDomain, type, comments, tags, usersViews, statuses.LastOrDefault());
 	}
 
 	private async Task<CardView> GetCardView(CardDatabase cardDatabase)
@@ -647,7 +647,7 @@ public class CardService : ICardService
 		var usersViews = await _userService.GetUsersAsync();
 		usersViews = usersViews.Where(c => userIds.Contains(c.Id)).ToList();
 
-		return new CardView(cardDomain, type, comments, tags, usersViews, statuses);
+		return new CardView(cardDomain, type, comments, tags, usersViews, statuses.LastOrDefault());
 	}
 
 	// its vety slow
@@ -672,7 +672,7 @@ public class CardService : ICardService
 		var cardUsers = users.Select(u =>
 			new CardUsersDomain(u, usersDomain.First(user => user.Id == u.UserId)));
 
-		return new CardDomain(cardDatabase, type, null, null, comments, tags, cardUsers, statuses);
+		return new CardDomain(cardDatabase, type, null, null, comments, tags, cardUsers, statuses.LastOrDefault());
 	}
 
 	private async Task<CardDomain> GetCardDomain(CardDatabase cardDatabase, HashSet<StatusDomain> statusDomains,
@@ -711,7 +711,7 @@ public class CardService : ICardService
 		var cardUsers = users.Select(u =>
 			new CardUsersDomain(u, usersDomain.First(user => user.Id == u.UserId)));
 
-		return new CardDomain(cardDatabase, type, null, null, comments, tags, cardUsers, statuses);
+		return new CardDomain(cardDatabase, type, null, null, comments, tags, cardUsers, statuses.LastOrDefault());
 	}
 
 	private async Task<IEnumerable<CardDomain>> GetCardDomains(IEnumerable<CardDatabase> cardDatabases)

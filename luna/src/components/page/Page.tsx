@@ -15,6 +15,8 @@ import IOption from "../../models/tools/IOption";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
 import Loading from "../notifications/Loading";
+import CardsColumn from "./CardsColumn";
+import IStatusView from "../../models/card/view/statusView";
 
 interface IProps {
     pageId: string
@@ -38,6 +40,25 @@ function Page() {
         <PageComponent pageId={pageId ?? ""}/>
     )
 }
+
+function toDictionary(array: ICardView[]){
+    let cards = new Map<string, ICardView[]>;
+
+    array.forEach(item => {
+        const status = JSON.stringify(item.status);
+
+        let val = cards.get(status);
+
+        if(!val){
+            cards.set(status, [item]);
+        }else{
+            cards.set(status, [...val, item])
+        }
+    })
+
+    return Array.from(cards, ([status, card]) => ({status, card}));
+}
+
 
 class PageComponent extends React.Component<IProps, IState> {
     constructor(props: IProps) {
@@ -66,6 +87,8 @@ class PageComponent extends React.Component<IProps, IState> {
                 this.setState({page: page});
 
                 const cards = await CardProvider.getCards(page.id);
+
+                console.log(toDictionary(this.state.cards))
 
                 this.setState({cards: cards});
 
@@ -237,13 +260,11 @@ class PageComponent extends React.Component<IProps, IState> {
                                                 )}
                                                 {this.state.displayMode == CardDisplayMode.Card && (
                                                     <div className="Cards">
-                                                        {this.state.cards.map(((card) => (
-                                                            <TaskCard card={card}
-                                                                      key={card.id}
-                                                                      onClick={() => {
-                                                                          this.setState({selectedCardId: card.id});
-                                                                          this.showModal();
-                                                                      }}/>
+                                                        {toDictionary(this.state.cards).map(((item) => (
+                                                            <CardsColumn cards={item.card}
+                                                                         key={item.status}
+                                                                         status={JSON.parse(item.status) ?? {name: "Non status", color: "#FFFFFF"}}
+                                                                         showModal={() => this.showModal()}/>
                                                         )))}
                                                     </div>
                                                 )}
