@@ -186,7 +186,7 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = cardIds}
+			new NpgsqlParameter() {Value = cardIds.ToArray()}
 		};
 
 		return await GetListAsync<CardStatusDatabase>(query, parameters);
@@ -215,6 +215,18 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		};
 
 		return await GetAsync<CardStatusDatabase>(query, parameters);
+	}
+
+	public async Task<IEnumerable<CardStatusDatabase>> GetCurrentCardStatusAsync(IEnumerable<Guid> cardIds)
+	{
+		var query = "SELECT * from card_status where card_id = any ($1) order by set_timestamp";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = cardIds.ToArray()}
+		};
+
+		return await GetListAsync<CardStatusDatabase>(query, parameters);
 	}
 
 	public async Task<bool> CreateCardStatusAsync(CardStatusDatabase cardStatus)
@@ -267,7 +279,7 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = cardIds}
+			new NpgsqlParameter() {Value = cardIds.ToArray()}
 		};
 
 		return await GetListAsync<CardTagsDatabase>(query, parameters);
@@ -367,7 +379,7 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = cardIds}
+			new NpgsqlParameter() {Value = cardIds.ToArray()}
 		};
 
 		return await GetListAsync<CardUsersDatabase>(query, parameters);

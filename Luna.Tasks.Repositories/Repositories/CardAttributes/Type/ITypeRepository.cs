@@ -8,7 +8,9 @@ public interface ITypeRepository
 
 	public Task<TypeDatabase?> GetTypeAsync(Guid workspaceId, Guid typeId);
 
-	public Task<TypeDatabase?> GetTypeAsync(Guid typeId);
+	public Task<TypeDatabase?> GetTypeAsync(Guid id);
+
+	public Task<IEnumerable<TypeDatabase>> GetTypeAsync(IEnumerable<Guid> ids);
 
 	public Task<Boolean> CreateTypeAsync(TypeDatabase type);
 

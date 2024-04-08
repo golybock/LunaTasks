@@ -25,7 +25,7 @@ public class CardController : ControllerBase
 		if (!userIds.Any())
 			return await _cardService.GetCardsAsync(pageId);
 
-		return await _cardService.GetCardsAsync(pageId, userIds);
+		return await _cardService.GetCardsByUsersAsync(pageId, userIds);
 	}
 
 	[HttpGet("[action]")]

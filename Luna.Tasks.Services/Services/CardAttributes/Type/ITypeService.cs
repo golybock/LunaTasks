@@ -8,6 +8,8 @@ public interface ITypeService
 {
 	public Task<IEnumerable<TypeView>> GetTypesAsync(Guid workspaceId);
 
+	public Task<IEnumerable<TypeView>> GetTypesAsync(IEnumerable<Guid> ids);
+
 	public Task<TypeView?> GetTypeAsync(Guid workspaceId, Guid typeId);
 
 	public Task<TypeView?> GetTypeAsync(Guid typeId);

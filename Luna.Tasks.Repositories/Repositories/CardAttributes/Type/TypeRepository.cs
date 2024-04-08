@@ -35,16 +35,28 @@ public class TypeRepository : NpgsqlRepository, ITypeRepository
 		return await GetAsync<TypeDatabase>(query, parameters);
 	}
 
-	public async Task<TypeDatabase?> GetTypeAsync(Guid typeId)
+	public async Task<TypeDatabase?> GetTypeAsync(Guid id)
 	{
 		var query = "SELECT * FROM type WHERE id = $1";
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = typeId}
+			new NpgsqlParameter() {Value = id}
 		};
 
 		return await GetAsync<TypeDatabase>(query, parameters);
+	}
+
+	public async Task<IEnumerable<TypeDatabase>> GetTypeAsync(IEnumerable<Guid> ids)
+	{
+		var query = "SELECT * FROM type WHERE id = any ($1)";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = ids.ToArray()}
+		};
+
+		return await GetListAsync<TypeDatabase>(query, parameters);
 	}
 
 	public async Task<Boolean> CreateTypeAsync(TypeDatabase type)

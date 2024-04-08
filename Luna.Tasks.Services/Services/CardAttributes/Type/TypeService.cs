@@ -22,6 +22,13 @@ public class TypeService : ITypeService
 		return ToTypeViews(types);
 	}
 
+	public async Task<IEnumerable<TypeView>> GetTypesAsync(IEnumerable<Guid> ids)
+	{
+		var types = await _typeRepository.GetTypeAsync(ids);
+
+		return ToTypeViews(types);
+	}
+
 	public async Task<TypeView?> GetTypeAsync(Guid workspaceId, Guid typeId)
 	{
 		var type = await _typeRepository.GetTypeAsync(workspaceId, typeId);
@@ -32,9 +39,9 @@ public class TypeService : ITypeService
 		return ToTypeView(type);
 	}
 
-	public async Task<TypeView?> GetTypeAsync(Guid typeId)
+	public async Task<TypeView?> GetTypeAsync(Guid id)
 	{
-		var type = await _typeRepository.GetTypeAsync(typeId);
+		var type = await _typeRepository.GetTypeAsync(id);
 
 		if (type == null)
 			return null;

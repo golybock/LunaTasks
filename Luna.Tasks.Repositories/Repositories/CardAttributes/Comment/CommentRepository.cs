@@ -29,7 +29,7 @@ public class CommentRepository : NpgsqlRepository, ICommentRepository
 
 		var parameters = new NpgsqlParameter[]
 		{
-			new NpgsqlParameter() {Value = cardIds}
+			new NpgsqlParameter() {Value = cardIds.ToArray()}
 		};
 
 		return await GetListAsync<CommentDatabase>(query, parameters);
