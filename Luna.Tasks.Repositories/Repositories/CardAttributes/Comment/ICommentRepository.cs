@@ -6,6 +6,8 @@ public interface ICommentRepository
 {
 	public Task<IEnumerable<CommentDatabase>> GetCommentsAsync(Guid cardId);
 
+	public Task<IEnumerable<CommentDatabase>> GetCommentsAsync(IEnumerable<Guid> cardIds);
+
 	public Task<IEnumerable<CommentDatabase>> GetUserCommentsAsync(Guid userId);
 
 	public Task<CommentDatabase?> GetCommentAsync(Int32 commentId);

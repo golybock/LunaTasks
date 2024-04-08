@@ -8,8 +8,7 @@
 .About-Content{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: 125px;
+    align-items: start;
 }
 
 .Header{
@@ -22,11 +21,10 @@
 
 .Items{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .Item-Block{
-    width: 300px;
     margin: 20px;
 }
 
@@ -55,6 +53,7 @@
     height: 40px;
     font-size: 18px;
     color: white;
+    margin: 0 10px;
 }
 
 .Item input{
@@ -79,9 +78,11 @@
 .Workspace-Header-Toolbar{
     display: flex;
     flex-direction: row;
+    font-size: 28px;
 }
 
-.Workspace-Header button{
-    margin-top: 12px;
+.Workspace-Header-Toolbar a{
     margin-right: 12px;
+    color: var(--text);
+    text-decoration: none;
 }

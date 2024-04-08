@@ -9,11 +9,15 @@ public interface ICommentService
 {
 	public Task<IEnumerable<CommentView>> GetCommentsAsync(Guid cardId);
 
+	public Task<IEnumerable<CommentView>> GetCommentsAsync(IEnumerable<Guid> cardIds);
+
 	public Task<IEnumerable<CommentView>> GetUserCommentsAsync(Guid userId);
 
 	public Task<CommentView?> GetCommentAsync(Int32 commentId);
 
 	public Task<IEnumerable<CommentDomain>> GetCommentsDomainAsync(Guid cardId);
+
+	public Task<IEnumerable<CommentDomain>> GetCommentsDomainAsync(IEnumerable<Guid> cardIds);
 
 	public Task<IEnumerable<CommentDomain>> GetUserCommentsDomainAsync(Guid userId);
 

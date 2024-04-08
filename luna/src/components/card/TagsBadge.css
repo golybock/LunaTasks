@@ -6,6 +6,7 @@
 
 .Tag{
     margin: 2px;
+    font-size: 12px;
     display: inline-flex;
     padding: 2px 12px;
     overflow: hidden;

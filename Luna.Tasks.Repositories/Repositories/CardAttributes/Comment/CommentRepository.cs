@@ -23,6 +23,18 @@ public class CommentRepository : NpgsqlRepository, ICommentRepository
 		return await GetListAsync<CommentDatabase>(query, parameters);
 	}
 
+	public async Task<IEnumerable<CommentDatabase>> GetCommentsAsync(IEnumerable<Guid> cardIds)
+	{
+		var query = "SELECT * FROM comment WHERE card_id = any ($1)";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = cardIds}
+		};
+
+		return await GetListAsync<CommentDatabase>(query, parameters);
+	}
+
 	public async Task<IEnumerable<CommentDatabase>> GetUserCommentsAsync(Guid userId)
 	{
 		var query = "SELECT * FROM comment WHERE user_id = $1";

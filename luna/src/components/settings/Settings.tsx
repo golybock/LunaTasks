@@ -179,18 +179,21 @@ export default class Settings extends React.Component<IProps, IState> {
                     <div>
                         <div className="Header">
                             <div className="Workspace-Header">
-                                <h1>Workspace info</h1>
+                                <h1>Settings</h1>
                                 <div className="Workspace-Header-Toolbar">
-                                    <Button className="btn btn-light btn-outline-secondary Outline-Button"
-                                            onClick={() => this.showPageModal()}>Create page</Button>
+                                    <a href="#tags">Tags</a>
+                                    <a href="#types">Types</a>
+                                    <a href="#statuses">Statuses</a>
+                                    <a href="#users">Users</a>
+                                    <a href="#pages">Pages</a>
                                 </div>
                             </div>
                         </div>
                         <div className="Items">
-                            <div className="Item-Block">
+                            <div className="Item-Block" id="tags">
                                 <div className="Item-Header">
                                     <h4>Tags</h4>
-                                    <button className="btn btn-outline-dark" onClick={() => this.showTagModal()}>+
+                                    <button className="btn Outline-Button" onClick={() => this.showTagModal()}>+
                                     </button>
                                 </div>
                                 <hr/>
@@ -201,7 +204,7 @@ export default class Settings extends React.Component<IProps, IState> {
                                                 <label>{item.name}</label>
                                                 <div className="row">
                                                     <Form.Control disabled type="color" value={item.color}/>
-                                                    <button className="btn btn-outline-dark"
+                                                    <button className="btn Outline-Button"
                                                             onClick={() => this.deleteTag(item.id)}>-
                                                     </button>
                                                 </div>
@@ -211,11 +214,11 @@ export default class Settings extends React.Component<IProps, IState> {
                                     <div>No elements</div>
                                 }
                             </div>
-                            <div className="Item-Block">
+                            <div className="Item-Block" id="types">
                                 <div className="Item-Header">
                                     <h4>Types</h4>
-                                    <button className="btn btn-outline-dark" onClick={() => this.showTypeModal()}>+
-                                    </button>
+                                    <Button className="btn Outline-Button" onClick={() => this.showTypeModal()}>+
+                                    </Button>
                                 </div>
                                 <hr/>
                                 {this.state.types ?
@@ -225,7 +228,7 @@ export default class Settings extends React.Component<IProps, IState> {
                                                 <label>{item.name}</label>
                                                 <div className="row">
                                                     <Form.Control disabled type="color" value={item.color}/>
-                                                    <button className="btn btn-outline-dark"
+                                                    <button className="btn Outline-Button"
                                                             onClick={() => this.deleteType(item.id)}>-
                                                     </button>
                                                 </div>
@@ -236,10 +239,10 @@ export default class Settings extends React.Component<IProps, IState> {
                                     (<div>No elements</div>)
                                 }
                             </div>
-                            <div className="Item-Block">
+                            <div className="Item-Block" id="sttuses">
                                 <div className="Item-Header">
                                     <h4>Statuses</h4>
-                                    <button className="btn btn-outline-dark" onClick={() => this.showStatusModal()}>+
+                                    <button className="btn Outline-Button" onClick={() => this.showStatusModal()}>+
                                     </button>
                                 </div>
                                 <hr/>
@@ -250,7 +253,7 @@ export default class Settings extends React.Component<IProps, IState> {
                                                 <label>{item.name}</label>
                                                 <div className="row">
                                                     <Form.Control disabled type="color" value={item.color}/>
-                                                    <button className="btn btn-outline-dark"
+                                                    <button className="btn Outline-Button"
                                                             onClick={() => this.deleteStatus(item.id)}>-
                                                     </button>
                                                 </div>
@@ -260,11 +263,11 @@ export default class Settings extends React.Component<IProps, IState> {
                                     :
                                     (<div>No elements</div>)}
                             </div>
-                            <div className="Item-Block">
+                            <div className="Item-Block" id="users">
                                 <div className="Item-Header">
                                     <h4>Users</h4>
-                                    <button className="btn btn-outline-dark" onClick={() => this.copyInviteLink()}>+
-                                    </button>
+                                    <Button className="btn Outline-Button" onClick={() => this.copyInviteLink()}>+
+                                    </Button>
                                 </div>
                                 <hr/>
                                 {this.state.users ?
@@ -273,7 +276,7 @@ export default class Settings extends React.Component<IProps, IState> {
                                             return (<div className="Item" key={item.id}>
                                                 <label>{item.username}</label>
                                                 <div className="row">
-                                                    <button className="btn btn-outline-dark"
+                                                    <button className="btn Outline-Button"
                                                             onClick={() => this.deleteUser(item.id)}>-
                                                     </button>
                                                 </div>
@@ -282,6 +285,30 @@ export default class Settings extends React.Component<IProps, IState> {
                                     ) :
                                     (<div>No elements</div>)
                                 }
+                            </div>
+                            <div className="Item-Block" id="pages">
+                                <div className="Item-Header">
+                                    <h4>Pages</h4>
+                                    <button className="btn Outline-Button" onClick={() => this.showPageModal()}>+
+                                    </button>
+                                </div>
+                                <hr/>
+                                {/*{this.state.statuses ?*/}
+                                {/*    (*/}
+                                {/*        this.state.statuses.map((item) => {*/}
+                                {/*            return (<div className="Item" key={item.id}>*/}
+                                {/*                <label>{item.name}</label>*/}
+                                {/*                <div className="row">*/}
+                                {/*                    <Form.Control disabled type="color" value={item.color}/>*/}
+                                {/*                    <button className="btn Outline-Button"*/}
+                                {/*                            onClick={() => this.deleteStatus(item.id)}>-*/}
+                                {/*                    </button>*/}
+                                {/*                </div>*/}
+                                {/*            </div>)*/}
+                                {/*        })*/}
+                                {/*    )*/}
+                                {/*    :*/}
+                                {/*    (<div>No elements</div>)}*/}
                             </div>
                         </div>
                     </div>

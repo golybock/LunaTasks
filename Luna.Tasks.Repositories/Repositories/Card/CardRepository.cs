@@ -23,13 +23,14 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		return await GetListAsync<CardDatabase>(query, parameters);
 	}
 
-	public async Task<IEnumerable<CardDatabase>> GetCardsAsync(Guid pageId)
+	public async Task<IEnumerable<CardDatabase>> GetCardsAsync(Guid pageId, bool deleted = false)
 	{
-		var query = "SELECT * from card where page_id = $1";
+		var query = "SELECT * from card where page_id = $1 and deleted = $2";
 
 		var parameters = new NpgsqlParameter[]
 		{
 			new NpgsqlParameter() {Value = pageId},
+			new NpgsqlParameter() {Value = deleted},
 		};
 
 		return await GetListAsync<CardDatabase>(query, parameters);
@@ -179,6 +180,18 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		return await GetListAsync<CardStatusDatabase>(query, parameters);
 	}
 
+	public async Task<IEnumerable<CardStatusDatabase>> GetCardStatusesAsync(IEnumerable<Guid> cardIds)
+	{
+		var query = "SELECT * from card_status where card_id = any ($1)";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = cardIds}
+		};
+
+		return await GetListAsync<CardStatusDatabase>(query, parameters);
+	}
+
 	public async Task<CardStatusDatabase?> GetCardStatusAsync(Guid cardId, Guid statusId)
 	{
 		var query = "SELECT * from card_status where card_id = $1 and status_id = $2";
@@ -231,6 +244,11 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		return await ExecuteAsync(query, parameters);
 	}
 
+	public async Task<bool> DeleteCardStatusAsync(Guid cardId)
+	{
+		throw new NotImplementedException();
+	}
+
 	public async Task<IEnumerable<CardTagsDatabase>> GetCardTagsAsync(Guid cardId)
 	{
 		var query = "SELECT * from card_tags where card_id = $1";
@@ -238,6 +256,18 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		var parameters = new NpgsqlParameter[]
 		{
 			new NpgsqlParameter() {Value = cardId}
+		};
+
+		return await GetListAsync<CardTagsDatabase>(query, parameters);
+	}
+
+	public async Task<IEnumerable<CardTagsDatabase>> GetCardTagsAsync(IEnumerable<Guid> cardIds)
+	{
+		var query = "SELECT * from card_tags where card_id = any ($1)";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = cardIds}
 		};
 
 		return await GetListAsync<CardTagsDatabase>(query, parameters);
@@ -326,6 +356,18 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		var parameters = new NpgsqlParameter[]
 		{
 			new NpgsqlParameter() {Value = cardId}
+		};
+
+		return await GetListAsync<CardUsersDatabase>(query, parameters);
+	}
+
+	public async Task<IEnumerable<CardUsersDatabase>> GetCardsUsersAsync(IEnumerable<Guid> cardIds)
+	{
+		var query = "SELECT * from card_users where card_id = any ($1)";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = cardIds}
 		};
 
 		return await GetListAsync<CardUsersDatabase>(query, parameters);

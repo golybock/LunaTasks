@@ -23,6 +23,13 @@ public class CommentService : ICommentService
 		return ToCommentViews(comments);
 	}
 
+	public async Task<IEnumerable<CommentView>> GetCommentsAsync(IEnumerable<Guid> cardIds)
+	{
+		var comments = await _commentRepository.GetCommentsAsync(cardIds);
+
+		return ToCommentViews(comments);
+	}
+
 	public async Task<IEnumerable<CommentView>> GetUserCommentsAsync(Guid userId)
 	{
 		var comments = await _commentRepository.GetUserCommentsAsync(userId);
@@ -43,6 +50,13 @@ public class CommentService : ICommentService
 	public async Task<IEnumerable<CommentDomain>> GetCommentsDomainAsync(Guid cardId)
 	{
 		var comments = await _commentRepository.GetCommentsAsync(cardId);
+
+		return ToCommentDomains(comments);
+	}
+
+	public async Task<IEnumerable<CommentDomain>> GetCommentsDomainAsync(IEnumerable<Guid> cardIds)
+	{
+		var comments = await _commentRepository.GetCommentsAsync(cardIds);
 
 		return ToCommentDomains(comments);
 	}

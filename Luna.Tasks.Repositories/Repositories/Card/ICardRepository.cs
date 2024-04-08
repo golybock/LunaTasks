@@ -6,7 +6,7 @@ public interface ICardRepository
 {
 	public Task<IEnumerable<CardDatabase>> GetCardsAsync(Guid pageId, Guid userId);
 
-	public Task<IEnumerable<CardDatabase>> GetCardsAsync(Guid pageId);
+	public Task<IEnumerable<CardDatabase>> GetCardsAsync(Guid pageId, Boolean deleted = false);
 
 	public Task<IEnumerable<CardDatabase>> GetCardsAsync(IEnumerable<Guid> cardIds);
 
@@ -32,16 +32,24 @@ public interface ICardRepository
 
 	public Task<IEnumerable<CardStatusDatabase>> GetCardStatusesAsync(Guid cardId);
 
+	public Task<IEnumerable<CardStatusDatabase>> GetCardStatusesAsync(IEnumerable<Guid> cardIds);
+
 	public Task<CardStatusDatabase?> GetCardStatusAsync(Guid cardId, Guid statusId);
 
 	public Task<CardStatusDatabase?> GetCurrentCardStatusAsync(Guid cardId);
+
+	public Task<IEnumerable<CardStatusDatabase>> GetCurrentCardStatusAsync(IEnumerable<Guid> cardIds);
 
 	public Task<Boolean> CreateCardStatusAsync(CardStatusDatabase cardStatus);
 
 	public Task<Boolean> DeleteCardStatusAsync(Guid cardId, Guid statusId);
 
+	public Task<Boolean> DeleteCardStatusAsync(Guid cardId);
+
 
 	public Task<IEnumerable<CardTagsDatabase>> GetCardTagsAsync(Guid cardId);
+
+	public Task<IEnumerable<CardTagsDatabase>> GetCardTagsAsync(IEnumerable<Guid> cardIds);
 
 	public Task<CardTagsDatabase?> GetCardTagAsync(Guid cardId, Guid tagId);
 
@@ -56,6 +64,8 @@ public interface ICardRepository
 	public Task<Boolean> DeleteCardTagsAsync(Guid cardId);
 
 	public Task<IEnumerable<CardUsersDatabase>> GetCardUsersAsync(Guid cardId);
+
+	public Task<IEnumerable<CardUsersDatabase>> GetCardsUsersAsync(IEnumerable<Guid> cardIds);
 
 	public Task<CardUsersDatabase?> GetCardUserAsync(Guid cardId, Guid userId);
 
