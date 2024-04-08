@@ -159,7 +159,7 @@ public class NewCardService : ICardService
 		var userIds = cardUsers.Select(u => u.UserId);
 		var statusIds = cardStatuses.Select(c => c.StatusId);
 
-		var tagsTask = GetagsAsync(tagIds);
+		var tagsTask = GeTagsAsync(tagIds);
 		var statusesTask = GetStatusesAsync(statusIds);
 		var typeTask = _typeService.GetTypeAsync(cardDomain.CardTypeId);
 
@@ -176,27 +176,50 @@ public class NewCardService : ICardService
 
 	public async Task<BlockedCardView?> GetBlockedCardAsync(Guid cardId)
 	{
-		throw new NotImplementedException();
+		var blockedCard = await _cardRepository.GetBlockedCardAsync(cardId);
+
+		if (blockedCard == null)
+			return null;
+
+		return ToBlockedCardView(blockedCard);
 	}
 
 	public async Task<IEnumerable<BlockedCardView>> GetBlockedCardsAsync(IEnumerable<Guid> cardIds)
 	{
-		throw new NotImplementedException();
+		var blockedCard = await _cardRepository.GetBlockedCardsAsync(cardIds);
+
+		return ToBlockedCardView(blockedCard);
 	}
 
 	public async Task<bool> CreateBlockedCardAsync(BlockedCardBlank blockedCard, Guid userId)
 	{
-		throw new NotImplementedException();
+		var blockedCardDatabase = new BlockedCardDatabase()
+		{
+			BlockedUserId = userId,
+			CardId = blockedCard.CardId,
+			Comment = blockedCard.Comment,
+			EndBlockTimestamp = blockedCard.EndBlockTimestamp,
+			StartBlockTimestamp = blockedCard.StartBlockTimestamp
+		};
+
+		return await _cardRepository.CreateBlockedCardAsync(blockedCardDatabase);;
 	}
 
 	public async Task<bool> UpdateBlockedCardAsync(Guid cardId, BlockedCardBlank blockedCard, Guid userId)
 	{
-		throw new NotImplementedException();
+		var blockedCardDatabase = new BlockedCardDatabase()
+		{
+			Comment = blockedCard.Comment,
+			EndBlockTimestamp = blockedCard.EndBlockTimestamp,
+			StartBlockTimestamp = blockedCard.StartBlockTimestamp
+		};
+
+		return await _cardRepository.UpdateBlockedCardAsync(cardId, blockedCardDatabase);
 	}
 
 	public async Task<bool> DeleteBlockedCardAsync(Guid cardId, Guid userId)
 	{
-		throw new NotImplementedException();
+		return await _cardRepository.DeleteBlockedCardAsync(cardId);
 	}
 
 	public async Task<IEnumerable<StatusView>> GetCardStatusesAsync(Guid cardId)
@@ -424,7 +447,7 @@ public class NewCardService : ICardService
 		return users.Where(c => ids.Contains(c.Id)).ToList();
 	}
 
-	private async Task<IEnumerable<TagView>> GetagsAsync(IEnumerable<Guid> tagIds)
+	private async Task<IEnumerable<TagView>> GeTagsAsync(IEnumerable<Guid> tagIds)
 	{
 		var tags = await _tagService.GetTagsAsync(tagIds);
 
@@ -436,5 +459,16 @@ public class NewCardService : ICardService
 		var statusViews = await _statusService.GetStatusesAsync(statusIds);
 
 		return statusViews;
+	}
+
+	private BlockedCardView ToBlockedCardView(BlockedCardDatabase blockedCardDatabase)
+	{
+		var blockedCardDomain = new BlockedCardDomain(blockedCardDatabase);
+		return new BlockedCardView(blockedCardDomain);
+	}
+
+	private IEnumerable<BlockedCardView> ToBlockedCardView(IEnumerable<BlockedCardDatabase> blockedCardDatabases)
+	{
+		return blockedCardDatabases.Select(ToBlockedCardView).ToList();
 	}
 }
