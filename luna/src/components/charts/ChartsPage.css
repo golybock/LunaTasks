@@ -1,0 +1,19 @@
+﻿.Items{
+    margin: 20px;
+}
+
+.Chart-Header{
+    display: flex;
+    flex-direction: column;
+}
+
+.Item-Block{
+    margin: 20px;
+}
+
+.Graph-Item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 10px;
+}

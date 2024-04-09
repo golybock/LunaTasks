@@ -40,7 +40,8 @@ export default class GantChart extends React.Component<IProps, IState>{
     render() {
         return (
             <div>
-                <Gantt tasks={tasks}/>
+                <label>Пока ее нет</label>
+                {/*<Gantt tasks={tasks}/>*/}
             </div>
         );
     }

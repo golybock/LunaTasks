@@ -1,11 +1,12 @@
 ﻿import React from "react";
 import TaskStatusesChart from "./TaskStatusesChart";
-import GantChart from "./GantChart";
 import ICardView from "../../models/card/view/cardView";
 import CardProvider from "../../provider/card/cardProvider";
 import PieValue from "../../models/charts/PieValue";
 import {toDictionary} from "../../models/tools/ModelsConverter";
 import {PieValueType} from "@mui/x-charts";
+import "./ChartsPage.css"
+import GantChart from "./GantChart";
 
 interface IProps{
 }
@@ -53,15 +54,39 @@ export default class ChartsPage extends React.Component<IProps, IState>{
         this.setState({values: series})
     }
 
+    headerUrl = "http://localhost:7005/woodcuts_14.jpg";
+
     render() {
         return (
             <div>
-                {this.state.values && (
-                    <TaskStatusesChart series={this.state.values}/>
-                )}
-                {/*{this.state.cards && (*/}
-                {/*    <GantChart cards={this.state.cards}/>*/}
-                {/*)}*/}
+
+                <div className="Header-Image-Container">
+                    <img src={this.headerUrl} alt=""/>
+                </div>
+                <div className="About-Content">
+                    <div>
+                        <div className="Header">
+                            <div className="Chart-Header">
+                                <h1>Графики</h1>
+                            </div>
+                        </div>
+                        <div className="Items">
+                            <div className="Graph-Item">
+                                <h2>Задач по их статусам:</h2>
+                                {this.state.values && (
+                                    <TaskStatusesChart series={this.state.values}/>
+                                )}
+                            </div>
+                            <div className="Graph-Item">
+                                   <h2>Диаграмма ганта</h2>
+                                {this.state.cards && (
+                                    <GantChart cards={this.state.cards}/>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         );
     }

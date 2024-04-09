@@ -1,6 +1,6 @@
 ﻿import React from "react";
-import {PieChart, PieValueType} from "@mui/x-charts";
-import PieValue from "../../models/charts/PieValue";
+import {pieArcLabelClasses, PieChart, PieValueType} from "@mui/x-charts";
+import "./TaskStatesesChart.css";
 
 interface IProps {
     series: PieValueType[]
@@ -24,7 +24,13 @@ export default class TaskStatusesChart extends React.Component<IProps, IState> {
                                 data: this.props.series,
                             },
                         ]}
-                        width={400}
+                        sx={{
+                            [`& .${pieArcLabelClasses.root}`]: {
+                                fill: 'white',
+                                fontWeight: 'bold',
+                            },
+                        }}
+                        width={600}
                         height={250}/>
                 )}
             </div>
