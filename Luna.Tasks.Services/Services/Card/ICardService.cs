@@ -17,6 +17,8 @@ public interface ICardService
 
 	public Task<IEnumerable<CardView>> GetCardsAsync(Guid pageId, Boolean deleted = false);
 
+	public Task<IEnumerable<CardView>> GetCardsByWorkspaceAsync(Guid workspaceId);
+
 	public Task<IEnumerable<CardView>> GetCardsAsync(IEnumerable<Guid> cardIds);
 
 	public Task<Boolean> CreateCardAsync(CardBlank card, Guid userId);

@@ -34,6 +34,12 @@ public class CardController : ControllerBase
 		return await _cardService.GetCardAsync(id);
 	}
 
+	[HttpGet("[action]")]
+	public async Task<IEnumerable<CardView>> GetCardsByWorkspaceAsync(Guid workspaceId)
+	{
+		return await _cardService.GetCardsByWorkspaceAsync(workspaceId);
+	}
+
 	[HttpPost("[action]")]
 	public async Task<IActionResult> CreateCardAsync(CardBlank card)
 	{

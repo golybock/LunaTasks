@@ -97,6 +97,15 @@ public class CardService : ICardService
 		return await GetCardsAsync(cardIds, cardDatabases);
 	}
 
+	public async Task<IEnumerable<CardView>> GetCardsByWorkspaceAsync(Guid workspaceId)
+	{
+		var cardDatabases = await _cardRepository.GetCardsByWorkspaceAsync(workspaceId);
+
+		var cardIds = cardDatabases.Select(c => c.Id);
+
+		return await GetCardsAsync(cardIds, cardDatabases);
+	}
+
 	public async Task<IEnumerable<CardView>> GetCardsAsync(IEnumerable<Guid> cardIds)
 	{
 		var cardDatabases = await _cardRepository.GetCardsAsync(cardIds);

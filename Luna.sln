@@ -112,8 +112,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Data.Repositories", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Data.Services", "Luna.Data.Services\Luna.Data.Services.csproj", "{EC7B7E55-F6C5-455F-A90A-5E7B3040129C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Luna.ImportExport", "Luna.ImportExport", "{ABCE4B6A-0E6A-4B0E-91FE-6AD21A68BF66}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,7 +164,6 @@ Global
 		{F67E11D3-FE89-44AE-B095-256D1766A080} = {32DEC11A-294E-44BA-B2B9-B272EA380DF0}
 		{EC7B7E55-F6C5-455F-A90A-5E7B3040129C} = {32DEC11A-294E-44BA-B2B9-B272EA380DF0}
 		{350629E8-608E-4885-A41C-66143E68CC44} = {32DEC11A-294E-44BA-B2B9-B272EA380DF0}
-		{ABCE4B6A-0E6A-4B0E-91FE-6AD21A68BF66} = {F592DFB1-9332-48D3-A987-D67D7F4EA139}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B7D97109-3B7F-472C-A464-C1E50937C5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

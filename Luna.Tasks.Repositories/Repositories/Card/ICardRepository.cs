@@ -9,6 +9,7 @@ public interface ICardRepository
 	public Task<IEnumerable<CardDatabase>> GetCardsAsync(Guid pageId, Boolean deleted = false);
 
 	public Task<IEnumerable<CardDatabase>> GetCardsAsync(IEnumerable<Guid> cardIds);
+	public Task<IEnumerable<CardDatabase>> GetCardsByWorkspaceAsync(Guid workspaceId);
 
 	public Task<CardDatabase?> GetCardAsync(Guid id);
 

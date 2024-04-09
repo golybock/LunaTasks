@@ -4,6 +4,7 @@ import {AuthWrapper} from "../../auth/AuthWrapper";
 import ICardView from "../../models/card/view/cardView";
 import CardBlank from "../../models/card/blank/cardBlank";
 import IOption from "../../models/tools/IOption";
+import {WorkspaceManager} from "../../tools/WorkspaceManager";
 
 export default class CardProvider extends ProviderBase {
 
@@ -34,6 +35,26 @@ export default class CardProvider extends ProviderBase {
         userIds.forEach(i => {
             url += "&userIds" + i;
         })
+
+        let token = AuthWrapper.user();
+
+        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+            .then(async res => {
+
+                if (res.status === 200) {
+                    return res.data;
+                }
+
+                return null;
+            })
+            .catch(() => {
+                return [];
+            });
+    }
+
+    static async getCardsByWorkspace(): Promise<Array<ICardView>> {
+
+        let url = this.baseAddress + "/Card/GetCardsByWorkspace?workspaceId=" + WorkspaceManager.getWorkspace();
 
         let token = AuthWrapper.user();
 

@@ -48,6 +48,18 @@ public class CardRepository : NpgsqlRepository, ICardRepository
 		return await GetListAsync<CardDatabase>(query, parameters);
 	}
 
+	public async Task<IEnumerable<CardDatabase>> GetCardsByWorkspaceAsync(Guid workspaceId)
+	{
+		var query = "SELECT * from card join public.page p on p.id = card.page_id where p.workspace_id = $1";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = workspaceId},
+		};
+
+		return await GetListAsync<CardDatabase>(query, parameters);
+	}
+
 	public async Task<CardDatabase?> GetCardAsync(Guid id)
 	{
 		var query = "SELECT * from card where id = $1";

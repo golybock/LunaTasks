@@ -5,14 +5,15 @@ import ICardView from "../../models/card/view/cardView";
 import CardProvider from "../../provider/card/cardProvider";
 import PieValue from "../../models/charts/PieValue";
 import {toDictionary} from "../../models/tools/ModelsConverter";
+import {PieValueType} from "@mui/x-charts";
 
 interface IProps{
-    pageId: string;
 }
 
 interface IState{
     cards: ICardView[],
-    statuses: PieValue[]
+    statuses: PieValue[],
+    values: PieValueType[]
 }
 
 export default class ChartsPage extends React.Component<IProps, IState>{
@@ -22,31 +23,45 @@ export default class ChartsPage extends React.Component<IProps, IState>{
 
         this.state = {
             cards: [],
-            statuses: []
+            statuses: [],
+            values: []
         }
     }
 
     async componentDidMount() {
-        const cards = await CardProvider.getCards(this.props.pageId);
+        const cards = await CardProvider.getCardsByWorkspace();
 
         this.setState({cards: cards});
 
         const dict = toDictionary(cards);
 
+        let val : number = 0;
+
+        const array: PieValue[] = [];
+
         dict.forEach(item => {
-            this.state.statuses.push({id: 0, statusName: JSON.parse(item.status).name?.toString() ?? "", count: item.card.length})
+            val++;
+            array.push({id: val, statusName: JSON.parse(item.status)?.name.toString() ?? "Non status", count: item.card.length, color: JSON.parse(item.status)?.color})
         })
+
+        this.setState({statuses: array});
+
+        const series = array.map(item => {
+            return {value: item.count, label: item.statusName, id: item.id, color: item.color}
+        })
+
+        this.setState({values: series})
     }
 
     render() {
         return (
             <div>
-                {this.state.statuses && (
-                    <TaskStatusesChart values={this.state.statuses}/>
+                {this.state.values && (
+                    <TaskStatusesChart series={this.state.values}/>
                 )}
-                {this.state.cards && (
-                    <GantChart cards={this.state.cards}/>
-                )}
+                {/*{this.state.cards && (*/}
+                {/*    <GantChart cards={this.state.cards}/>*/}
+                {/*)}*/}
             </div>
         );
     }
