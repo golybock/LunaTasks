@@ -1,13 +1,10 @@
 ﻿import ProviderBase from "../providerBase";
-import axios from "axios";
-import IWorkspaceView from "../../models/workspace/workspaceView";
-import {AuthWrapper} from "../../auth/AuthWrapper";
-import Auth from "../../App";
-import IUserView from "../../models/user/userView";
+import IWorkspaceView from "../../models/workspace/IWorkspaceView";
+import IUserView from "../../models/user/IUserView";
 import IOption from "../../models/tools/IOption";
-import IPageBlank from "../../models/page/pageBlank";
-import IWorkspaceBlank from "../../models/workspace/workspaceBlank";
+import IWorkspaceBlank from "../../models/workspace/IWorkspaceBlank";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
+import {mapToOption} from "../../tools/Mapper";
 
 export default class WorkspaceProvider extends ProviderBase {
 
@@ -15,9 +12,7 @@ export default class WorkspaceProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Workspace/GetWorkspaces";
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -27,11 +22,6 @@ export default class WorkspaceProvider extends ProviderBase {
                 return [];
             })
             .catch((res) => {
-                if(res.status == 401){
-                    AuthWrapper.userSignOut();
-                }
-
-                console.log(res)
             });
     }
 
@@ -39,9 +29,7 @@ export default class WorkspaceProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Workspace/GetUserWorkspaces";
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -51,11 +39,6 @@ export default class WorkspaceProvider extends ProviderBase {
                 return [];
             })
             .catch((res) => {
-                if(res.status == 401){
-                    AuthWrapper.userSignOut();
-                }
-
-                console.log(res)
             });
     }
 
@@ -63,9 +46,7 @@ export default class WorkspaceProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Workspace/GetWorkspace?id=" + WorkspaceManager.getWorkspace();
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -75,20 +56,13 @@ export default class WorkspaceProvider extends ProviderBase {
                 return [];
             })
             .catch((res) => {
-                if(res.status == 401){
-                    AuthWrapper.userSignOut();
-                }
-
-                console.log(res)
             });
     }
 
     static async getWorkspaceUsers(): Promise<Array<IUserView>>{
         let url = this.baseAddress + "/Workspace/GetWorkspaceUsers?workspaceId=" + WorkspaceManager.getWorkspace();
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -98,11 +72,6 @@ export default class WorkspaceProvider extends ProviderBase {
                 return [];
             })
             .catch((res) => {
-                if(res.status == 401){
-                    AuthWrapper.userSignOut();
-                }
-
-                console.log(res)
             });
     }
 
@@ -110,9 +79,7 @@ export default class WorkspaceProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Workspace/CreateWorkspace";
 
-        let token = AuthWrapper.user();
-
-        return await axios.post(url, pageBlank,{headers: {"Authorization": `Bearer ${token}`}})
+        return await this.post(url, pageBlank)
             .then(async res => {
 
                 return res.status == 200;
@@ -125,22 +92,16 @@ export default class WorkspaceProvider extends ProviderBase {
     static async getWorkspaceUsersOptions(workspaceId: string): Promise<Array<IOption>>{
         let url = this.baseAddress + "/Workspace/GetWorkspaceUsers?workspaceId=" + workspaceId;
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
-                    return this.mapToOption(res.data);
+                    return mapToOption(res.data);
                 }
 
                 return [];
             })
             .catch((res) => {
-                if(res.status == 401){
-                    AuthWrapper.userSignOut();
-                }
-
                 return [];
             });
     }
@@ -150,9 +111,7 @@ export default class WorkspaceProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Workspace/GetWorkspace?id=" + id;
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -162,10 +121,6 @@ export default class WorkspaceProvider extends ProviderBase {
                 return [];
             })
             .catch((res) => {
-                if(res.status == 401){
-                    AuthWrapper.userSignOut();
-                }
-
                 console.log(res)
             });
     }
@@ -173,9 +128,7 @@ export default class WorkspaceProvider extends ProviderBase {
     static async joinToWorkspace(workspaceId: string): Promise<string>{
         let url = this.baseAddress + "/Workspace/JoinToWorkspace?workspaceId=" + workspaceId;
 
-        let token = AuthWrapper.user();
-
-        return await axios.post(url, null, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.post(url, null)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -185,10 +138,6 @@ export default class WorkspaceProvider extends ProviderBase {
                 return res.data;
             })
             .catch((res) => {
-                if(res.status == 401){
-                    AuthWrapper.userSignOut();
-                }
-
                 return res.response.data;
             });
     }
@@ -196,22 +145,12 @@ export default class WorkspaceProvider extends ProviderBase {
     static async deleteUserFromWorkspace(userId: string): Promise<boolean>{
         let url = this.baseAddress + "/Workspace/DeleteUserFromWorkspace?workspaceId=" + WorkspaceManager.getWorkspace() + "&userId=" + userId;
 
-        let token = AuthWrapper.user();
-
-        return await axios.delete(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.delete(url)
             .then(async res => {
                 return res.status === 200;
             })
             .catch((res) => {
-                if(res.status == 401){
-                    AuthWrapper.userSignOut();
-                }
-
                 return false;
             });
-    }
-
-    private static mapToOption(data: any[]): IOption[]{
-        return data.map(o => {return{label: o.username, value: o.id}});
     }
 }

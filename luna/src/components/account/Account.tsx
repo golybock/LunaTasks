@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import IUserView from "../../models/user/userView";
+import IUserView from "../../models/user/IUserView";
 import UserProvider from "../../provider/user/userProvider";
 import "./Account.css"
 import {Button} from "react-bootstrap";

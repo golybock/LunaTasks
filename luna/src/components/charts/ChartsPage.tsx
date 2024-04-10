@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import TaskStatusesChart from "./TaskStatusesChart";
-import ICardView from "../../models/card/view/cardView";
+import ICardView from "../../models/card/view/ICardView";
 import CardProvider from "../../provider/card/cardProvider";
 import PieValue from "../../models/charts/PieValue";
 import {toDictionary} from "../../models/tools/ModelsConverter";

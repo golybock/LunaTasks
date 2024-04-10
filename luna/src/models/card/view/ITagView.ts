@@ -1,4 +1,4 @@
-﻿export default class TagView{
+﻿export default class ITagView{
     constructor(id: string, name: string, color: string) {
         this.id = id;
         this.name = name;

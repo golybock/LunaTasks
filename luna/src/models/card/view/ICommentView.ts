@@ -1,4 +1,4 @@
-﻿export default class CommentView {
+﻿export default class ICommentView {
     constructor(id: number, userId: string, comment: string, attachmentUrl: string) {
         this.id = id;
         this.userId = userId;

@@ -1,9 +1,9 @@
 ﻿import React from "react";
-import TagView from "../../models/card/view/tagView";
+import ITagView from "../../models/card/view/ITagView";
 import "./TagsBadge.css";
 
 interface IProps {
-    cardTags: TagView[]
+    cardTags: ITagView[]
 }
 
 interface IState {

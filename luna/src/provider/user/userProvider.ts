@@ -1,17 +1,15 @@
 ﻿import ProviderBase from "../providerBase";
-import axios from "axios";
-import IUserView from "../../models/user/userView";
+import IUserView from "../../models/user/IUserView";
 import {AuthWrapper} from "../../auth/AuthWrapper";
 import IOption from "../../models/tools/IOption";
+import {mapToOption} from "../../tools/Mapper";
 
 export default class UserProvider extends ProviderBase {
     static async getMe(): Promise<IUserView | null> {
 
         let url = this.baseAddress + "/Users/GetMe";
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -33,9 +31,7 @@ export default class UserProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Users/GetUsers";
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -57,13 +53,11 @@ export default class UserProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Users/GetUsers";
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
-                    return this.mapToOption(res.data);
+                    return mapToOption(res.data);
                 }
 
                 if(res.status == 401){
@@ -75,9 +69,5 @@ export default class UserProvider extends ProviderBase {
             .catch(() => {
                 return [];
             });
-    }
-
-    private static mapToOption(data: any[]): IOption[]{
-        return data.map(o => {return{label: o.username, value: o.id}});
     }
 }

@@ -1,19 +1,14 @@
 ﻿import ProviderBase from "../providerBase";
-import axios from "axios";
-import PageView from "../../models/page/pageView";
-import {AuthWrapper} from "../../auth/AuthWrapper";
-import IStatusBlank from "../../models/card/blank/statusBlank";
-import IPageBlank from "../../models/page/pageBlank";
+import IPageView from "../../models/page/IPageView";
+import IPageBlank from "../../models/page/IPageBlank";
 
 export default class PageProvider extends ProviderBase {
 
-    static async getPages(workspaceId: string): Promise<Array<PageView>> {
+    static async getPages(workspaceId: string): Promise<Array<IPageView>> {
 
         let url = this.baseAddress + "/Page/GetWorkspacePages?workspaceId=" + workspaceId;
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -30,9 +25,7 @@ export default class PageProvider extends ProviderBase {
     static async getPageReport(pageId: string){
         let url = this.baseAddress + "/Card/GetCardsXlsx?pageId=" + pageId;
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}, responseType: "blob"})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -55,12 +48,10 @@ export default class PageProvider extends ProviderBase {
             });
     }
 
-    static async getPage(pageId: string): Promise<PageView | null>{
+    static async getPage(pageId: string): Promise<IPageView | null>{
         let url = this.baseAddress + "/Page/GetPage?id=" + pageId;
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -78,9 +69,7 @@ export default class PageProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Page/CreatePage";
 
-        let token = AuthWrapper.user();
-
-        return await axios.post(url, pageBlank,{headers: {"Authorization": `Bearer ${token}`}})
+        return await this.post(url, pageBlank)
             .then(async res => {
 
                 return res.status == 200;
@@ -94,9 +83,7 @@ export default class PageProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Page/UpdatePage?id=" + id;
 
-        let token = AuthWrapper.user();
-
-        return await axios.put(url, pageBlank,{headers: {"Authorization": `Bearer ${token}`}})
+        return await this.put(url, pageBlank)
             .then(async res => {
 
                 return res.status == 200;
@@ -110,9 +97,7 @@ export default class PageProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Page/DeletePage?id=" + id;
 
-        let token = AuthWrapper.user();
-
-        return await axios.delete(url,{headers: {"Authorization": `Bearer ${token}`}})
+        return await this.delete(url)
             .then(async res => {
 
                 return res.status == 200;

@@ -1,6 +1,6 @@
 ﻿import React from "react";
-import TypeView from "../../models/card/view/typeView";
 import "./TypeBadge.css";
+import TypeView from "../../models/card/view/ITypeView";
 
 interface IProps {
     type: TypeView

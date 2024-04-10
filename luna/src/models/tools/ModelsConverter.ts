@@ -1,4 +1,4 @@
-﻿import ICardView from "../card/view/cardView";
+﻿import ICardView from "../card/view/ICardView";
 
 export function toDictionary(array: ICardView[]){
     let cards = new Map<string, ICardView[]>;

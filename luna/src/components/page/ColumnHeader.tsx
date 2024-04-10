@@ -1,4 +1,4 @@
-﻿import IStatusView from "../../models/card/view/statusView";
+﻿import IStatusView from "../../models/card/view/IStatusView";
 import React from "react";
 import "./ColumnHeader.css"
 

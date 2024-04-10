@@ -12,7 +12,7 @@ export default class AuthProvider extends ProviderBase{
 
         let blank: ISignInBlank = {email, password};
 
-        return await axios.post(url, blank)
+        return await this.post(url, blank)
             .then(async res => {
 
                  if(res.status === 200){
@@ -32,12 +32,11 @@ export default class AuthProvider extends ProviderBase{
             });
     }
 
-    // todo replace to signupblank
-    static async signUp(UserBlank: ISignUpBlank): Promise<boolean | string> {
+    static async signUp(signUpBlank: ISignUpBlank): Promise<boolean | string> {
 
         let url = this.baseAddress + "/Auth/SignUp";
 
-        return await axios.post(url, UserBlank)
+        return await this.post(url, signUpBlank)
             .then(async res => {
                 if(res.status === 200){
                     AuthWrapper.userSignIn(res.data);
@@ -60,7 +59,7 @@ export default class AuthProvider extends ProviderBase{
 
         let url = this.baseAddress + "/Auth/SignOut";
 
-        return await axios.post(url)
+        return await this.post(url, null)
             .then(async res => {
                 return res.status === 200;
             })

@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import {Gantt, Task, ViewMode} from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
-import ICardView from "../../models/card/view/cardView";
+import ICardView from "../../models/card/view/ICardView";
 import "./GantChart.css";
 
 interface IProps{
@@ -44,10 +44,12 @@ export default class GantChart extends React.Component<IProps, IState>{
     render() {
         return (
             <div className="Diagram">
-                {/*<Gantt tasks={this.state.tasks}*/}
-                {/*       columnWidth={40}*/}
-                {/*       listCellWidth=""*/}
-                {/*       locale={"ru"}/>*/}
+                {this.state.tasks && (
+                    <Gantt tasks={this.state.tasks}
+                           columnWidth={40}
+                           listCellWidth=""
+                           locale={"ru"}/>
+                )}
             </div>
         );
     }

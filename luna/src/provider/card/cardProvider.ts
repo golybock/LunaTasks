@@ -1,9 +1,6 @@
 ﻿import ProviderBase from "../providerBase";
-import axios from "axios";
-import {AuthWrapper} from "../../auth/AuthWrapper";
-import ICardView from "../../models/card/view/cardView";
-import CardBlank from "../../models/card/blank/cardBlank";
-import IOption from "../../models/tools/IOption";
+import ICardView from "../../models/card/view/ICardView";
+import ICardBlank from "../../models/card/blank/ICardBlank";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
 
 export default class CardProvider extends ProviderBase {
@@ -12,9 +9,7 @@ export default class CardProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Card/GetCards?pageId=" + pageId;
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -36,9 +31,7 @@ export default class CardProvider extends ProviderBase {
             url += "&userIds" + i;
         })
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -56,9 +49,7 @@ export default class CardProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Card/GetCardsByWorkspace?workspaceId=" + WorkspaceManager.getWorkspace();
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -76,9 +67,7 @@ export default class CardProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Card/GetCard?id=" + cardId;
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if (res.status === 200) {
@@ -92,13 +81,11 @@ export default class CardProvider extends ProviderBase {
             });
     }
 
-    static async createCard(cardBlank: CardBlank): Promise<boolean> {
+    static async createCard(cardBlank: ICardBlank): Promise<boolean> {
 
         let url = this.baseAddress + "/Card/CreateCard";
 
-        let token = AuthWrapper.user();
-
-        return await axios.post(url, cardBlank, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.post(url, cardBlank)
             .then(async res => {
 
                 return res.status === 200;
@@ -108,13 +95,11 @@ export default class CardProvider extends ProviderBase {
             });
     }
 
-    static async updateCard(id: string, cardBlank: CardBlank): Promise<boolean> {
+    static async updateCard(id: string, cardBlank: ICardBlank): Promise<boolean> {
 
         let url = this.baseAddress + "/Card/UpdateCard?id=" + id;
 
-        let token = AuthWrapper.user();
-
-        return await axios.post(url, cardBlank, {headers: {"Authorization": `Bearer ${token}`}})
+        return await this.post(url, cardBlank)
             .then(async res => {
 
                 return res.status === 200;
@@ -122,9 +107,5 @@ export default class CardProvider extends ProviderBase {
             .catch(() => {
                 return false;
             });
-    }
-
-    private static mapToOption(data: any[]): IOption[]{
-        return data.map(o => {return{label: o.name, value: o.id}});
     }
 }

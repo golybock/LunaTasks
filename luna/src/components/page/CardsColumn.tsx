@@ -1,9 +1,9 @@
 ﻿import React from "react";
-import ICardView from "../../models/card/view/cardView";
-import "./CardsColumn.css";
+import ICardView from "../../models/card/view/ICardView";
 import ColumnHeader from "./ColumnHeader";
-import IStatusView from "../../models/card/view/statusView";
+import IStatusView from "../../models/card/view/IStatusView";
 import TaskCard from "../card/TaskCard";
+import "./CardsColumn.css";
 
 interface IProps{
     cards: ICardView[],

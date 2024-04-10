@@ -1,9 +1,9 @@
 ﻿import React from "react";
-import IWorkspaceView from "../../models/workspace/workspaceView";
-import TagView from "../../models/card/view/tagView";
-import IStatusView from "../../models/card/view/statusView";
-import TypeView from "../../models/card/view/typeView";
+import IWorkspaceView from "../../models/workspace/IWorkspaceView";
+import ITagView from "../../models/card/view/ITagView";
+import IStatusView from "../../models/card/view/IStatusView";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
+import TypeView from "../../models/card/view/ITypeView";
 import TagProvider from "../../provider/card/tagProvider";
 import TypeProvider from "../../provider/card/typeProvider";
 import StatusProvider from "../../provider/card/statusProvider";
@@ -13,7 +13,7 @@ import TagModal from "./modals/TagModal";
 import StatusModal from "./modals/StatusModal";
 import PageModal from "./modals/PageModal";
 import {Button} from "react-bootstrap";
-import IUserView from "../../models/user/userView";
+import IUserView from "../../models/user/IUserView";
 import NotificationManager from "../../tools/NotificationManager";
 import "./Settings.css";
 
@@ -23,7 +23,7 @@ interface IProps {
 
 interface IState {
     workspace?: IWorkspaceView,
-    tags: TagView[],
+    tags: ITagView[],
     statuses: IStatusView[],
     types: TypeView[],
     users: IUserView[],

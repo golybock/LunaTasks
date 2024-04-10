@@ -1,24 +1,22 @@
 ﻿import React from "react";
 import "./EditCardModal.css";
-import {Button, Modal} from "react-bootstrap";
-import CardBlank from "../../models/card/blank/cardBlank";
-import ICardBlank from "../../models/card/blank/cardBlank";
-import ICardView from "../../models/card/view/cardView";
-import CardProvider from "../../provider/card/cardProvider";
-import Form from "react-bootstrap/Form";
-import IOption from "../../models/tools/IOption";
-import AsyncSelect from "react-select/async";
-import {MultiValue, SingleValue} from "react-select";
-import UserProvider from "../../provider/user/userProvider";
-import TagProvider from "../../provider/card/tagProvider";
-import TypeProvider from "../../provider/card/typeProvider";
-import StatusProvider from "../../provider/card/statusProvider";
-import Loading from "../notifications/Loading";
-import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import DarkAsyncSelect from "../tools/DarkAsyncSelect";
-import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
-import {WorkspaceManager} from "../../tools/WorkspaceManager";
+import {Button, Modal} from "react-bootstrap";
+import ICardBlank from "../../../models/card/blank/ICardBlank";
+import ICardView from "../../../models/card/view/ICardView";
+import CardProvider from "../../../provider/card/cardProvider";
+import Form from "react-bootstrap/Form";
+import IOption from "../../../models/tools/IOption";
+import {MultiValue, SingleValue} from "react-select";
+import UserProvider from "../../../provider/user/userProvider";
+import TagProvider from "../../../provider/card/tagProvider";
+import TypeProvider from "../../../provider/card/typeProvider";
+import StatusProvider from "../../../provider/card/statusProvider";
+import Loading from "../../notifications/Loading";
+import ReactQuill from "react-quill";
+import DarkAsyncSelect from "../../tools/DarkAsyncSelect";
+import WorkspaceProvider from "../../../provider/workspace/workspaceProvider";
+import {WorkspaceManager} from "../../../tools/WorkspaceManager";
 
 interface IProps {
     closeModal: Function,
@@ -27,7 +25,7 @@ interface IProps {
 }
 
 interface IState {
-    cardBlank?: CardBlank,
+    cardBlank?: ICardBlank,
     cardView?: ICardView,
     selectedType?: IOption,
     selectedTags: IOption[],

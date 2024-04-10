@@ -2,7 +2,7 @@
 import {useParams} from "react-router";
 import {Button} from "react-bootstrap";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
-import IWorkspaceView from "../../models/workspace/workspaceView";
+import IWorkspaceView from "../../models/workspace/IWorkspaceView";
 import "./InviteWorkspacePage.css";
 
 export default function InviteWorkspacePage() {

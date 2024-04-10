@@ -1,9 +1,7 @@
 ﻿import React from "react";
 import {Button, Modal} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import ITypeBlank from "../../../models/card/blank/statusBlank";
-import TypeProvider from "../../../provider/card/typeProvider";
-import IStatusBlank from "../../../models/card/blank/statusBlank";
+import IStatusBlank from "../../../models/card/blank/IStatusBlank";
 import StatusProvider from "../../../provider/card/statusProvider";
 
 interface IProps {

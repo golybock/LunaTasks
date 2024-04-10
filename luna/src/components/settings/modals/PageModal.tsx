@@ -1,9 +1,9 @@
 ﻿import React from "react";
 import {Button, Modal} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import IPageBlank from "../../../models/page/pageBlank";
+import IPageBlank from "../../../models/page/IPageBlank";
 import PageProvider from "../../../provider/page/pageProvider";
-import IPageView from "../../../models/page/pageView";
+import IPageView from "../../../models/page/IPageView";
 import "./PageModal.css";
 
 interface IProps {

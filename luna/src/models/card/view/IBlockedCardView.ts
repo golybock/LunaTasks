@@ -1,6 +1,6 @@
 ﻿import {Guid} from "guid-typescript";
 
-export default class BlockedCardView{
+export default class IBlockedCardView{
     constructor(comment: string, blockedUserId: Guid, startBlockTimestamp: string, endBlockTimestamp: string) {
         this.comment = comment;
         this.blockedUserId = blockedUserId;

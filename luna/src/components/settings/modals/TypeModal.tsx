@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import {Button, Modal} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import ITypeBlank from "../../../models/card/blank/typeBlank";
+import ITypeBlank from "../../../models/card/blank/ITypeBlank";
 import TypeProvider from "../../../provider/card/typeProvider";
 
 interface IProps {

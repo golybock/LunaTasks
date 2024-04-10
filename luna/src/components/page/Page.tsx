@@ -1,22 +1,20 @@
 ﻿import React from "react";
-import IPageView from "../../models/page/pageView";
+import IPageView from "../../models/page/IPageView";
 import PageProvider from "../../provider/page/pageProvider";
 import {Button, ButtonGroup, Table} from "react-bootstrap";
 import "./Page.css"
-import EditCardModal from "../card/EditCardModal";
+import EditCardModal from "../card/modals/EditCardModal";
 import {CardDisplayMode} from "../../models/tools/CardDisplayMode";
-import TaskCard from "../card/TaskCard";
-import ICardView from "../../models/card/view/cardView";
+import ICardView from "../../models/card/view/ICardView";
 import CardProvider from "../../provider/card/cardProvider";
 import {useParams} from "react-router";
 import DarkAsyncSelect from "../tools/DarkAsyncSelect";
-import {MultiValue, SingleValue} from "react-select";
+import {MultiValue} from "react-select";
 import IOption from "../../models/tools/IOption";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
 import Loading from "../notifications/Loading";
 import CardsColumn from "./CardsColumn";
-import IStatusView from "../../models/card/view/statusView";
 import {toDictionary} from "../../models/tools/ModelsConverter";
 
 interface IProps {

@@ -1,13 +1,8 @@
 ﻿import ProviderBase from "../providerBase";
-import axios from "axios";
-import {AuthWrapper} from "../../auth/AuthWrapper";
 import IOption from "../../models/tools/IOption";
-import StatusView from "../../models/card/view/statusView";
-import IStatusBlank from "../../models/card/blank/statusBlank";
-import TagView from "../../models/card/view/tagView";
-import ITagBlank from "../../models/card/blank/tagBlank";
-import TypeView from "../../models/card/view/typeView";
-import ITypeBlank from "../../models/card/blank/typeBlank";
+import TypeView from "../../models/card/view/ITypeView";
+import ITypeBlank from "../../models/card/blank/ITypeBlank";
+import {mapToOption} from "../../tools/Mapper";
 
 export default class TypeProvider extends ProviderBase {
 
@@ -17,9 +12,7 @@ export default class TypeProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Type/GetTypes?workspaceId=" + workspaceId;
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url,{headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if(res.status == 200){
@@ -37,9 +30,7 @@ export default class TypeProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Type/GetType?id=" + id;
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url,{headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if(res.status == 200){
@@ -59,13 +50,11 @@ export default class TypeProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Type/GetTypes?workspaceId=" + workspaceId;
 
-        let token = AuthWrapper.user();
-
-        return await axios.get(url,{headers: {"Authorization": `Bearer ${token}`}})
+        return await this.get(url)
             .then(async res => {
 
                 if(res.status == 200){
-                    return this.mapToOption(res.data);
+                    return mapToOption(res.data);
                 }
 
                 return [];
@@ -79,11 +68,9 @@ export default class TypeProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Type/CreateType";
 
-        let token = AuthWrapper.user();
-
         typeBlank.hexColor = typeBlank.hexColor.replace("#", "");
 
-        return await axios.post(url, typeBlank,{headers: {"Authorization": `Bearer ${token}`}})
+        return await this.post(url, typeBlank)
             .then(async res => {
 
                 return res.status == 200;
@@ -97,9 +84,7 @@ export default class TypeProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Type/UpdateType?id=" + id;
 
-        let token = AuthWrapper.user();
-
-        return await axios.put(url, typeBlank,{headers: {"Authorization": `Bearer ${token}`}})
+        return await this.put(url, typeBlank)
             .then(async res => {
 
                 return res.status == 200;
@@ -113,9 +98,7 @@ export default class TypeProvider extends ProviderBase {
 
         let url = this.baseAddress + "/Type/DeleteType?id=" + id;
 
-        let token = AuthWrapper.user();
-
-        return await axios.delete(url,{headers: {"Authorization": `Bearer ${token}`}})
+        return await this.delete(url)
             .then(async res => {
 
                 return res.status == 200;
@@ -123,9 +106,5 @@ export default class TypeProvider extends ProviderBase {
             .catch(() => {
                 return false;
             });
-    }
-
-    private static mapToOption(data: any[]): IOption[]{
-        return data.map(o => {return{label: o.name, value: o.id}});
     }
 }

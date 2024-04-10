@@ -2,7 +2,7 @@
 import {Button, Modal} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./WorkspaceModal.css";
-import IWorkspaceBlank from "../../../models/workspace/workspaceBlank";
+import IWorkspaceBlank from "../../../models/workspace/IWorkspaceBlank";
 import WorkspaceProvider from "../../../provider/workspace/workspaceProvider";
 
 interface IProps {

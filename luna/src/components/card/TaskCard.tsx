@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import ICardView from "../../models/card/view/cardView";
+import ICardView from "../../models/card/view/ICardView";
 import {Card} from "react-bootstrap";
 import "./TaskCard.css"
 import TagsBadge from "./TagsBadge";

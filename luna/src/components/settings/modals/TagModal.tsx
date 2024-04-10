@@ -1,8 +1,7 @@
 ﻿import React from "react";
 import {Button, Modal} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import TypeProvider from "../../../provider/card/typeProvider";
-import ITagBlank from "../../../models/card/blank/tagBlank";
+import ITagBlank from "../../../models/card/blank/ITagBlank";
 import TagProvider from "../../../provider/card/tagProvider";
 
 interface IProps {

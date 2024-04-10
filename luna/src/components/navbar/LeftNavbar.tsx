@@ -1,12 +1,12 @@
 ﻿import React from "react";
 import {NavLink, Outlet} from "react-router-dom";
 import "./Navbar.css"
-import WorkspaceView from "../../models/workspace/workspaceView";
+import IWorkspaceView from "../../models/workspace/IWorkspaceView";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
 import {Dropdown} from "react-bootstrap";
-import PageView from "../../models/page/pageView";
+import IPageView from "../../models/page/IPageView";
 import PageProvider from "../../provider/page/pageProvider";
-import MenuItem from "../../models/navigation/menuItem";
+import MenuItem from "../../models/navigation/MenuItem";
 import {AuthWrapper} from "../../auth/AuthWrapper";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
 import {ReactNotifications} from "react-notifications-component";
@@ -18,8 +18,8 @@ interface IProps {
 interface IState {
     selectedWorkspaceId: string;
     selectedPageId: string | null;
-    workspaces: WorkspaceView[];
-    pages: PageView[];
+    workspaces: IWorkspaceView[];
+    pages: IPageView[];
     menuItems: MenuItem[];
 }
 
