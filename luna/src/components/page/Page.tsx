@@ -245,6 +245,7 @@ class PageComponent extends React.Component<IProps, IState> {
                                                         {toDictionary(this.state.cards).map(((item) => (
                                                             <CardsColumn cards={item.card}
                                                                          key={item.status}
+                                                                         setSelected={(e:string) => {this.setState({selectedCardId: e})}}
                                                                          status={JSON.parse(item.status) ?? {name: "Non status", color: "#FFFFFF"}}
                                                                          showModal={() => this.showModal()}/>
                                                         )))}

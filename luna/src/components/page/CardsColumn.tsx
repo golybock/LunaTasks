@@ -8,11 +8,11 @@ import TaskCard from "../card/TaskCard";
 interface IProps{
     cards: ICardView[],
     status: IStatusView,
-    showModal: Function
+    showModal: Function,
+    setSelected: Function
 }
 
 interface IState{
-
 }
 
 export default class CardsColumn extends React.Component<IProps, IState>{
@@ -31,7 +31,7 @@ export default class CardsColumn extends React.Component<IProps, IState>{
                         <TaskCard card={card}
                                   key={card.id}
                                   onClick={() => {
-                                      this.setState({selectedCardId: card.id});
+                                      this.props.setSelected(card.id);
                                       this.props.showModal();
                                   }}/>
                     )))}

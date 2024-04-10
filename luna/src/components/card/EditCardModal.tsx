@@ -129,7 +129,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
             previousCardId: cardView.previousCard?.id ?? null,
             userIds: cardView.users.map(u => u.id),
             tagIds: cardView.cardTags.map(t => t.id),
-            statusId: cardView.status.id ?? ""
+            statusId: cardView.status?.id ?? ""
         };
     }
 
