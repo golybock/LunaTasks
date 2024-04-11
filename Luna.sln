@@ -112,6 +112,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Data.Repositories", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Data.Services", "Luna.Data.Services\Luna.Data.Services.csproj", "{EC7B7E55-F6C5-455F-A90A-5E7B3040129C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Luna.Models.Notifications", "Luna.Models.Notifications", "{1FCDB197-6B45-4AC7-B8F2-462554ADE1D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -164,6 +166,7 @@ Global
 		{F67E11D3-FE89-44AE-B095-256D1766A080} = {32DEC11A-294E-44BA-B2B9-B272EA380DF0}
 		{EC7B7E55-F6C5-455F-A90A-5E7B3040129C} = {32DEC11A-294E-44BA-B2B9-B272EA380DF0}
 		{350629E8-608E-4885-A41C-66143E68CC44} = {32DEC11A-294E-44BA-B2B9-B272EA380DF0}
+		{1FCDB197-6B45-4AC7-B8F2-462554ADE1D9} = {A3AD836B-A04F-42A6-AD22-BC38C6BCD16A}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B7D97109-3B7F-472C-A464-C1E50937C5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
