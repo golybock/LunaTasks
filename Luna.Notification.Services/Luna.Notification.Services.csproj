@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Luna.Models.Notification.Blank\Luna.Models.Notification.Blank.csproj" />
+      <ProjectReference Include="..\Luna.Models.Notification.Domain\Luna.Models.Notification.Domain.csproj" />
+      <ProjectReference Include="..\Luna.Notification.Repositories\Luna.Notification.Repositories.csproj" />
+      <ProjectReference Include="..\Luna.Notification.View\Luna.Notification.View.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+    </ItemGroup>
+
+</Project>

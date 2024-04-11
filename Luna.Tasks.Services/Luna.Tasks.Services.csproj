@@ -19,6 +19,7 @@
 
     <ItemGroup>
       <PackageReference Include="EPPlus" Version="7.1.0" />
+      <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
     </ItemGroup>
 
 </Project>

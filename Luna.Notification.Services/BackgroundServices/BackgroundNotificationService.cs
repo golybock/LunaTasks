@@ -1,14 +1,15 @@
-﻿using System.Diagnostics;
-using System.Text;
-using Luna.Models.Workspace.Blank.Workspace;
+﻿using System.Text;
+using System.Text.Json;
+using Luna.Models.Notification.Blank.Notification;
+using Luna.Notification.Services.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Luna.Workspaces.Services.Services;
+namespace Luna.Notification.Services.BackgroundServices;
 
-public class RegistrationService : BackgroundService
+public class BackgroundNotificationService : BackgroundService
 {
 	private readonly IConnection _connection;
 	private readonly IModel _channel;
@@ -16,14 +17,14 @@ public class RegistrationService : BackgroundService
 	private string Host { get; }
 	private string Queue { get; }
 
-	private readonly IWorkspaceService _workspaceService;
+	private readonly INotificationService _notificationService;
 
-	public RegistrationService(IWorkspaceService workspaceService, IConfiguration configuration)
+	public BackgroundNotificationService(INotificationService notificationService, IConfiguration configuration)
 	{
-		_workspaceService = workspaceService;
+		_notificationService = notificationService;
 
 		Host = configuration["RabbitMQHost"] ?? throw new ArgumentNullException("RabbitMQHost");
-		Queue = configuration["WorkspaceQueue"] ?? throw new ArgumentNullException("WorkspaceQueue");
+		Queue = configuration["NotificationQueue"] ?? throw new ArgumentNullException("NotificationQueue");
 
 		var factory = new ConnectionFactory { HostName = Host };
 		_connection = factory.CreateConnection();
@@ -40,18 +41,9 @@ public class RegistrationService : BackgroundService
 		{
 			var content = Encoding.UTF8.GetString(ea.Body.ToArray());
 
-			Console.WriteLine(content);
+			var blank = JsonSerializer.Deserialize<BackgroundNotificationBlank>(content);
 
-			var userId = Guid.Parse(content);
-
-			var blank = new WorkspaceBlank()
-			{
-				Name = "Empty workspace"
-			};
-
-			await _workspaceService.CreateWorkspaceAsync(blank, userId);
-
-			Debug.WriteLine($"User created: {userId}");
+			await _notificationService.CreateNotificationAsync(blank.NotificationBlank, blank.ByUserId);
 		};
 
 		_channel.BasicConsume(Queue, true, consumer);

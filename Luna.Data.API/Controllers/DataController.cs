@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ControllerBase = Luna.Tools.Web.ControllerBase;
 
-namespace Luna.Resources.API.Controllers;
+namespace Luna.Data.API.Controllers;
 
 [ApiController]
 [Route("/")]

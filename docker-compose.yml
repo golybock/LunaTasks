@@ -50,15 +50,15 @@
       context: .
       dockerfile: Luna.Workspace.API/Dockerfile
 
-  luna.resources.api:
+  luna.data.api:
     environment:
       ASPNETCORE_ENVIRONMENT: Release
-    image: luna.resources.api
+    image: luna.data.api
     ports:
       - "7005:8080"
     build:
       context: .
-      dockerfile: Luna.Resources.API/Dockerfile
+      dockerfile: Luna.Data.API/Dockerfile
 
   luna.tasks.api:
     environment:
@@ -69,3 +69,13 @@
     build:
       context: .
       dockerfile: Luna.Tasks.API/Dockerfile
+
+  luna.notification.api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Release
+    image: luna.notification.api
+    ports:
+      - "7007:8080"
+    build:
+      context: .
+      dockerfile: Luna.Notification.API/Dockerfile

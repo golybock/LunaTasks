@@ -1,13 +1,13 @@
-using Luna.SharedDataAccess.Users.Services;
+using Luna.Notification.Repositories.Repositories;
+using Luna.Notification.Services.BackgroundServices;
+using Luna.Notification.Services.Services;
 using Luna.Tools.Auth.Options;
-using Luna.Workspaces.Repositories.Repositories;
-using Luna.Workspaces.Services.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql.Extension.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 var jwtOptions = new JwtOptions(builder.Configuration);
 
@@ -47,20 +47,17 @@ builder.Services.AddCors(options =>
 	});
 });
 
-var connectionString = builder.Configuration.GetConnectionString("luna_workspaces");
+var connectionString = builder.Configuration.GetConnectionString("luna_notification");
 var options = new DatabaseOptions() {ConnectionString = connectionString!};
 
 builder.Services.AddSingleton<IDatabaseOptions>(_ => options);
 
-builder.Services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
-builder.Services.AddScoped<IWorkspaceService, WorkspaceService>();
-
-// grpc
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 //rabbit
-builder.Services.AddHostedService<RegistrationService>();
+builder.Services.AddHostedService<BackgroundNotificationService>();
 
 var app = builder.Build();
 
