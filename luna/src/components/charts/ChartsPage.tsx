@@ -79,9 +79,9 @@ export default class ChartsPage extends React.Component<IProps, IState>{
                             </div>
                             <div className="Graph-Item">
                                    <h2>Диаграмма ганта</h2>
-                                {this.state.cards && (
-                                    <GantChart cards={this.state.cards}/>
-                                )}
+                                {/*{this.state.cards && (*/}
+                                {/*    <GantChart cards={this.state.cards}/>*/}
+                                {/*)}*/}
                             </div>
                         </div>
                     </div>
