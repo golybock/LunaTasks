@@ -1,4 +1,6 @@
 ﻿using Grpc.Core;
+using Luna.Models.Notification.Blank.Notification;
+using Luna.SharedDataAccess.Notification.Services;
 using Luna.Users.Grpc.Extensions;
 using Luna.Users.Grpc.RabbitMQ;
 using Luna.Users.Services.Services;
@@ -10,14 +12,17 @@ public class UsersService : Grpc.UsersService.UsersServiceBase
 	private readonly ILogger<UsersService> _logger;
 
 	private readonly IUserService _userService;
+	private readonly INotificationService _notificationService;
 
 	private readonly IUserRegistrationService _registrationService;
 
-	public UsersService(ILogger<UsersService> logger, IUserService userService, IUserRegistrationService registrationService)
+	public UsersService(ILogger<UsersService> logger, IUserService userService,
+		IUserRegistrationService registrationService, INotificationService notificationService)
 	{
 		_logger = logger;
 		_userService = userService;
 		_registrationService = registrationService;
+		_notificationService = notificationService;
 	}
 
 	public override async Task<UsersList> GetUsers(GetUsersRequest request, ServerCallContext context)
@@ -38,7 +43,8 @@ public class UsersService : Grpc.UsersService.UsersServiceBase
 		return new UserResponse() {User = user.ToUserModel()};
 	}
 
-	public override async Task<UserResponse> GetUserByPhoneOrEmail(GetUserByPhoneOrEmailRequest request, ServerCallContext context)
+	public override async Task<UserResponse> GetUserByPhoneOrEmail(GetUserByPhoneOrEmailRequest request,
+		ServerCallContext context)
 	{
 		var user = await _userService.GetUserByPhoneOrEmailAsync(request.Value);
 
@@ -54,6 +60,11 @@ public class UsersService : Grpc.UsersService.UsersServiceBase
 		if (result != Guid.Empty)
 		{
 			_registrationService.CreateWorkspace(result);
+
+			await _notificationService.MakeNotification(
+				Guid.Empty,
+				new NotificationBlank() {Text = "Welcome", Priority = 1, UserId = result}
+			);
 		}
 
 		return new CreateUserResponse() {Id = result.ToString()};
@@ -73,7 +84,8 @@ public class UsersService : Grpc.UsersService.UsersServiceBase
 		return new ExecutedResponse() {Executed = result};
 	}
 
-	public override async Task<ExecutedResponse> DeleteUserById(DeleteUserByIdRequest request, ServerCallContext context)
+	public override async Task<ExecutedResponse> DeleteUserById(DeleteUserByIdRequest request,
+		ServerCallContext context)
 	{
 		var result = await _userService.DeleteUserAsync(Guid.Parse(request.Id));
 

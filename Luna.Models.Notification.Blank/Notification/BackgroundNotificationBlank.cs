@@ -4,5 +4,5 @@ public class BackgroundNotificationBlank
 {
 	public Guid ByUserId { get; set; }
 
-	public NotificationBlank NotificationBlank { get; set; }
+	public NotificationBlank NotificationBlank { get; set; } = null!;
 }

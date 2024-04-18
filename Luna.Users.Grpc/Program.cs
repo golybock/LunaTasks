@@ -1,3 +1,4 @@
+using Luna.SharedDataAccess.Notification.Services;
 using Luna.Users.Grpc.RabbitMQ;
 using Luna.Users.Grpc.Services;
 using Luna.Users.Repositories.Repositories;
@@ -17,6 +18,7 @@ builder.Services.AddSingleton<IDatabaseOptions>(_ => options);
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserRegistrationService, UserRegistrationService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 var app = builder.Build();
 

@@ -130,6 +130,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Notification.Services"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.Notification.API", "Luna.Notification.API\Luna.Notification.API.csproj", "{3FC83DAD-A0F4-4201-92AC-A5C3B0A0C1ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luna.SharedDataAccess.Notification", "Luna.SharedDataAccess.Notification\Luna.SharedDataAccess.Notification.csproj", "{70D9969A-F4FA-4970-AFB9-076420A0935D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -191,6 +193,7 @@ Global
 		{7E7BDEC3-D385-46AD-91B8-88ED5F7F5C32} = {F4004C39-88FD-4BC9-840A-5D7E037CB943}
 		{3F8760EC-E25F-4CCE-890A-20A44FE05384} = {F4004C39-88FD-4BC9-840A-5D7E037CB943}
 		{3FC83DAD-A0F4-4201-92AC-A5C3B0A0C1ED} = {F4004C39-88FD-4BC9-840A-5D7E037CB943}
+		{70D9969A-F4FA-4970-AFB9-076420A0935D} = {3C2E43FD-5A56-4058-BD9C-F05DCDA07D56}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B7D97109-3B7F-472C-A464-C1E50937C5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -365,5 +368,9 @@ Global
 		{3FC83DAD-A0F4-4201-92AC-A5C3B0A0C1ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FC83DAD-A0F4-4201-92AC-A5C3B0A0C1ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FC83DAD-A0F4-4201-92AC-A5C3B0A0C1ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70D9969A-F4FA-4970-AFB9-076420A0935D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70D9969A-F4FA-4970-AFB9-076420A0935D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70D9969A-F4FA-4970-AFB9-076420A0935D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70D9969A-F4FA-4970-AFB9-076420A0935D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

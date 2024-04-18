@@ -27,6 +27,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Luna.Models.Users.Domain\Luna.Models.Users.Domain.csproj" />
       <ProjectReference Include="..\Luna.Models.Users.View\Luna.Models.Users.View.csproj" />
+      <ProjectReference Include="..\Luna.SharedDataAccess.Notification\Luna.SharedDataAccess.Notification.csproj" />
       <ProjectReference Include="..\Luna.Users.Services\Luna.Users.Services.csproj" />
     </ItemGroup>
 
