@@ -2,7 +2,7 @@
 import IUserView from "../../models/user/IUserView";
 import {AuthWrapper} from "../../auth/AuthWrapper";
 import IOption from "../../models/tools/IOption";
-import {mapToOption} from "../../tools/Mapper";
+import {mapToOption, mapToOptionUser} from "../../tools/Mapper";
 
 export default class UserProvider extends ProviderBase {
     static async getMe(): Promise<IUserView | null> {
@@ -57,7 +57,7 @@ export default class UserProvider extends ProviderBase {
             .then(async res => {
 
                 if (res.status === 200) {
-                    return mapToOption(res.data);
+                    return mapToOptionUser(res.data);
                 }
 
                 if(res.status == 401){

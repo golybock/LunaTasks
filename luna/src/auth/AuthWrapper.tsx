@@ -1,5 +1,5 @@
-﻿import React, {Component, FC} from "react";
-import {Navigate, Route, RouteProps} from "react-router-dom";
+﻿import React from "react";
+import {Navigate} from "react-router-dom";
 
 export class AuthWrapper {
     static user = () => localStorage.getItem("user");

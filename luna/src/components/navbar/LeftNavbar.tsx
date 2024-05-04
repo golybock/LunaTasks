@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import {NavLink, Outlet} from "react-router-dom";
-import "./Navbar.css"
+import "./LeftNavbar.css"
 import IWorkspaceView from "../../models/workspace/IWorkspaceView";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
 import {Dropdown} from "react-bootstrap";
@@ -116,8 +116,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                     <div>
                         {this.state.workspaces && (
                             <Dropdown data-bs-theme="dark"
-                                // disabled={this.state.workspaces.length == 1}
-                            >
+                                      className="Workspace-Dropdown">
 
                                 {this.state.selectedWorkspaceId && (
                                     <Dropdown.Toggle variant="outline-secondary" className="Workspace-Dropdown">
@@ -147,7 +146,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                                 {this.state.menuItems.map((item: MenuItem) => (
                                     <NavLink key={item.title} to={item.href} end={true} replace={true}
                                              className="Navbar-Item">
-                                        <div className="Navbar-List-Item">
+                                        <div className="Navbar-List-Item Icon">
                                             {item.image && (
                                                 <img src={item.image} alt=""/>
                                             )}
@@ -157,11 +156,13 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                                 ))}
                             </div>
                         )}
-                        <div className="Navbar-List-Item" onClick={() => AuthWrapper.userSignOut()}>
+                    </nav>
+                    <div className="Sign-Out" onClick={() => AuthWrapper.userSignOut()}>
+                        <button className="btn btn-outline-secondary">
                             <img src={"/icons/signOut.svg"} alt=""/>
                             <label>SignOut</label>
-                        </div>
-                    </nav>
+                        </button>
+                    </div>
                 </aside>
 
                 <main className="Navbar-Container-Content">

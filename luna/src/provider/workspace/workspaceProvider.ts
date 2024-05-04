@@ -4,7 +4,7 @@ import IUserView from "../../models/user/IUserView";
 import IOption from "../../models/tools/IOption";
 import IWorkspaceBlank from "../../models/workspace/IWorkspaceBlank";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
-import {mapToOption} from "../../tools/Mapper";
+import {mapToOption, mapToOptionUser} from "../../tools/Mapper";
 
 export default class WorkspaceProvider extends ProviderBase {
 
@@ -96,7 +96,7 @@ export default class WorkspaceProvider extends ProviderBase {
             .then(async res => {
 
                 if (res.status === 200) {
-                    return mapToOption(res.data);
+                    return mapToOptionUser (res.data);
                 }
 
                 return [];

@@ -29,3 +29,7 @@
     /*dark theme*/
 }
 
+.Icon{
+    filter: invert(0);
+}
+
