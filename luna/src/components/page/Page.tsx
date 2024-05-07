@@ -169,7 +169,7 @@ class PageComponent extends React.Component<IProps, IState> {
                         <div className="Page-Content">
                             <div>
                                 <div className="Page-Content-Header">
-                                    <h2>{this.state.page?.name}</h2>
+                                    <h1>{this.state.page?.name}</h1>
                                     <label>{this.state.page?.description}</label>
                                 </div>
                                 <div className="Page-Content-Toolbar">
@@ -178,11 +178,11 @@ class PageComponent extends React.Component<IProps, IState> {
                                         <Button className="Primary-Button"
                                                 onClick={() => {
                                                     this.setState({displayMode: CardDisplayMode.Table});
-                                                }}>Table</Button>
+                                                }}>Таблица</Button>
                                         <Button className="Primary-Button"
                                                 onClick={() => {
                                                     this.setState({displayMode: CardDisplayMode.Card});
-                                                }}>Cards</Button>
+                                                }}>Карточки</Button>
                                     </ButtonGroup>
 
                                     <Button className="Primary-Button Button" onClick={() => {

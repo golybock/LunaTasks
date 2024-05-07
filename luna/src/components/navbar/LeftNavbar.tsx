@@ -115,11 +115,10 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                 <aside className="Navbar-Left">
                     <div>
                         {this.state.workspaces && (
-                            <Dropdown data-bs-theme="dark"
-                                      className="Workspace-Dropdown">
+                            <Dropdown data-bs-theme="dark" className="Workspace-Dropdown">
 
                                 {this.state.selectedWorkspaceId && (
-                                    <Dropdown.Toggle variant="outline-secondary" className="Workspace-Dropdown">
+                                    <Dropdown.Toggle variant="outline-secondary" >
                                         {this.state.workspaces.find(c => c.id == this.state.selectedWorkspaceId)?.name ?? "Workspace"}
                                     </Dropdown.Toggle>
                                 )}
@@ -159,7 +158,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                     </nav>
                     <div className="Sign-Out" onClick={() => AuthWrapper.userSignOut()}>
                         <button className="btn btn-outline-secondary">
-                            <img src={"/icons/signOut.svg"} alt=""/>
+                            <img src={"/icons/signOut.svg"} alt="" width="30" height="30"/>
                             <label>SignOut</label>
                         </button>
                     </div>

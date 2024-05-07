@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: row;
     justify-items: flex-start;
-    width: 100%;
 }
 
 .Type{
@@ -13,6 +12,6 @@
     overflow: hidden;
     position: relative;
     align-items: center;
-    border-radius: 16px;
+    border-radius: 6px;
     color: black;
 }

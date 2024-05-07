@@ -1,6 +1,5 @@
 ﻿import React from "react";
 import ICardView from "../../models/card/view/ICardView";
-import {Card} from "react-bootstrap";
 import "./TaskCard.css"
 import TagsBadge from "./TagsBadge";
 import TypeBadge from "./TypeBadge";
@@ -21,39 +20,35 @@ export default class TaskCard extends React.Component<IProps, IState>{
     }
 
     toDate(timestamp: string): string{
-        return new Date(Date.parse(timestamp)).toDateString();
+        return new Date(Date.parse(timestamp)).toISOString().split('T')[0];
     }
 
     render() {
         return (
-            <Card className="Card" onClick={() => this.props.onClick()}>
+            <div className="Card" onClick={() => this.props.onClick()}>
 
-                <Card.Title>
-                    <Card.Text className="Card-Title">
-                        {this.props.card.header}
-                    </Card.Text>
-                </Card.Title>
+                <div className="Card-Title">
+                    <h5>{this.props.card.header}</h5>
+                </div>
 
-                <Card.Body>
+                <hr/>
 
-                    <Card.Text>
-                        {this.props.card.description}
-                    </Card.Text>
+                <div>
+                    {this.props.card.description}
+                </div>
 
-                </Card.Body>
+                <div className="Date">
+                    <img src={"/icons/date.svg"}/>
+                    <label>{this.toDate(this.props.card.createdTimestamp)}</label>
+                </div>
 
-                <Card.Footer>
-
-
-                    <Card.Text>
-                        {this.toDate(this.props.card.createdTimestamp)}
-                    </Card.Text>
-
+                <div className="Tags">
                     <TypeBadge type={this.props.card.cardType}/>
                     <TagsBadge cardTags={this.props.card.cardTags}/>
-                </Card.Footer>
+                </div>
 
-            </Card>
+
+            </div>
         )
     }
 }

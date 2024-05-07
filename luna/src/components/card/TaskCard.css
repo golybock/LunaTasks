@@ -1,9 +1,38 @@
 ﻿.Card{
-    background: var(--primary-container);
+    background: var(--secondary-container);
+    border-radius: 10px;
     color: white;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    width: 250px;
+}
+
+.Card hr{
+    width: 70%;
 }
 
 .Card-Title{
-    margin: 10px 0 0 15px;
+}
+
+.Tags{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.Date{
+    display: flex;
+    flex-direction: row;
+}
+
+.Date img{
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+}
+
+.Date label{
+    margin: 3px;
 }
