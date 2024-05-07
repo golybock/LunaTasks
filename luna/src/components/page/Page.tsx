@@ -178,11 +178,19 @@ class PageComponent extends React.Component<IProps, IState> {
                                         <Button className="Primary-Button"
                                                 onClick={() => {
                                                     this.setState({displayMode: CardDisplayMode.Table});
-                                                }}>Таблица</Button>
+                                                }}>
+                                            <div>
+                                                <img src={"/icons/table.svg"}/>
+                                                <label>Таблица</label>
+                                            </div>
+                                        </Button>
                                         <Button className="Primary-Button"
                                                 onClick={() => {
                                                     this.setState({displayMode: CardDisplayMode.Card});
-                                                }}>Карточки</Button>
+                                                }}>
+                                            <img src={"/icons/cards.svg"}/>
+                                            <label>Карточки</label>
+                                        </Button>
                                     </ButtonGroup>
 
                                     <Button className="Primary-Button Button" onClick={() => {
