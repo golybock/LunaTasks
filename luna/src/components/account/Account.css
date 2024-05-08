@@ -8,8 +8,7 @@
 .Content{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: -50px;
+    padding: 20px;
 }
 
 .User-Info{
@@ -54,7 +53,6 @@
 .Link-Block label{
     width: 260px;
     height: 35px;
-    margin-left: 20px;
     margin-top: 10px;
     font-size: 18px;
 }

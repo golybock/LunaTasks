@@ -3,7 +3,6 @@ import ICardView from "../../../models/card/view/ICardView";
 import TypeBadge from "../../card/TypeBadge";
 import TagsBadge from "../../card/TagsBadge";
 import "./CardRow.css";
-import {Button} from "react-bootstrap";
 
 interface IProps {
     card: ICardView;
@@ -33,13 +32,12 @@ export default class CardRow extends React.Component<any, any>{
                 </div>
 
                 <div className="Card-Row-Body">
-                    {this.props.card.description}
                     <div className="Date">
                         <img src={"/icons/date.svg"}/>
                         <label>{this.toDate(this.props.card.createdTimestamp)}</label>
                     </div>
 
-                    <div className="Tags">
+                    <div className="Card-Row-Tags">
                         <TypeBadge type={this.props.card.cardType}/>
                         <TagsBadge cardTags={this.props.card.cardTags}/>
                     </div>

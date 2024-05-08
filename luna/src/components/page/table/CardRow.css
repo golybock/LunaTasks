@@ -12,6 +12,7 @@
 .Card-Row-Header {
     display: flex;
     flex-direction: row;
+    width: 20%;
 }
 
 .Card-Row-Header h5{
@@ -29,6 +30,12 @@
 .Card-Row-Body {
     display: flex;
     flex-direction: row;
-    width: 70%;
-    justify-content: space-around;
+    width: 40%;
+    justify-content: space-between;
+}
+
+.Card-Row-Tags{
+    display: flex;
+    flex-direction: row;
+    height: 32px;
 }
