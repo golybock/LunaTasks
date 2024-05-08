@@ -2,16 +2,22 @@
     --black: black;
     --white: white;
     --danger: red;
-    /*--secondary: #2E2E2E;*/
-    --text: white;
-    --secondary-text: #777777;
-    /*dark theme*/
-    --primary: #065a60;
-    --secondary: #4d194d;
-    --teriary: #272640;
-    --error: red;
 
-    --primary-container: #141414;
+    /*text*/
+    --text: #F6F6F6;
+    --secondary-text: #777777;
+
+    /*main dark theme*/
+    --primary: #065A60;
+    --secondary: #4D194D;
+    --teriary: #272640;
+
+    /*error*/
+    --error: #CC3B3B;
+    --error-container: #FF5757;
+
+    /*container*/
+    --primary-container: #242424;
     --secondary-container: #444444;
     --teriary-container: #686868;
 
@@ -22,11 +28,6 @@
     --primary-variant-darker: #212f45;
     --secondary-variant: #312244;
     --secondary-variant-dark: #3e1f47;
-    /*lght theme*/
-
-
-
-    /*dark theme*/
 }
 
 .Icon{

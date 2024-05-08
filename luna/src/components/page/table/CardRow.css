@@ -1,0 +1,34 @@
+﻿.Card-Row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 10px;
+    padding: 12px;
+    background: var(--secondary-container);
+    margin: 12px;
+}
+
+.Card-Row-Header {
+    display: flex;
+    flex-direction: row;
+}
+
+.Card-Row-Header h5{
+    margin: 10px;
+}
+
+.Row-Color-Block {
+    border: 6px solid;
+    margin-left: -12px;
+    margin-top: -12px;
+    height: 155%;
+    border-radius: 10px 0 0 10px;
+}
+
+.Card-Row-Body {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-around;
+}

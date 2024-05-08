@@ -13,6 +13,7 @@ export class AuthWrapper {
 
     static userSignOut = () => {
         localStorage.clear();
+
         window.location.replace("/");
     }
 }

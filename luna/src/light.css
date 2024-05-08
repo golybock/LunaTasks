@@ -2,31 +2,24 @@
     --black: black;
     --white: white;
     --danger: red;
-    /*--secondary: #2E2E2E;*/
-    --secondary-text: #7B7B7B;
-    --secondary-text-variant: #777777;
-    /*--secondary-dark: #1D1D1D;*/
-    /*dark theme*/
-    /*--primary: #065a60;*/
-    --primary-light: #f1faee;
-    --primary-variant: #0b525b;
-    --primary-dark: #a8dadc;
-    --dark: #457b9d;
-    --dark-darker: #1d3557;
-    --gray: #272640;
-    --gray-variant: #312244;
-    --secondary: #4d194d;
-    --secondary-dark: #3e1f47;
-    /*lght theme*/
 
-    /*light theme variant*/
-    --primary: #e63946;
-    --2: #f1faee;
-    --3: #a8dadc;
-    --4: #457b9d;
-    --5: #1d3557;
+    /*text*/
+    --text: #010F41;
+    --secondary-text: #777777;
 
-    /*dark theme*/
+    /*main dark theme*/
+    --primary: #E63946;
+    --secondary: #A8DADC;
+    --teriary: #457B9D;
+
+    /*error*/
+    --error: #CC3B3B;
+    --error-container: #F3ADAD;
+
+    /*container*/
+    --primary-container: #A8DADC;
+    --secondary-container: #457B9D;
+    --teriary-container: #6D94AC;
 }
 
 .Icon{

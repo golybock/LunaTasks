@@ -18,16 +18,22 @@
 .Page-Content-Toolbar{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+}
+
+.Page-Content-Toolbar-Item{
+    display: flex;
+    flex-direction: row;
 }
 
 button{
     width: 125px;
-    background: var(--secondary-text-variant);
+    background: var(--primary-container);
 }
 
 .Modal-Footer button{
     width: 125px;
-    background: var(--secondary-text-variant);
+    background: var(--primary-container);
 }
 
 .Page-Content-Toolbar button{

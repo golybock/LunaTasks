@@ -9,13 +9,14 @@ import ICardView from "../../models/card/view/ICardView";
 import CardProvider from "../../provider/card/cardProvider";
 import {useParams} from "react-router";
 import DarkAsyncSelect from "../tools/DarkAsyncSelect";
-import {MultiValue} from "react-select";
+import {MultiValue, SingleValue} from "react-select";
 import IOption from "../../models/tools/IOption";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
 import Loading from "../notifications/Loading";
 import CardsColumn from "./CardsColumn";
 import {toDictionary} from "../../models/tools/ModelsConverter";
+import CardsTable from "./table/CardsTable";
 
 interface IProps {
     pageId: string
@@ -29,7 +30,7 @@ interface IState {
     showModal: boolean,
     selectedCardId: string | null,
     displayMode: CardDisplayMode,
-    filterUserId: IOption[]
+    filterUserId: IOption | null
 }
 
 function Page() {
@@ -52,7 +53,7 @@ class PageComponent extends React.Component<IProps, IState> {
             showModal: false,
             selectedCardId: null,
             displayMode: CardDisplayMode.Card,
-            filterUserId: []
+            filterUserId: null
         }
     }
 
@@ -138,11 +139,11 @@ class PageComponent extends React.Component<IProps, IState> {
         return await WorkspaceProvider.getWorkspaceUsersOptions(WorkspaceManager.getWorkspace()!);
     }
 
-    async userSelected(e: MultiValue<IOption>) {
-        this.setState({filterUserId: e.map(e => e)})
+    async userSelected(e: SingleValue<IOption>) {
+        this.setState({filterUserId: e as IOption})
 
         if (e) {
-            const cards = await CardProvider.getCardsByUserIds(this.props.pageId, e.map(i => i.value));
+            const cards = await CardProvider.getCardsByUserIds(this.props.pageId, [e.value]);
 
             this.setState({cards: cards});
         } else {
@@ -156,7 +157,7 @@ class PageComponent extends React.Component<IProps, IState> {
     render() {
         return (
             <div>
-                {this.state.isLoading  && (
+                {this.state.isLoading && (
                     <Loading/>
                 )}
                 {!this.state.isLoading && (
@@ -174,85 +175,78 @@ class PageComponent extends React.Component<IProps, IState> {
                                 </div>
                                 <div className="Page-Content-Toolbar">
 
-                                    <ButtonGroup>
-                                        <Button className="Primary-Button"
-                                                onClick={() => {
-                                                    this.setState({displayMode: CardDisplayMode.Table});
-                                                }}>
-                                            <div>
-                                                <img src={"/icons/table.svg"}/>
-                                                <label>Таблица</label>
-                                            </div>
+                                    <div className="Page-Content-Toolbar-Item">
+                                        <ButtonGroup>
+                                            <Button className="Outline-Button"
+                                                    onClick={() => {
+                                                        this.setState({displayMode: CardDisplayMode.Table});
+                                                    }}>
+                                                <div>
+                                                    <img className="Image" src={"/icons/table.svg"}/>
+                                                    <label>Table</label>
+                                                </div>
+                                            </Button>
+                                            <Button className="Outline-Button"
+                                                    onClick={() => {
+                                                        this.setState({displayMode: CardDisplayMode.Card});
+                                                    }}>
+                                                <img className="Image" src={"/icons/cards.svg"}/>
+                                                <label>Cards</label>
+                                            </Button>
+                                        </ButtonGroup>
+
+                                        <div className="Button Page-Content-Toolbar-Select">
+                                            <DarkAsyncSelect isMulti={false}
+                                                             cacheOptions
+                                                             defaultOptions
+                                                             value={this.state.filterUserId}
+                                                             loadOptions={this.getUsers}
+                                                             onChange={(e: SingleValue<IOption>) => this.userSelected(e)}/>
+                                        </div>
+                                    </div>
+
+                                    <div className="Page-Content-Toolbar-Item">
+                                        <Button className="Primary-Button Button" onClick={() => {
+                                            this.setState({showModal: true})
+                                        }}>
+
+                                            <label>Create new</label>
                                         </Button>
-                                        <Button className="Primary-Button"
-                                                onClick={() => {
-                                                    this.setState({displayMode: CardDisplayMode.Card});
-                                                }}>
-                                            <img src={"/icons/cards.svg"}/>
-                                            <label>Карточки</label>
+
+                                        <Button className="Secondary-Button Button" onClick={async () => {
+                                            await PageProvider.getPageReport(this.props.pageId);
+                                        }}>
+                                            <img src={"/icons/xlsx.svg"}/>
                                         </Button>
-                                    </ButtonGroup>
-
-                                    <Button className="Primary-Button Button" onClick={() => {
-                                        this.setState({showModal: true})
-                                    }}>New</Button>
-
-                                    <Button className="Primary-Button Button" onClick={async () => {
-                                        await PageProvider.getPageReport(this.props.pageId);
-                                    }}>Get xlsx</Button>
-
-
-                                    <div className="Button Page-Content-Toolbar-Select">
-                                        <DarkAsyncSelect isMulti={true}
-                                                         cacheOptions
-                                                         defaultOptions
-                                                         value={this.state.filterUserId}
-                                                         loadOptions={this.getUsers}
-                                                         onChange={(e: MultiValue<IOption>) => this.userSelected(e)}/>
                                     </div>
 
                                 </div>
+
+                                <hr/>
+
                                 <div className="Page-Content-Data">
                                     {this.state.cards &&
                                         (
                                             <>
                                                 {this.state.displayMode == CardDisplayMode.Table && (
-                                                    <Table className="table-dark table-bordered">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Header</th>
-                                                            <th>Type</th>
-                                                            <th>Created</th>
-                                                            <th>Edit</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        {this.state.cards.map(((card) => (
-                                                            <tr key={card.id.toString()}>
-                                                                <td>{card.header}</td>
-                                                                <td>{card.cardType.name}</td>
-                                                                <td>{new Date(Date.parse(card.createdTimestamp)).toDateString()}</td>
-                                                                <td>
-                                                                    <Button className="Primary-Button"
-                                                                            onClick={() => {
-                                                                                this.setState({selectedCardId: card.id});
-                                                                                this.showModal();
-                                                                            }}>
-                                                                        Edit
-                                                                    </Button>
-                                                                </td>
-                                                            </tr>
-                                                        )))}
-                                                        </tbody>
-                                                    </Table>
+                                                    <CardsTable cards={this.state.cards}
+                                                                setSelected={(e: string) => {
+                                                                    this.setState({selectedCardId: e})
+                                                                }}
+                                                                showModal={() => this.showModal()}/>
                                                 )}
                                                 {this.state.displayMode == CardDisplayMode.Card && (
                                                     <div className="Cards">
                                                         {toDictionary(this.state.cards).map(((item) => (
                                                             <CardsColumn cards={item.card}
                                                                          key={item.status}
-                                                                         setSelected={(e:string) => {this.setState({selectedCardId: e})}}
-                                                                         status={JSON.parse(item.status) ?? {name: "Non status", color: "#FFFFFF"}}
+                                                                         setSelected={(e: string) => {
+                                                                             this.setState({selectedCardId: e})
+                                                                         }}
+                                                                         status={JSON.parse(item.status) ?? {
+                                                                             name: "Non status",
+                                                                             color: "#FFFFFF"
+                                                                         }}
                                                                          showModal={() => this.showModal()}/>
                                                         )))}
                                                     </div>

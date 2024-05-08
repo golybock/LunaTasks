@@ -1,18 +1,19 @@
 ﻿.react-select-container {
     .react-select__control {
         background-color: var(--primary-container);
-        border-color: var(--black);
+        border-color: var(--secondary-container);
         transition: none;
+        height: 40px;
 
         &:hover {
-            border-color: var(--black);
+            border-color: var(--primary-container);
             background-color: var(--secondary-container);
         }
     }
 
     .react-select__menu {
         background-color: var(--primary-container);
-        border: 1px solid var(--black);
+        border: 1px solid var(--secondary-container);
     }
 
     .react-select__option {
