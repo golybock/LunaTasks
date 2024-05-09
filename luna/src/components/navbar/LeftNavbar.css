@@ -79,3 +79,8 @@
     border-radius: 10px;
     margin: 12px;
 }
+
+.Workspace-Button{
+    width: 100%;
+    height: 30px;
+}

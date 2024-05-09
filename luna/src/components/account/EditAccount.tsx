@@ -5,7 +5,7 @@ import "./Account.css"
 import {Button} from "react-bootstrap";
 import WorkspaceModal from "./modals/WorkspaceModal";
 import ImageManager from "../../tools/ImageManager";
-import {NavLink} from "react-router-dom";
+import Form from "react-bootstrap/Form";
 
 interface IProps {
 
@@ -15,7 +15,7 @@ interface IState {
     user: IUserView | null
 }
 
-export default class Account extends React.Component<IProps, IState> {
+export default class EditAccount extends React.Component<IProps, IState> {
 
     headerUrl = ImageManager.getImageSrc("woodcuts_14.jpg");
 
@@ -31,6 +31,14 @@ export default class Account extends React.Component<IProps, IState> {
         const user = await UserProvider.getMe();
 
         this.setState({user: user})
+    }
+
+    changeEmail(value: string) {
+
+    }
+
+    changePhone(value: string) {
+
     }
 
     render() {
@@ -52,20 +60,13 @@ export default class Account extends React.Component<IProps, IState> {
                         </div>
                         <div className="Links">
                             <div className="Link-Block">
-                                <h4>User info</h4>
-                                <hr/>
-                                <label>Email: {this.state.user?.email}</label>
-                                <label>Phone: {this.state.user?.phoneNumber == "" ? "-" : this.state.user?.phoneNumber}</label>
-                            </div>
-                            <div className="Link-Block">
-                                <h4>Actions</h4>
-                                <hr/>
-                                <Button className="btn btn-outline-dark Outline-Button">
-                                    <NavLink to={"/editAccount"} end={true} replace={true}
-                                             className="Navbar-Item">
-                                        Edit
-                                    </NavLink>
-                                </Button>
+                                <label>Email</label>
+                                <Form.Control value={this.state.user?.email}
+                                              onChange={(e) => this.changeEmail(e.target.value)}/>
+                                <label>Phone</label>
+                                <Form.Control value={this.state.user?.phoneNumber}
+                                              onChange={(e) => this.changePhone(e.target.value)}/>
+                                <Button className="btn btn-outline-dark Outline-Button">Save</Button>
                             </div>
                         </div>
                     </div>

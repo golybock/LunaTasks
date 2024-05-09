@@ -39,7 +39,7 @@ export default class CardRow extends React.Component<any, any>{
 
                     <div className="Card-Row-Tags">
                         <TypeBadge type={this.props.card.cardType}/>
-                        <TagsBadge cardTags={this.props.card.cardTags}/>
+                        {/*<TagsBadge cardTags={this.props.card.cardTags}/>*/}
                     </div>
                 </div>
 

@@ -3,7 +3,7 @@ import {NavLink, Outlet} from "react-router-dom";
 import "./LeftNavbar.css"
 import IWorkspaceView from "../../models/workspace/IWorkspaceView";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
-import {Dropdown} from "react-bootstrap";
+import {Button, Dropdown} from "react-bootstrap";
 import IPageView from "../../models/page/IPageView";
 import PageProvider from "../../provider/page/pageProvider";
 import MenuItem from "../../models/navigation/MenuItem";
@@ -11,6 +11,7 @@ import {AuthWrapper} from "../../auth/AuthWrapper";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
 import {ReactNotifications} from "react-notifications-component";
 import 'react-notifications-component/dist/theme.css'
+import WorkspaceModal from "../account/modals/WorkspaceModal";
 
 interface IProps {
 }
@@ -21,6 +22,8 @@ interface IState {
     workspaces: IWorkspaceView[];
     pages: IPageView[];
     menuItems: MenuItem[];
+    showWorkspaceModal: boolean;
+    showSettingsModal: boolean;
 }
 
 export class LeftNavbar extends React.Component<IProps, IState> {
@@ -33,7 +36,9 @@ export class LeftNavbar extends React.Component<IProps, IState> {
             selectedPageId: null,
             workspaces: [],
             pages: [],
-            menuItems: this.defaultMenuItems
+            menuItems: this.defaultMenuItems,
+            showSettingsModal: false,
+            showWorkspaceModal: false
         }
 
     }
@@ -109,6 +114,14 @@ export class LeftNavbar extends React.Component<IProps, IState> {
         this.setState({pages: pages});
     }
 
+    openWorkspaceModal() {
+        this.setState({showWorkspaceModal: true})
+    }
+
+    closeWorkspaceModal() {
+        this.setState({showWorkspaceModal: false})
+    }
+
     render() {
         return (
             <div className="Navbar">
@@ -118,7 +131,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                             <Dropdown data-bs-theme="dark" className="Workspace-Dropdown">
 
                                 {this.state.selectedWorkspaceId && (
-                                    <Dropdown.Toggle variant="outline-secondary" >
+                                    <Dropdown.Toggle variant="outline-secondary">
                                         {this.state.workspaces.find(c => c.id == this.state.selectedWorkspaceId)?.name ?? "Workspace"}
                                     </Dropdown.Toggle>
                                 )}
@@ -134,6 +147,12 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                                                        }
                                                        className="Workspace-Dropdown-Item">{workspace.name}</Dropdown.Item>
                                     ))}
+                                    <Dropdown.Item key="create_workspace"
+                                                   className="Workspace-Dropdown-Item">
+                                        <button className="Outline-Button Workspace-Button" onClick={() => {
+                                            this.openWorkspaceModal();
+                                        }}>New</button>
+                                    </Dropdown.Item>
                                 </Dropdown.Menu>
 
                             </Dropdown>
@@ -166,6 +185,9 @@ export class LeftNavbar extends React.Component<IProps, IState> {
 
                 <main className="Navbar-Container-Content">
                     <Outlet/>
+                    {this.state.showWorkspaceModal && (
+                        <WorkspaceModal closeModal={() => this.closeWorkspaceModal()}/>
+                    )}
                 </main>
 
                 <ReactNotifications/>

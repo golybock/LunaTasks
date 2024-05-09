@@ -12,6 +12,7 @@ import SignUp from "./components/auth/SignUp";
 import './App.css';
 import './dark.css';
 import ChartsPage from "./components/charts/ChartsPage";
+import EditAccount from "./components/account/EditAccount";
 
 interface IProps {
 
@@ -52,6 +53,7 @@ export default class Auth extends React.Component<IProps, IState> {
                         <Route index path="/" element={<Home/>}/>
                         <Route path="page/:pageId" element={<Page/>}/>
                         <Route path="account" element={<Account/>}/>
+                        <Route path="editAccount" element={<EditAccount/>}/>
                         <Route path="statistic" element={<ChartsPage/>}/>
                         <Route path="settings" element={<Settings/>}/>
                     </Route>

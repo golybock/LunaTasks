@@ -45,6 +45,7 @@
     background: var(--primary-container);
     color: var(--text);
     height: 40px;
+    border-radius: 10px;
 }
 
 .Outline-Button label{
