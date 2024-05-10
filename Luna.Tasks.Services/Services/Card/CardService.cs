@@ -82,7 +82,7 @@ public class CardService : ICardService
 		var statusIds = statuses.Select(c => c.StatusId);
 		var userIds = users.Select(u => u.UserId);
 
-		var card = await GetCardView(cardDatabase,tagIds, statusIds, userIds, cardsComments);
+		var card = await ConvertToCardView(cardDatabase,tagIds, statusIds, userIds, cardsComments);
 
 		return card;
 	}
@@ -115,20 +115,27 @@ public class CardService : ICardService
 
 	private async Task<IEnumerable<CardView>> GetCardsAsync(IEnumerable<Guid> cardIds, IEnumerable<CardDatabase> cardDatabases)
 	{
+		// промежуточные таблицы с ids
 		var cardsTags = await _cardRepository.GetCardTagsAsync(cardIds);
 		var cardsStatuses = await _cardRepository.GetCardStatusesAsync(cardIds);
 		var cardsUsers = await _cardRepository.GetCardsUsersAsync(cardIds);
+
+
 		var cardsComments = await _commentService.GetCommentsDomainAsync(cardIds);
 
+		// id всех типов и загрузка их моделей из бд
 		var typeIds = cardDatabases.Select(card => card.CardTypeId).Distinct();
 		var types = await _typeService.GetTypesAsync(typeIds);
 
+		// id всех тегов и загрузка их моделей из бд
 		var tagIds = cardsTags.Select(c => c.TagId);
 		var tagsView = await GeTagsAsync(tagIds);
 
+		// id всех статустов и загрузка их моделей из бд
 		var statusIds = cardsStatuses.Select(c => c.StatusId);
 		var statusesView = await GetStatusesAsync(statusIds);
 
+		// id всех пользователей и загрузка их моделей из бд
 		var userIds = cardsUsers.Select(u => u.UserId);
 		var usersViews = await GetUsersAsync(userIds);
 
@@ -144,13 +151,14 @@ public class CardService : ICardService
 			var users = cardsUsers.Where(c => c.CardId == cardDatabase.Id);
 			var comments = cardsComments.Where(c => c.CardId == cardDatabase.Id);
 
+			// rename and optimaze
 			var t = types.FirstOrDefault(c => c.Id == cardDatabase.CardTypeId);
 			var tgs = tagsView.Where(c => tags.Select(b => b.TagId).Contains(c.Id));
 			var s = statusesView.LastOrDefault(c => statuses.Select(b => b.StatusId).Contains(c.Id));
 			var u = usersViews.Where(c => users.Select(b => b.UserId).Contains(c.Id));
 			var c = commentsView.Where(c => comments.Select(b => b.Id).Contains(c.Id));
 
-			var card = await GetCardView(cardDatabase, t, tgs, s, c, u);
+			var card = await ConvertToCardView(cardDatabase, t, tgs, s, c, u);
 
 			cardViews.Add(card);
 		});
@@ -204,7 +212,7 @@ public class CardService : ICardService
 		return await _cardRepository.DeleteCardAsync(id);
 	}
 
-	private async Task<CardView> GetCardView
+	private async Task<CardView> ConvertToCardView
 	(
 		CardDatabase cardDatabase,
 		IEnumerable<Guid> tagIds,
@@ -224,7 +232,7 @@ public class CardService : ICardService
 		return new CardView(cardDomain, type, comments, tags, usersViews, statuses.LastOrDefault());
 	}
 
-	private async Task<CardView> GetCardView
+	private async Task<CardView> ConvertToCardView
 	(
 		CardDatabase cardDatabase,
 		TypeView type,
@@ -235,11 +243,6 @@ public class CardService : ICardService
 		)
 	{
 		var cardDomain = new CardDomain(cardDatabase);
-		// var tags = await GeTagsAsync(tagIds);
-		// var statuses = await GetStatusesAsync(statusIds);
-		// var type = await _typeService.GetTypeAsync(cardDomain.CardTypeId);
-		// var comments = cardComments.Select(c => new CommentView(c));
-		// var usersViews = await GetUsersAsync(userIds);
 
 		return new CardView(cardDomain, type, cardComments, tags, users, status);
 	}
