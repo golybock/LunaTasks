@@ -313,33 +313,34 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                             <Form.Control value={this.state.cardBlank?.deadline || ""}
                                                           type="date"
                                                           onChange={(e) => this.deadlineChanged(e.target.value)}/>
-                                        </div>
-                                        <div className="Modal-Body-Item">
 
                                             <Form.Label>Тип</Form.Label>
                                             <DarkAsyncSelect isMulti={false}
-                                                         cacheOptions
-                                                         defaultOptions
-                                                         value={this.state.selectedType}
-                                                         loadOptions={this.getTypes}
-                                                         onChange={(e: SingleValue<IOption>) => this.typeSelected(e)}/>
+                                                             cacheOptions
+                                                             defaultOptions
+                                                             value={this.state.selectedType}
+                                                             loadOptions={this.getTypes}
+                                                             onChange={(e: SingleValue<IOption>) => this.typeSelected(e)}/>
 
+
+                                        </div>
+                                        <div className="Modal-Body-Item">
                                             <Form.Label>Статус</Form.Label>
                                             <DarkAsyncSelect isMulti={false}
-                                                         cacheOptions
-                                                         defaultOptions
-                                                         value={this.state.selectedStatus}
-                                                         loadOptions={this.getStatuses}
-                                                         onChange={(e: SingleValue<IOption>) => this.statusSelected(e)}/>
+                                                             cacheOptions
+                                                             defaultOptions
+                                                             value={this.state.selectedStatus}
+                                                             loadOptions={this.getStatuses}
+                                                             onChange={(e: SingleValue<IOption>) => this.statusSelected(e)}/>
 
 
                                             <Form.Label>Теги</Form.Label>
                                             <DarkAsyncSelect isMulti={true}
-                                                         cacheOptions
-                                                         defaultOptions
-                                                         value={this.state.selectedTags}
-                                                         loadOptions={this.getTags}
-                                                         onChange={(e: MultiValue<IOption>) => this.tagSelected(e)}/>
+                                                             cacheOptions
+                                                             defaultOptions
+                                                             value={this.state.selectedTags}
+                                                             loadOptions={this.getTags}
+                                                             onChange={(e: MultiValue<IOption>) => this.tagSelected(e)}/>
 
                                             <Form.Label>Пользователи</Form.Label>
                                             <DarkAsyncSelect isMulti={true}
@@ -349,8 +350,11 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                              loadOptions={this.getUsers}
                                                              onChange={(e: MultiValue<IOption>) => this.userSelected(e)}/>
                                         </div>
+                                        <div className="Modal-Body-Item">
+                                            <Form.Label>Комментарии</Form.Label>
+                                            <Form.Control></Form.Control>
+                                        </div>
                                     </div>
-
                                     <Form.Label>Текст задачи</Form.Label>
                                     <ReactQuill theme="snow"
                                                 value={this.state.rteValue ?? ""}
