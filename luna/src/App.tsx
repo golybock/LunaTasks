@@ -13,6 +13,7 @@ import './App.css';
 import './dark.css';
 import ChartsPage from "./components/charts/ChartsPage";
 import EditAccount from "./components/account/EditAccount";
+import SettingsTags from "./components/settings/content/SettingsTags";
 
 interface IProps {
 
@@ -61,7 +62,6 @@ export default class Auth extends React.Component<IProps, IState> {
                     <Route path="*" element={<p>There's nothing here: 404!</p>}/>
                     <Route path="/signIn" element={<NotAuthedRoute outlet={<SignIn/>}/>}/>
                     <Route path="/signUp" element={<NotAuthedRoute outlet={<SignUp/>}/>}/>
-
                 </Routes>
         );
     }

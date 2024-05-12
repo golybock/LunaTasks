@@ -16,6 +16,7 @@ import {Button} from "react-bootstrap";
 import IUserView from "../../models/user/IUserView";
 import NotificationManager from "../../tools/NotificationManager";
 import "./Settings.css";
+import SettingsModal from "./SettingsModal";
 
 interface IProps {
 
@@ -169,168 +170,173 @@ export default class Settings extends React.Component<IProps, IState> {
         }
     }
 
+// {/*<div>*/}
+// {/*    <div className="Header-Image-Container">*/}
+// {/*        <img src={this.headerUrl} alt=""/>*/}
+// {/*    </div>*/}
+// {/*    <div className="About-Content">*/}
+// {/*        <div>*/}
+// {/*            <div className="Header">*/}
+// {/*                <div className="Workspace-Header">*/}
+// {/*                    <h1>Settings</h1>*/}
+// {/*                    <div className="Workspace-Header-Toolbar">*/}
+// {/*                        <a href="#tags">Tags</a>*/}
+// {/*                        <a href="#types">Types</a>*/}
+// {/*                        <a href="#statuses">Statuses</a>*/}
+// {/*                        <a href="#users">Users</a>*/}
+// {/*                        <a href="#pages">Pages</a>*/}
+// {/*                    </div>*/}
+// {/*                </div>*/}
+// {/*            </div>*/}
+// {/*            <div className="Items">*/}
+// {/*                <div className="Item-Block" id="tags">*/}
+// {/*                    <div className="Item-Header">*/}
+// {/*                        <h4>Tags</h4>*/}
+// {/*                        <button className="btn Outline-Button" onClick={() => this.showTagModal()}>+*/}
+// {/*                        </button>*/}
+// {/*                    </div>*/}
+// {/*                    <hr/>*/}
+// {/*                    {this.state.tags ?*/}
+// {/*                        (*/}
+// {/*                            this.state.tags.map((item) => {*/}
+// {/*                                return (<div className="Item" key={item.id}>*/}
+// {/*                                    <label>{item.name}</label>*/}
+// {/*                                    <div className="row">*/}
+// {/*                                        <Form.Control disabled type="color" value={item.color}/>*/}
+// {/*                                        <button className="btn Outline-Button"*/}
+// {/*                                                onClick={() => this.deleteTag(item.id)}>-*/}
+// {/*                                        </button>*/}
+// {/*                                    </div>*/}
+// {/*                                </div>)*/}
+// {/*                            })*/}
+// {/*                        ) :*/}
+// {/*                        <div>No elements</div>*/}
+// {/*                    }*/}
+// {/*                </div>*/}
+// {/*                <div className="Item-Block" id="types">*/}
+// {/*                    <div className="Item-Header">*/}
+// {/*                        <h4>Types</h4>*/}
+// {/*                        <Button className="btn Outline-Button" onClick={() => this.showTypeModal()}>+*/}
+// {/*                        </Button>*/}
+// {/*                    </div>*/}
+// {/*                    <hr/>*/}
+// {/*                    {this.state.types ?*/}
+// {/*                        (*/}
+// {/*                            this.state.types.map((item) => {*/}
+// {/*                                return (<div className="Item" key={item.id}>*/}
+// {/*                                    <label>{item.name}</label>*/}
+// {/*                                    <div className="row">*/}
+// {/*                                        <Form.Control disabled type="color" value={item.color}/>*/}
+// {/*                                        <button className="btn Outline-Button"*/}
+// {/*                                                onClick={() => this.deleteType(item.id)}>-*/}
+// {/*                                        </button>*/}
+// {/*                                    </div>*/}
+// {/*                                </div>)*/}
+// {/*                            })*/}
+// {/*                        )*/}
+// {/*                        :*/}
+// {/*                        (<div>No elements</div>)*/}
+// {/*                    }*/}
+// {/*                </div>*/}
+// {/*                <div className="Item-Block" id="sttuses">*/}
+// {/*                    <div className="Item-Header">*/}
+// {/*                        <h4>Statuses</h4>*/}
+// {/*                        <button className="btn Outline-Button" onClick={() => this.showStatusModal()}>+*/}
+// {/*                        </button>*/}
+// {/*                    </div>*/}
+// {/*                    <hr/>*/}
+// {/*                    {this.state.statuses ?*/}
+// {/*                        (*/}
+// {/*                            this.state.statuses.map((item) => {*/}
+// {/*                                return (<div className="Item" key={item.id}>*/}
+// {/*                                    <label>{item.name}</label>*/}
+// {/*                                    <div className="row">*/}
+// {/*                                        <Form.Control disabled type="color" value={item.color}/>*/}
+// {/*                                        <button className="btn Outline-Button"*/}
+// {/*                                                onClick={() => this.deleteStatus(item.id)}>-*/}
+// {/*                                        </button>*/}
+// {/*                                    </div>*/}
+// {/*                                </div>)*/}
+// {/*                            })*/}
+// {/*                        )*/}
+// {/*                        :*/}
+// {/*                        (<div>No elements</div>)}*/}
+// {/*                </div>*/}
+// {/*                <div className="Item-Block" id="users">*/}
+// {/*                    <div className="Item-Header">*/}
+// {/*                        <h4>Users</h4>*/}
+// {/*                        <Button className="btn Outline-Button" onClick={() => this.copyInviteLink()}>+*/}
+// {/*                        </Button>*/}
+// {/*                    </div>*/}
+// {/*                    <hr/>*/}
+// {/*                    {this.state.users ?*/}
+// {/*                        (*/}
+// {/*                            this.state.users.map((item) => {*/}
+// {/*                                return (<div className="Item" key={item.id}>*/}
+// {/*                                    <label>{item.username}</label>*/}
+// {/*                                    <div className="row">*/}
+// {/*                                        <button className="btn Outline-Button"*/}
+// {/*                                                onClick={() => this.deleteUser(item.id)}>-*/}
+// {/*                                        </button>*/}
+// {/*                                    </div>*/}
+// {/*                                </div>)*/}
+// {/*                            })*/}
+// {/*                        ) :*/}
+// {/*                        (<div>No elements</div>)*/}
+// {/*                    }*/}
+// {/*                </div>*/}
+// {/*                <div className="Item-Block" id="pages">*/}
+// {/*                    <div className="Item-Header">*/}
+// {/*                        <h4>Pages</h4>*/}
+// {/*                        <button className="btn Outline-Button" onClick={() => this.showPageModal()}>+*/}
+// {/*                        </button>*/}
+// {/*                    </div>*/}
+// {/*                    <hr/>*/}
+// {/*                    /!*{this.state.statuses ?*!/*/}
+// {/*                    /!*    (*!/*/}
+// {/*                    /!*        this.state.statuses.map((item) => {*!/*/}
+// {/*                    /!*            return (<div className="Item" key={item.id}>*!/*/}
+// {/*                    /!*                <label>{item.name}</label>*!/*/}
+// {/*                    /!*                <div className="row">*!/*/}
+// {/*                    /!*                    <Form.Control disabled type="color" value={item.color}/>*!/*/}
+// {/*                    /!*                    <button className="btn Outline-Button"*!/*/}
+// {/*                    /!*                            onClick={() => this.deleteStatus(item.id)}>-*!/*/}
+// {/*                    /!*                    </button>*!/*/}
+// {/*                    /!*                </div>*!/*/}
+// {/*                    /!*            </div>)*!/*/}
+// {/*                    /!*        })*!/*/}
+// {/*                    /!*    )*!/*/}
+// {/*                    /!*    :*!/*/}
+// {/*                    /!*    (<div>No elements</div>)}*!/*/}
+// {/*                </div>*/}
+// {/*            </div>*/}
+// {/*        </div>*/}
+// {/*    </div>*/}
+//
+// {/*    {this.state.showTypeModal && (*/}
+// {/*        <TypeModal closeModal={() => this.closeTypeModal()}/>*/}
+// {/*    )}*/}
+//
+// {/*    {this.state.showTagModal && (*/}
+// {/*        <TagModal closeModal={() => this.closeTagModal()}/>*/}
+// {/*    )}*/}
+//
+// {/*    {this.state.showStatusModal && (*/}
+// {/*        <StatusModal closeModal={() => this.closeStatusModal()}/>*/}
+// {/*    )}*/}
+//
+// {/*    {this.state.showPageModal && (*/}
+// {/*        <PageModal pageId={null} closeModal={() => this.closePageModal()}/>*/}
+// {/*    )}*/}
+//
+// {/*</div>*/}
+
     render() {
         return (
             <div>
-                <div className="Header-Image-Container">
-                    <img src={this.headerUrl} alt=""/>
-                </div>
-                <div className="About-Content">
-                    <div>
-                        <div className="Header">
-                            <div className="Workspace-Header">
-                                <h1>Settings</h1>
-                                <div className="Workspace-Header-Toolbar">
-                                    <a href="#tags">Tags</a>
-                                    <a href="#types">Types</a>
-                                    <a href="#statuses">Statuses</a>
-                                    <a href="#users">Users</a>
-                                    <a href="#pages">Pages</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="Items">
-                            <div className="Item-Block" id="tags">
-                                <div className="Item-Header">
-                                    <h4>Tags</h4>
-                                    <button className="btn Outline-Button" onClick={() => this.showTagModal()}>+
-                                    </button>
-                                </div>
-                                <hr/>
-                                {this.state.tags ?
-                                    (
-                                        this.state.tags.map((item) => {
-                                            return (<div className="Item" key={item.id}>
-                                                <label>{item.name}</label>
-                                                <div className="row">
-                                                    <Form.Control disabled type="color" value={item.color}/>
-                                                    <button className="btn Outline-Button"
-                                                            onClick={() => this.deleteTag(item.id)}>-
-                                                    </button>
-                                                </div>
-                                            </div>)
-                                        })
-                                    ) :
-                                    <div>No elements</div>
-                                }
-                            </div>
-                            <div className="Item-Block" id="types">
-                                <div className="Item-Header">
-                                    <h4>Types</h4>
-                                    <Button className="btn Outline-Button" onClick={() => this.showTypeModal()}>+
-                                    </Button>
-                                </div>
-                                <hr/>
-                                {this.state.types ?
-                                    (
-                                        this.state.types.map((item) => {
-                                            return (<div className="Item" key={item.id}>
-                                                <label>{item.name}</label>
-                                                <div className="row">
-                                                    <Form.Control disabled type="color" value={item.color}/>
-                                                    <button className="btn Outline-Button"
-                                                            onClick={() => this.deleteType(item.id)}>-
-                                                    </button>
-                                                </div>
-                                            </div>)
-                                        })
-                                    )
-                                    :
-                                    (<div>No elements</div>)
-                                }
-                            </div>
-                            <div className="Item-Block" id="sttuses">
-                                <div className="Item-Header">
-                                    <h4>Statuses</h4>
-                                    <button className="btn Outline-Button" onClick={() => this.showStatusModal()}>+
-                                    </button>
-                                </div>
-                                <hr/>
-                                {this.state.statuses ?
-                                    (
-                                        this.state.statuses.map((item) => {
-                                            return (<div className="Item" key={item.id}>
-                                                <label>{item.name}</label>
-                                                <div className="row">
-                                                    <Form.Control disabled type="color" value={item.color}/>
-                                                    <button className="btn Outline-Button"
-                                                            onClick={() => this.deleteStatus(item.id)}>-
-                                                    </button>
-                                                </div>
-                                            </div>)
-                                        })
-                                    )
-                                    :
-                                    (<div>No elements</div>)}
-                            </div>
-                            <div className="Item-Block" id="users">
-                                <div className="Item-Header">
-                                    <h4>Users</h4>
-                                    <Button className="btn Outline-Button" onClick={() => this.copyInviteLink()}>+
-                                    </Button>
-                                </div>
-                                <hr/>
-                                {this.state.users ?
-                                    (
-                                        this.state.users.map((item) => {
-                                            return (<div className="Item" key={item.id}>
-                                                <label>{item.username}</label>
-                                                <div className="row">
-                                                    <button className="btn Outline-Button"
-                                                            onClick={() => this.deleteUser(item.id)}>-
-                                                    </button>
-                                                </div>
-                                            </div>)
-                                        })
-                                    ) :
-                                    (<div>No elements</div>)
-                                }
-                            </div>
-                            <div className="Item-Block" id="pages">
-                                <div className="Item-Header">
-                                    <h4>Pages</h4>
-                                    <button className="btn Outline-Button" onClick={() => this.showPageModal()}>+
-                                    </button>
-                                </div>
-                                <hr/>
-                                {/*{this.state.statuses ?*/}
-                                {/*    (*/}
-                                {/*        this.state.statuses.map((item) => {*/}
-                                {/*            return (<div className="Item" key={item.id}>*/}
-                                {/*                <label>{item.name}</label>*/}
-                                {/*                <div className="row">*/}
-                                {/*                    <Form.Control disabled type="color" value={item.color}/>*/}
-                                {/*                    <button className="btn Outline-Button"*/}
-                                {/*                            onClick={() => this.deleteStatus(item.id)}>-*/}
-                                {/*                    </button>*/}
-                                {/*                </div>*/}
-                                {/*            </div>)*/}
-                                {/*        })*/}
-                                {/*    )*/}
-                                {/*    :*/}
-                                {/*    (<div>No elements</div>)}*/}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {this.state.showTypeModal && (
-                    <TypeModal closeModal={() => this.closeTypeModal()}/>
-                )}
-
-                {this.state.showTagModal && (
-                    <TagModal closeModal={() => this.closeTagModal()}/>
-                )}
-
-                {this.state.showStatusModal && (
-                    <StatusModal closeModal={() => this.closeStatusModal()}/>
-                )}
-
-                {this.state.showPageModal && (
-                    <PageModal pageId={null} closeModal={() => this.closePageModal()}/>
-                )}
-
+                <SettingsModal show={true}/>
             </div>
+
         );
     }
 }

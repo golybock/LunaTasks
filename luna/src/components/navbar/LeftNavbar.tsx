@@ -12,6 +12,7 @@ import {WorkspaceManager} from "../../tools/WorkspaceManager";
 import {ReactNotifications} from "react-notifications-component";
 import 'react-notifications-component/dist/theme.css'
 import WorkspaceModal from "../account/modals/WorkspaceModal";
+import SettingsModal from "../settings/SettingsModal";
 
 interface IProps {
 }
