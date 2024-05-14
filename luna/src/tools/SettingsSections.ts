@@ -3,6 +3,7 @@
     Types,
     Statuses,
     Users,
+    Pages,
     Theme
 }
 

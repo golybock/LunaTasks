@@ -2,6 +2,8 @@
 using Luna.Models.Tasks.Database.CardAttributes;
 using Luna.Models.Tasks.Domain.CardAttributes;
 using Luna.Models.Tasks.View.CardAttributes;
+using Luna.Models.Users.Domain.Users;
+using Luna.SharedDataAccess.Users.Services;
 using Luna.Tasks.Repositories.Repositories.CardAttributes.Comment;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,31 +12,45 @@ namespace Luna.Tasks.Services.Services.CardAttributes.Comment;
 public class CommentService : ICommentService
 {
 	private readonly ICommentRepository _commentRepository;
+	private readonly IUserService _userService;
 
-	public CommentService(ICommentRepository commentRepository)
+	public CommentService(ICommentRepository commentRepository, IUserService userService)
 	{
 		_commentRepository = commentRepository;
+		_userService = userService;
 	}
 
 	public async Task<IEnumerable<CommentView>> GetCommentsAsync(Guid cardId)
 	{
 		var comments = await _commentRepository.GetCommentsAsync(cardId);
 
-		return ToCommentViews(comments);
+		var userIds = comments.Select(comment => comment.UserId).ToList();
+
+		var users = await _userService.GetUsersDomainAsync();
+
+		return ToCommentViews(comments, users);
 	}
 
 	public async Task<IEnumerable<CommentView>> GetCommentsAsync(IEnumerable<Guid> cardIds)
 	{
 		var comments = await _commentRepository.GetCommentsAsync(cardIds);
 
-		return ToCommentViews(comments);
+		var userIds = comments.Select(comment => comment.UserId).ToList();
+
+		var users = await _userService.GetUsersDomainAsync();
+
+		return ToCommentViews(comments, users);
 	}
 
 	public async Task<IEnumerable<CommentView>> GetUserCommentsAsync(Guid userId)
 	{
 		var comments = await _commentRepository.GetUserCommentsAsync(userId);
 
-		return ToCommentViews(comments);
+		var userIds = comments.Select(comment => comment.UserId).ToList();
+
+		var users = await _userService.GetUsersDomainAsync();
+
+		return ToCommentViews(comments, users);
 	}
 
 	public async Task<CommentView?> GetCommentAsync(int commentId)
@@ -44,28 +60,45 @@ public class CommentService : ICommentService
 		if (comment == null)
 			return null;
 
-		return ToCommentView(comment);
+		var user = await _userService.GetUserDomainAsync(comment.UserId);
+
+		if (user == null)
+			return null;
+
+		return ToCommentView(comment, user);
 	}
 
 	public async Task<IEnumerable<CommentDomain>> GetCommentsDomainAsync(Guid cardId)
 	{
 		var comments = await _commentRepository.GetCommentsAsync(cardId);
 
-		return ToCommentDomains(comments);
+		var userIds = comments.Select(comment => comment.UserId).ToList();
+
+		var users = await _userService.GetUsersDomainAsync();
+
+		return ToCommentDomains(comments, users);
 	}
 
 	public async Task<IEnumerable<CommentDomain>> GetCommentsDomainAsync(IEnumerable<Guid> cardIds)
 	{
 		var comments = await _commentRepository.GetCommentsAsync(cardIds);
 
-		return ToCommentDomains(comments);
+		var userIds = comments.Select(comment => comment.UserId).ToList();
+
+		var users = await _userService.GetUsersDomainAsync();
+
+		return ToCommentDomains(comments, users);
 	}
 
 	public async Task<IEnumerable<CommentDomain>> GetUserCommentsDomainAsync(Guid userId)
 	{
 		var comments = await _commentRepository.GetUserCommentsAsync(userId);
 
-		return ToCommentDomains(comments);
+		var userIds = comments.Select(comment => comment.UserId).ToList();
+
+		var users = await _userService.GetUsersDomainAsync();
+
+		return ToCommentDomains(comments, users);
 	}
 
 	public async Task<CommentDomain?> GetCommentDomainAsync(int commentId)
@@ -75,7 +108,12 @@ public class CommentService : ICommentService
 		if (comment == null)
 			return null;
 
-		return ToCommentDomain(comment);
+		var user = await _userService.GetUserDomainAsync(comment.UserId);
+
+		if (user == null)
+			return null;
+
+		return ToCommentDomain(comment, user);
 	}
 
 	public async Task<IActionResult> CreateCommentAsync(CommentBlank comment, Guid userId)
@@ -132,24 +170,27 @@ public class CommentService : ICommentService
 		};
 	}
 
-	private CommentView ToCommentView(CommentDatabase commentDatabase)
+	private CommentView ToCommentView(CommentDatabase commentDatabase, UserDomain userDomain)
 	{
-		var commentDomain = new CommentDomain(commentDatabase);
+		var commentDomain = new CommentDomain(commentDatabase, userDomain);
 		return new CommentView(commentDomain);
 	}
 
-	private CommentDomain ToCommentDomain(CommentDatabase commentDatabase)
+	private CommentDomain ToCommentDomain(CommentDatabase commentDatabase, UserDomain userDomain)
 	{
-		return new CommentDomain(commentDatabase);
+		return new CommentDomain(commentDatabase, userDomain);
 	}
 
-	private IEnumerable<CommentView> ToCommentViews(IEnumerable<CommentDatabase> commentDatabases)
+	private IEnumerable<CommentView> ToCommentViews(IEnumerable<CommentDatabase> commentDatabases,
+		IEnumerable<UserDomain> userDomains)
 	{
-		return commentDatabases.Select(ToCommentView).ToList();
+		return commentDatabases.Select(c => ToCommentView(c, userDomains.First(user => user.Id == c.UserId))).ToList();
 	}
 
-	private IEnumerable<CommentDomain> ToCommentDomains(IEnumerable<CommentDatabase> commentDatabases)
+	private IEnumerable<CommentDomain> ToCommentDomains(IEnumerable<CommentDatabase> commentDatabases,
+		IEnumerable<UserDomain> userDomains)
 	{
-		return commentDatabases.Select(ToCommentDomain).ToList();
+		return commentDatabases.Select(c => ToCommentDomain(c, userDomains.First(user => user.Id == c.UserId)))
+			.ToList();
 	}
 }

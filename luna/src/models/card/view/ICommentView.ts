@@ -1,13 +1,9 @@
-﻿export default class ICommentView {
-    constructor(id: number, userId: string, comment: string, attachmentUrl: string) {
-        this.id = id;
-        this.userId = userId;
-        this.comment = comment;
-        this.attachmentUrl = attachmentUrl;
-    }
+﻿import IUserView from "../../user/IUserView";
 
-    public id: number;
-    public userId: string;
-    public comment: string;
-    public attachmentUrl: string;
+export default interface ICommentView {
+    id: number;
+    userId: string;
+    user: IUserView;
+    comment: string;
+    attachmentUrl: string;
 }

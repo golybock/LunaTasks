@@ -1,7 +1,7 @@
 ﻿import React from "react";
 import "./EditCardModal.css";
 import 'react-quill/dist/quill.snow.css';
-import {Button, Modal} from "react-bootstrap";
+import {Button, InputGroup, Modal} from "react-bootstrap";
 import ICardBlank from "../../../models/card/blank/ICardBlank";
 import ICardView from "../../../models/card/view/ICardView";
 import CardProvider from "../../../provider/card/cardProvider";
@@ -17,6 +17,9 @@ import ReactQuill from "react-quill";
 import DarkAsyncSelect from "../../tools/DarkAsyncSelect";
 import WorkspaceProvider from "../../../provider/workspace/workspaceProvider";
 import {WorkspaceManager} from "../../../tools/WorkspaceManager";
+import {Input} from "react-select/animated";
+import NotificationManager from "../../../tools/NotificationManager";
+import CommentProvider from "../../../provider/card/commentProvider";
 
 interface IProps {
     closeModal: Function,
@@ -33,6 +36,7 @@ interface IState {
     selectedUsers: IOption[],
     isLoading: boolean,
     rteValue: string | null;
+    commentText: string;
 }
 
 export default class EditCardModal extends React.Component<IProps, IState> {
@@ -49,6 +53,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
             selectedTags: [],
             isLoading: true,
             rteValue: "",
+            commentText: ""
         }
     }
 
@@ -281,6 +286,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
     }
 
     render() {
+        // @ts-ignore
         return (
             <>
                 {this.state.isLoading && (
@@ -352,7 +358,46 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                         </div>
                                         <div className="Modal-Body-Item">
                                             <Form.Label>Комментарии</Form.Label>
-                                            <Form.Control></Form.Control>
+                                            <InputGroup className="mb-3">
+                                                <Form.Control
+                                                    placeholder="Введите текст комментария"
+                                                />
+                                                <InputGroup.Text onClick={async () => {
+
+                                                    const commentBlank = {
+                                                        cardId: this.state.cardView?.id ?? "",
+                                                        comment: this.state.commentText,
+                                                        attachmentUrl: ""
+                                                    };
+
+                                                    const res = await CommentProvider.createComment(commentBlank);
+
+                                                    if(res){
+                                                        NotificationManager.makeSuccess("Comment sent");
+
+                                                        // load comments
+                                                    }
+
+                                                }}>{">"}</InputGroup.Text>
+                                            </InputGroup>
+                                            {this.state.cardView?.comments?.length ?? 0 > 0 ? (
+                                                    <>
+                                                        {this.state.cardView?.comments.map((item) => {
+                                                            return (
+                                                                <div>
+                                                                    <label>{item.comment}</label>
+                                                                    <label>{item.user.username}</label>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </>
+                                                ) :
+                                                (
+                                                    <div>
+                                                        No comments
+                                                    </div>
+                                                )
+                                            }
                                         </div>
                                     </div>
                                     <Form.Label>Текст задачи</Form.Label>

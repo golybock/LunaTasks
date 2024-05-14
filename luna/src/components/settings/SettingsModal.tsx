@@ -8,6 +8,7 @@ import SettingsStatuses from "./content/SettingsStatuses";
 import SettingsTypes from "./content/SettingsTypes";
 import SettingsUsers from "./content/SettingsUsers";
 import SettingsThemes from "./content/SettingsThemes";
+import SettingsPages from "./content/SettingsPages";
 
 
 interface IProps {
@@ -48,6 +49,11 @@ export default class SettingsModal extends React.Component<IProps, IState> {
         {
             href: SettingsSections.Users,
             title: "Users",
+            image: null
+        },
+        {
+            href: SettingsSections.Pages,
+            title: "Pages",
             image: null
         },
         {
@@ -112,6 +118,10 @@ export default class SettingsModal extends React.Component<IProps, IState> {
 
                                 {this.state.selectedMenuItem == SettingsSections.Theme && (
                                     <SettingsThemes/>
+                                )}
+
+                                {this.state.selectedMenuItem == SettingsSections.Pages && (
+                                    <SettingsPages/>
                                 )}
                             </div>
                         </div>
