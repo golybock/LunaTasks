@@ -2,7 +2,7 @@
 
 public class CommentDatabase
 {
-	public Int32 Id { get; set; }
+	public Guid Id { get; set; }
 
 	public Guid CardId { get; set; }
 

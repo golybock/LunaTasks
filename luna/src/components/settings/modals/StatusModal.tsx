@@ -3,6 +3,7 @@ import {Button, Modal} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import IStatusBlank from "../../../models/card/blank/IStatusBlank";
 import StatusProvider from "../../../provider/card/statusProvider";
+import "./StatusModal.css";
 
 interface IProps {
     closeModal: Function,
@@ -53,12 +54,12 @@ export default class StatusModal extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <Modal show onHide={() => this.props.closeModal()}>
-                <Modal.Header closeButton>
+            <Modal show onHide={() => this.props.closeModal()} data-bs-theme="dark">
+                <Modal.Header closeButton className="Modal-Header">
                     <Modal.Title>Create status</Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body>
+                <Modal.Body className="Modal-Content">
                     <Form>
                         <Form.Label>Наименование</Form.Label>
                         <Form.Control value={this.state.statusBlank.name}
@@ -73,8 +74,8 @@ export default class StatusModal extends React.Component<IProps, IState> {
                 </Modal.Body>
 
                 <Modal.Footer className="Modal-Footer">
-                    <Button className="btn btn-outline-dark" onClick={() => this.saveStatus()}>Save</Button>
-                    <Button className="btn btn-outline-dark" onClick={() => this.props.closeModal()}>Cancel</Button>
+                    <Button className="btn Primary-Button" onClick={() => this.saveStatus()}>Save</Button>
+                    <Button className="btn Primary-Button" onClick={() => this.props.closeModal()}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         );

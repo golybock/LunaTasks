@@ -47,7 +47,7 @@ public class CommentRepository : NpgsqlRepository, ICommentRepository
 		return await GetListAsync<CommentDatabase>(query, parameters);
 	}
 
-	public async Task<CommentDatabase?> GetCommentAsync(int commentId)
+	public async Task<CommentDatabase?> GetCommentAsync(Guid commentId)
 	{
 		var query = "SELECT * FROM comment WHERE id = $1";
 
@@ -77,7 +77,7 @@ public class CommentRepository : NpgsqlRepository, ICommentRepository
 		return await ExecuteAsync(query, parameters);
 	}
 
-	public async Task<bool> UpdateCommentAsync(int id, CommentDatabase comment)
+	public async Task<bool> UpdateCommentAsync(Guid id, CommentDatabase comment)
 	{
 		var query = "UPDATE comment SET comment = $2, attachment_url = $3, deleted = $4 WHERE id = $1";
 
@@ -92,7 +92,7 @@ public class CommentRepository : NpgsqlRepository, ICommentRepository
 		return await ExecuteAsync(query, parameters);
 	}
 
-	public Task<bool> DeleteCommentAsync(int id)
+	public Task<bool> DeleteCommentAsync(Guid id)
 	{
 		return DeleteAsync("comment", "id", id);
 	}

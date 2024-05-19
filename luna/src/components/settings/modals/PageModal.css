@@ -1,4 +1,12 @@
-﻿form img{
+﻿.Modal-Header {
+    color: white;
+}
+
+.Modal-Content {
+    color: white;
+}
+
+form img{
     margin: 12px;
     width: 440px;
     height: 100px;

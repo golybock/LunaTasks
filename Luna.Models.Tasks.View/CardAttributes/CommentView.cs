@@ -5,7 +5,7 @@ namespace Luna.Models.Tasks.View.CardAttributes;
 
 public class CommentView
 {
-	public Int32 Id { get; set; }
+	public Guid Id { get; set; }
 
 	public UserView User { get; set; }
 

@@ -1,9 +1,9 @@
 ﻿import IUserView from "../../user/IUserView";
 
 export default interface ICommentView {
-    id: number;
+    id: string;
     userId: string;
-    user: IUserView;
+    user?: IUserView;
     comment: string;
     attachmentUrl: string;
 }

@@ -10,13 +10,13 @@ public interface ICommentRepository
 
 	public Task<IEnumerable<CommentDatabase>> GetUserCommentsAsync(Guid userId);
 
-	public Task<CommentDatabase?> GetCommentAsync(Int32 commentId);
+	public Task<CommentDatabase?> GetCommentAsync(Guid commentId);
 
 	public Task<Boolean> CreateCommentAsync(CommentDatabase comment);
 
-	public Task<Boolean> UpdateCommentAsync(Int32 id, CommentDatabase comment);
+	public Task<Boolean> UpdateCommentAsync(Guid id, CommentDatabase comment);
 
-	public Task<Boolean> DeleteCommentAsync(Int32 id);
+	public Task<Boolean> DeleteCommentAsync(Guid id);
 
 	public Task<Boolean> DeleteCardCommentsAsync(Guid cardId);
 

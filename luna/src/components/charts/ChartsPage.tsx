@@ -67,18 +67,18 @@ export default class ChartsPage extends React.Component<IProps, IState>{
                     <div>
                         <div className="Header">
                             <div className="Chart-Header">
-                                <h1>Графики</h1>
+                                <h1>Charts</h1>
                             </div>
                         </div>
                         <div className="Items">
                             <div className="Graph-Item">
-                                <h2>Задач по их статусам:</h2>
+                                <h2>Tasks n statuses:</h2>
                                 {this.state.values && (
                                     <TaskStatusesChart series={this.state.values}/>
                                 )}
                             </div>
                             <div className="Graph-Item">
-                                   <h2>Диаграмма ганта</h2>
+                                   <h2>Gantt  </h2>
                                 {/*{this.state.cards && (*/}
                                 {/*    <GantChart cards={this.state.cards}/>*/}
                                 {/*)}*/}

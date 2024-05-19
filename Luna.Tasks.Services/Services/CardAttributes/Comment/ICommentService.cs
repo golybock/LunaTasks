@@ -13,7 +13,7 @@ public interface ICommentService
 
 	public Task<IEnumerable<CommentView>> GetUserCommentsAsync(Guid userId);
 
-	public Task<CommentView?> GetCommentAsync(Int32 commentId);
+	public Task<CommentView?> GetCommentAsync(Guid commentId);
 
 	public Task<IEnumerable<CommentDomain>> GetCommentsDomainAsync(Guid cardId);
 
@@ -21,13 +21,13 @@ public interface ICommentService
 
 	public Task<IEnumerable<CommentDomain>> GetUserCommentsDomainAsync(Guid userId);
 
-	public Task<CommentDomain?> GetCommentDomainAsync(Int32 commentId);
+	public Task<CommentDomain?> GetCommentDomainAsync(Guid commentId);
 
 	public Task<IActionResult> CreateCommentAsync(CommentBlank comment, Guid userId);
 
-	public Task<IActionResult> UpdateCommentAsync(Int32 id, CommentBlank comment, Guid userId);
+	public Task<IActionResult> UpdateCommentAsync(Guid id, CommentBlank comment, Guid userId);
 
-	public Task<IActionResult> DeleteCommentAsync(Int32 id);
+	public Task<IActionResult> DeleteCommentAsync(Guid id);
 
 	public Task<Boolean> DeleteCardCommentsAsync(Guid cardId);
 

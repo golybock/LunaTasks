@@ -20,6 +20,9 @@ import {WorkspaceManager} from "../../../tools/WorkspaceManager";
 import {Input} from "react-select/animated";
 import NotificationManager from "../../../tools/NotificationManager";
 import CommentProvider from "../../../provider/card/commentProvider";
+import Message from "../Message";
+import CommentChat from "../comments/CommentChat";
+import {AuthWrapper} from "../../../auth/AuthWrapper";
 
 interface IProps {
     closeModal: Function,
@@ -361,6 +364,10 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                             <InputGroup className="mb-3">
                                                 <Form.Control
                                                     placeholder="Введите текст комментария"
+                                                    value={this.state.commentText}
+                                                    onChange={(e) => {
+                                                        this.setState({commentText: e.target.value})
+                                                    }}
                                                 />
                                                 <InputGroup.Text onClick={async () => {
 
@@ -376,21 +383,23 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                         NotificationManager.makeSuccess("Comment sent");
 
                                                         // load comments
+                                                        this.state.cardView?.comments?.push({
+                                                            userId: AuthWrapper.user() ?? "",
+                                                            comment: commentBlank.comment,
+                                                            user: undefined,
+                                                            id: "",
+                                                            attachmentUrl: ""
+                                                        })
+
+                                                        return;
                                                     }
+
+                                                    NotificationManager.makeSuccess("Error");
 
                                                 }}>{">"}</InputGroup.Text>
                                             </InputGroup>
-                                            {this.state.cardView?.comments?.length ?? 0 > 0 ? (
-                                                    <>
-                                                        {this.state.cardView?.comments.map((item) => {
-                                                            return (
-                                                                <div>
-                                                                    <label>{item.comment}</label>
-                                                                    <label>{item.user.username}</label>
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </>
+                                            {this.state.cardView?.comments ? (
+                                                        <CommentChat comments={this.state.cardView?.comments ?? []}/>
                                                 ) :
                                                 (
                                                     <div>

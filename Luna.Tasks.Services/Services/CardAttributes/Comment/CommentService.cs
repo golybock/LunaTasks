@@ -53,7 +53,7 @@ public class CommentService : ICommentService
 		return ToCommentViews(comments, users);
 	}
 
-	public async Task<CommentView?> GetCommentAsync(int commentId)
+	public async Task<CommentView?> GetCommentAsync(Guid commentId)
 	{
 		var comment = await _commentRepository.GetCommentAsync(commentId);
 
@@ -101,7 +101,7 @@ public class CommentService : ICommentService
 		return ToCommentDomains(comments, users);
 	}
 
-	public async Task<CommentDomain?> GetCommentDomainAsync(int commentId)
+	public async Task<CommentDomain?> GetCommentDomainAsync(Guid commentId)
 	{
 		var comment = await _commentRepository.GetCommentAsync(commentId);
 
@@ -125,7 +125,7 @@ public class CommentService : ICommentService
 		return res ? new OkResult() : new BadRequestResult();
 	}
 
-	public async Task<IActionResult> UpdateCommentAsync(int id, CommentBlank comment, Guid userId)
+	public async Task<IActionResult> UpdateCommentAsync(Guid id, CommentBlank comment, Guid userId)
 	{
 		var commentDatabase = ToCommentDatabase(comment, userId);
 
@@ -134,7 +134,7 @@ public class CommentService : ICommentService
 		return res ? new OkResult() : new BadRequestResult();
 	}
 
-	public async Task<IActionResult> DeleteCommentAsync(int id)
+	public async Task<IActionResult> DeleteCommentAsync(Guid id)
 	{
 		var comment = await _commentRepository.GetCommentAsync(id);
 
@@ -162,6 +162,7 @@ public class CommentService : ICommentService
 	{
 		return new CommentDatabase
 		{
+			Id = Guid.NewGuid(),
 			CardId = commentBlank.CardId,
 			UserId = userId,
 			Comment = commentBlank.Comment,

@@ -22,6 +22,19 @@ export default class ProviderBase {
         return res;
     }
 
+    protected static async getFile(url: string) {
+
+        let token = AuthWrapper.user();
+
+        const res = await axios.get(url, {headers: {"Authorization": `Bearer ${token}`}, responseType: "blob"});
+
+        if (res.status == 401) {
+            AuthWrapper.userSignOut();
+        }
+
+        return res;
+    }
+
     protected static async post(url: string, data: any) {
 
         let token = AuthWrapper.user();

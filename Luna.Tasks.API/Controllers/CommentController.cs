@@ -40,7 +40,7 @@ public class CommentController: ControllerBase
 	}
 
 	[HttpPut("[action]")]
-	public async Task<IActionResult> UpdateCommentAsync(int id, CommentBlank comment)
+	public async Task<IActionResult> UpdateCommentAsync(Guid id, CommentBlank comment)
 	{
 		var result = await _commentService.UpdateCommentAsync(id, comment, UserId);
 
@@ -48,7 +48,7 @@ public class CommentController: ControllerBase
 	}
 
 	[HttpDelete("[action]")]
-	public async Task<IActionResult> DeleteCommentAsync(int id)
+	public async Task<IActionResult> DeleteCommentAsync(Guid id)
 	{
 		var result = await _commentService.DeleteCommentAsync(id);
 

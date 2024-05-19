@@ -1,6 +1,7 @@
 ﻿import ProviderBase from "../providerBase";
 import IPageView from "../../models/page/IPageView";
 import IPageBlank from "../../models/page/IPageBlank";
+import NotificationManager from "../../tools/NotificationManager";
 
 export default class PageProvider extends ProviderBase {
 
@@ -25,10 +26,11 @@ export default class PageProvider extends ProviderBase {
     static async getPageReport(pageId: string){
         let url = this.baseAddress + "/Card/GetCardsXlsx?pageId=" + pageId;
 
-        return await this.get(url)
+        return await this.getFile(url)
             .then(async res => {
 
                 if (res.status === 200) {
+
                     const href = URL.createObjectURL(res.data);
 
                     const link = document.createElement('a');
@@ -41,9 +43,13 @@ export default class PageProvider extends ProviderBase {
                     URL.revokeObjectURL(href);
                 }
 
+                NotificationManager.makeSuccess("File downloaded");
+
                 return null;
             })
-            .catch(() => {
+            .catch((e) => {
+                console.log(e)
+                NotificationManager.makeError("error");
                 return null;
             });
     }

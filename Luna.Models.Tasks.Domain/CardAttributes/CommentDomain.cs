@@ -5,7 +5,7 @@ namespace Luna.Models.Tasks.Domain.CardAttributes;
 
 public class CommentDomain
 {
-	public Int32 Id { get; set; }
+	public Guid Id { get; set; }
 
 	public Guid CardId { get; set; }
 
