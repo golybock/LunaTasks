@@ -1,0 +1,21 @@
+﻿.Header-Data{
+    color: var(--white);
+}
+
+.Form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.User-Info img{
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+.Form-Element{
+    margin-top: 12px;
+    width: 100%;
+}

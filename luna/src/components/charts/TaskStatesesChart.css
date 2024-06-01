@@ -1,1 +1,10 @@
-﻿
+﻿.Chart-Header{
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Date-Picker{
+    width: 250px;
+}

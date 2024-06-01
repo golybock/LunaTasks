@@ -2,7 +2,7 @@
 import {PieChart, PieValueType} from "@mui/x-charts";
 import "./TaskStatesesChart.css";
 import Form from "react-bootstrap/Form";
-import {toDictionary} from "../../models/tools/ModelsConverter";
+import {toDictionary, toUsersDictionary} from "../../models/tools/ModelsConverter";
 import PieValue from "../../models/charts/PieValue";
 import ICardView from "../../models/card/view/ICardView";
 
@@ -14,7 +14,7 @@ interface IState {
     series: PieValueType[],
 }
 
-export default class TaskStatusesChart extends React.Component<IProps, IState> {
+export default class TaskUsersChart extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
@@ -25,7 +25,7 @@ export default class TaskStatusesChart extends React.Component<IProps, IState> {
     }
 
     async componentDidMount() {
-        const dict = toDictionary(this.props.cards);
+        const dict = toUsersDictionary(this.props.cards);
 
         let val : number = 0;
 
@@ -33,18 +33,18 @@ export default class TaskStatusesChart extends React.Component<IProps, IState> {
 
         dict.forEach(item => {
             val++;
-            array.push({id: val, statusName: JSON.parse(item.status)?.name.toString() ?? "Non status", count: item.card.length, color: JSON.parse(item.status)?.color})
+            array.push({id: val, statusName: JSON.parse(item.user)?.username.toString(), count: item.card.length, color: "red"})
         })
 
         const series = array.map(item => {
-            return {value: item.count, label: item.statusName, id: item.id, color: item.color}
+            return {value: item.count, label: item.statusName, id: item.id}
         })
 
         this.setState({series: series})
     }
 
     componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any) {
-        const dict = toDictionary(this.props.cards);
+        const dict = toUsersDictionary(this.props.cards);
 
         let val : number = 0;
 
@@ -52,11 +52,11 @@ export default class TaskStatusesChart extends React.Component<IProps, IState> {
 
         dict.forEach(item => {
             val++;
-            array.push({id: val, statusName: JSON.parse(item.status)?.name.toString() ?? "Non status", count: item.card.length, color: JSON.parse(item.status)?.color})
+            array.push({id: val, statusName: JSON.parse(item.user)?.username.toString(), count: item.card.length, color: "red"})
         })
 
         const series = array.map(item => {
-            return {value: item.count, label: item.statusName, id: item.id, color: item.color}
+            return {value: item.count, label: item.statusName, id: item.id}
         })
 
         if(prevProps != this.props){
@@ -78,6 +78,7 @@ export default class TaskStatusesChart extends React.Component<IProps, IState> {
                 </div>
                 {this.state.series && (
                     <PieChart
+                        colors={['orange', 'blue', 'green']}
                         series={[
                             {
                                 data: this.state.series,

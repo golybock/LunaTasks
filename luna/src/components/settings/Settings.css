@@ -21,7 +21,7 @@
 
 .Items{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .Item-Block{

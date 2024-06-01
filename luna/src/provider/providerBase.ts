@@ -48,6 +48,24 @@ export default class ProviderBase {
         return res;
     }
 
+    protected static async postForm(url: string, data: any,) {
+
+        let token = AuthWrapper.user();
+
+        const res = await axios.post(url, data, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        if (res.status == 401) {
+            AuthWrapper.userSignOut();
+        }
+
+        return res;
+    }
+
     protected static async put(url: string, data: any) {
 
         let token = AuthWrapper.user();

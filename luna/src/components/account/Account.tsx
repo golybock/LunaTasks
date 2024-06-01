@@ -6,13 +6,15 @@ import {Button} from "react-bootstrap";
 import WorkspaceModal from "./modals/WorkspaceModal";
 import ImageManager from "../../tools/ImageManager";
 import {NavLink} from "react-router-dom";
+import SelectImageModal from "./SelectImageModal";
 
 interface IProps {
 
 }
 
 interface IState {
-    user: IUserView | null
+    user: IUserView | null,
+
 }
 
 export default class Account extends React.Component<IProps, IState> {
@@ -49,7 +51,13 @@ export default class Account extends React.Component<IProps, IState> {
                                 <h1>Welcome {this.state.user?.username}</h1>
                                 <label>Its your profile</label>
                             </div>
+                            <Button className="btn Primary-Button" onClick={() => {
+                                window.location.assign("/editAccount")
+                            }}>
+                                Edit
+                            </Button>
                         </div>
+                        <hr/>
                         <div className="Links">
                             <div className="Link-Block">
                                 <h4>User info</h4>
@@ -57,20 +65,9 @@ export default class Account extends React.Component<IProps, IState> {
                                 <label>Email: {this.state.user?.email}</label>
                                 <label>Phone: {this.state.user?.phoneNumber == "" ? "-" : this.state.user?.phoneNumber}</label>
                             </div>
-                            <div className="Link-Block">
-                                <h4>Actions</h4>
-                                <hr/>
-                                <Button className="btn btn-outline-dark Outline-Button">
-                                    <NavLink to={"/editAccount"} end={true} replace={true}
-                                             className="Navbar-Item">
-                                        Edit
-                                    </NavLink>
-                                </Button>
-                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         );
     }

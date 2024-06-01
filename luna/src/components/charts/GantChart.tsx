@@ -27,8 +27,8 @@ export default class GantChart extends React.Component<IProps, IState>{
 
         this.props.cards.forEach(item => {
             arr.push({
-                start: new Date(2024, 1, 1),
-                end: new Date(2024, 1, 2),
+                start: new Date(2024, 10, 1),
+                end: new Date(2024, 10, 2),
                 name: item.header,
                 id: item.id,
                 type:'task',

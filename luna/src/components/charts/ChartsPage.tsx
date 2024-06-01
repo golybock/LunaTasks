@@ -7,6 +7,7 @@ import {toDictionary} from "../../models/tools/ModelsConverter";
 import {PieValueType} from "@mui/x-charts";
 import "./ChartsPage.css"
 import GantChart from "./GantChart";
+import TaskUsersChart from "./TaskUsersChart";
 
 interface IProps{
 }
@@ -67,21 +68,28 @@ export default class ChartsPage extends React.Component<IProps, IState>{
                     <div>
                         <div className="Header">
                             <div className="Chart-Header">
-                                <h1>Charts</h1>
+                                <h1>Statistic page</h1>
                             </div>
                         </div>
                         <div className="Items">
                             <div className="Graph-Item">
-                                <h2>Tasks n statuses:</h2>
                                 {this.state.values && (
-                                    <TaskStatusesChart series={this.state.values}/>
+                                    <TaskStatusesChart cards={this.state.cards}/>
                                 )}
                             </div>
                             <div className="Graph-Item">
-                                   <h2>Gantt  </h2>
-                                {/*{this.state.cards && (*/}
-                                {/*    <GantChart cards={this.state.cards}/>*/}
-                                {/*)}*/}
+                                {this.state.values && (
+                                    <TaskUsersChart cards={this.state.cards}/>
+                                )}
+                            </div>
+                        </div>
+                        <div className="Items">
+                            <div className="Graph-Item-Full">
+                                   <h2>Gantt </h2>
+                                {this.state.cards && (
+                                    <div></div>
+                                    // <GantChart cards={this.state.cards}/>
+                                )}
                             </div>
                         </div>
                     </div>

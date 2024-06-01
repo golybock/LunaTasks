@@ -1,10 +1,12 @@
 ﻿.Items{
     margin: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 .Chart-Header{
-    display: flex;
-    flex-direction: column;
+    margin: 20px;
 }
 
 .Item-Block{
@@ -12,8 +14,23 @@
 }
 
 .Graph-Item{
+    padding: 20px;
+    border-radius: 16px;
+    margin-left: 20px;
+    background: var(--secondary-container);
+    width: 40vw;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-top: 10px;
+}
+
+.Graph-Item-Full{
+    padding: 20px;
+    border-radius: 16px;
+    margin-left: 20px;
+    background: var(--secondary-container);
+    width: 81vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

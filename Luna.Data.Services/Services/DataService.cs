@@ -2,6 +2,7 @@
 using Luna.Models.Data.Database.Data;
 using Luna.Tools.Enums;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace Luna.Data.Services.Services;
@@ -63,7 +64,7 @@ public class DataService : IDataService
 		return paths;
 	}
 
-	public async Task<bool> CreateFileAsyncAsync(IFormFile formFile, Guid workspaceId, Guid userId)
+	public async Task<IActionResult> CreateFileAsyncAsync(IFormFile formFile, Guid workspaceId, Guid userId)
 	{
 		var format = Path.GetExtension(formFile.FileName);
 		var fileType = formFile.ContentType;
@@ -108,12 +109,12 @@ public class DataService : IDataService
 
 			await formFile.CopyToAsync(sw.BaseStream);
 
-			return true;
+			return new OkObjectResult(fileDatabase.Id);
 		}
 		catch (Exception e)
 		{
 			Console.WriteLine(e);
-			return false;
+			return new BadRequestResult();
 		}
 	}
 

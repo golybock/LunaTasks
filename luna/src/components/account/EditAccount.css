@@ -1,0 +1,28 @@
+﻿.Data{
+    display: flex;
+    flex-direction: row;
+}
+
+.Data-Block{
+    display: flex;
+    margin: 12px;
+    flex-direction: column;
+}
+
+.Data-Block input{
+    margin: 5px;
+}
+
+.Data-Block label{
+    margin: 5px;
+}
+
+.CheckBox{
+    margin: 5px;
+    vertical-align: center;
+}
+
+.Content button{
+    margin: 12px;
+    width: 225px;
+}

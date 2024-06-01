@@ -50,9 +50,9 @@ public class UsersController : ControllerBase
 	}
 
 	[HttpPut("[action]")]
-	public async Task<bool> UpdateUserAsync(Guid id, UserBlank userBlank)
+	public async Task<bool> UpdateUserAsync(UserBlank userBlank)
 	{
-		return await _userService.UpdateUserAsync(id, userBlank);
+		return await _userService.UpdateUserAsync(UserId, userBlank);
 	}
 
 	[HttpDelete("[action]")]

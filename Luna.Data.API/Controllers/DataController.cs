@@ -41,8 +41,10 @@ public class DataController : ControllerBase
 
 	[Authorize]
 	[HttpPost("[action]")]
-	public async Task<Boolean> CreateFileAsyncAsync(IFormFile file, Guid workspaceId)
+	public async Task<IActionResult> CreateFileAsync(Guid workspaceId)
 	{
+		var file = Request.Form.Files.FirstOrDefault();
+
 		return await _dataService.CreateFileAsyncAsync(file, workspaceId, UserId);
 	}
 
