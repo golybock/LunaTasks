@@ -6,7 +6,8 @@ import {AuthWrapper} from "../../../auth/AuthWrapper";
 
 
 interface IState{
-    userId: string
+    userId: string,
+    comments: ICommentView[]
 }
 
 interface IProps {
@@ -19,15 +20,16 @@ export default class CommentChat extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            userId: AuthWrapper.user() ?? ""
+            userId: AuthWrapper.user() ?? "",
+            comments: this.props.comments
         }
     }
 
     render() {
         return (
             <div className="chat">
-                {this.props.comments.map((item) => {
-                    return <Message comment={item} userId={this.state.userId}/>
+                {this.state.comments.map((item) => {
+                    return <Message comment={item} userId={this.state.userId} key={item.id}/>
                 })}
             </div>
         );

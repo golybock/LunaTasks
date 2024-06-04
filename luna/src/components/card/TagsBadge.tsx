@@ -17,7 +17,7 @@ export default class TagsBadge extends React.Component<IProps, IState>{
             <div className="Badge-Container">
                 {this.props.cardTags.map((tag) => {
                     return(
-                        <div className="Tag" style={{background: tag.color}}>
+                        <div className="Tag" style={{background: tag.color}} key={tag.id}>
                             <span>{tag.name}</span>
                         </div>
                     )
