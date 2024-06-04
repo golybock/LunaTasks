@@ -9,6 +9,7 @@ import "./EditAccount.css";
 import SelectImageModal from "./SelectImageModal";
 import {AuthWrapper} from "../../auth/AuthWrapper";
 import IUserBlank from "../../models/user/IUserBlank";
+import NotificationManager from "../../tools/NotificationManager";
 
 interface IProps {
 
@@ -74,42 +75,57 @@ export default class EditAccount extends React.Component<IProps, IState> {
                     <img src={this.headerUrl} alt=""/>
                 </div>
                 <div className="Content">
-                    <div>
-                        <div className="User-Info">
-                            <div onClick={() => {
-                                this.showModal()
-                            }}>
-                                <img src={this.state.userBlank?.image ?? "/icons/account_circle.svg"} alt=""/>
-                            </div>
-                            <div className="User-Info-Data">
-                                <h1>Welcome {this.state.userBlank?.username}</h1>
-                                <label>Its your profile</label>
-                            </div>
+                    <div className="User-Info">
+                        <div onClick={() => {
+                            this.showModal()
+                        }}>
+                            <img src={this.state.userBlank?.image ?? "/icons/account_circle.svg"} alt=""/>
                         </div>
-                        <hr/>
-                        <div className="Data">
-                            <div className="Data-Block">
-                                <label>Username</label>
-                                <Form.Control value={this.state.userBlank?.username} disabled/>
-                                <label>Email</label>
-                                <Form.Control value={this.state.userBlank?.email}
-                                              onChange={(e) => this.changeEmail(e.target.value)}/>
-                                <Form.Check className="CheckBox" checked={this.state.user?.emailConfirmed} disabled
-                                            label="Emal confirmed"/>
-                            </div>
-                            <div className="Data-Block">
-                                <label>Phone</label>
-                                <Form.Control value={this.state.userBlank?.phoneNumber}
-                                              onChange={(e) => this.changePhone(e.target.value)}/>
-                                <label>Register date</label>
-                                <Form.Control value={this.state.user?.createdTimestamp} type="date"/>
-                            </div>
+                        <div className="User-Info-Data">
+                            <h1>Welcome {this.state.userBlank?.username}</h1>
+                            <label>Its your profile</label>
                         </div>
-                        <Button className="btn Primary-Button" onClick={async () => {
-                            await UserProvider.updateUser(this.state.userBlank!);
-                            // window.location.assign("/account")
-                        }}>Save</Button>
                     </div>
+                    <hr/>
+                    <div className="Data">
+                        <div className="Data-Block">
+                            <label>Username</label>
+                            <Form.Control value={this.state.userBlank?.username} disabled/>
+                            <label>Email</label>
+                            <Form.Control value={this.state.userBlank?.email}
+                                          onChange={(e) => this.changeEmail(e.target.value)}/>
+                        </div>
+                        <div className="Data-Block">
+                            <label>Phone</label>
+                            <Form.Control value={this.state.userBlank?.phoneNumber}
+                                          onChange={(e) => this.changePhone(e.target.value)}/>
+                            {!this.state.user?.emailConfirmed && (
+                                <div style={{display: "flex", flexDirection: "column"}}>
+                                    <label>Your email not confirmed</label>
+                                    <Button className="btn Primary-Button" onClick={async () => {
+                                        // const res = await UserProvider.updateUser(this.state.userBlank!);
+                                        //
+                                        // if(res){
+                                        //     NotificationManager.makeSuccess("Account updated!")
+                                        //     window.location.assign("/account")
+                                        // }else{
+                                        //     NotificationManager.makeError("Account not updated")
+                                        // }
+                                    }}>Confirm email</Button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <Button className="btn Primary-Button Content-Button" onClick={async () => {
+                        const res = await UserProvider.updateUser(this.state.userBlank!);
+
+                        if(res){
+                            NotificationManager.makeSuccess("Account updated!")
+                            window.location.assign("/account")
+                        }else{
+                            NotificationManager.makeError("Account not updated")
+                        }
+                    }}>Save</Button>
                 </div>
                 {this.state.showModal && (
                     <SelectImageModal closeModal={() => this.hideModal()}

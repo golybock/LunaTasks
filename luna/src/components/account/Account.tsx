@@ -3,10 +3,15 @@ import IUserView from "../../models/user/IUserView";
 import UserProvider from "../../provider/user/userProvider";
 import "./Account.css"
 import {Button} from "react-bootstrap";
-import WorkspaceModal from "./modals/WorkspaceModal";
 import ImageManager from "../../tools/ImageManager";
-import {NavLink} from "react-router-dom";
-import SelectImageModal from "./SelectImageModal";
+import {Checkbox, createTheme, FormControlLabel, ThemeProvider} from "@mui/material";
+
+
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+});
 
 interface IProps {
 
@@ -41,7 +46,7 @@ export default class Account extends React.Component<IProps, IState> {
                 <div className="Header-Image-Container">
                     <img src={this.headerUrl} alt=""/>
                 </div>
-                <div className="Content">
+                <div className="Account-Content">
                     <div>
                         <div className="User-Info">
                             <div>
@@ -57,13 +62,17 @@ export default class Account extends React.Component<IProps, IState> {
                                 Edit
                             </Button>
                         </div>
-                        <hr/>
                         <div className="Links">
                             <div className="Link-Block">
                                 <h4>User info</h4>
                                 <hr/>
                                 <label>Email: {this.state.user?.email}</label>
+                                <label>Registration date: {(new Date(this.state.user?.createdTimestamp ?? "")).toDateString()}</label>
                                 <label>Phone: {this.state.user?.phoneNumber == "" ? "-" : this.state.user?.phoneNumber}</label>
+                                <ThemeProvider theme={darkTheme}>
+                                    <FormControlLabel control={<Checkbox checked={this.state.user?.emailConfirmed} disabled/>} label="Email confirmed" />
+                                </ThemeProvider>
+
                             </div>
                         </div>
                     </div>

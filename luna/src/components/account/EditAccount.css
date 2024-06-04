@@ -3,6 +3,10 @@
     flex-direction: row;
 }
 
+.Content{
+    padding: 20px;
+}
+
 .Data-Block{
     display: flex;
     margin: 12px;
@@ -10,6 +14,11 @@
 }
 
 .Data-Block input{
+    margin: 5px;
+    width: 225px;
+}
+
+.Data-Block button{
     margin: 5px;
 }
 
@@ -23,6 +32,11 @@
 }
 
 .Content button{
-    margin: 12px;
+    /*margin: 12px;*/
     width: 225px;
+}
+
+.Content-Button{
+    /*todo cringe*/
+    margin-left: 17px;
 }

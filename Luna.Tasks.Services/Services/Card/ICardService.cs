@@ -96,4 +96,6 @@ public interface ICardService
 	#endregion
 
 	public Task<Byte[]> GetCardsXlsx(Guid pageId);
+
+	public Task<Byte[]> GetCardDocument(Guid cardId);
 }

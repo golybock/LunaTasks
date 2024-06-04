@@ -56,6 +56,14 @@ public class CardController : ControllerBase
 		return File(report, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 	}
 
+	[HttpGet("[action]")]
+	public async Task<IActionResult> GetCardDocument(Guid cardId)
+	{
+		var report = await _cardService.GetCardDocument(cardId);
+
+		return File(report, "application/vnd.openxmlformats-officedocument.document.doc");
+	}
+
 	[HttpPost("[action]")]
 	public async Task<IActionResult> UpdateCardAsync(Guid id, CardBlank card)
 	{

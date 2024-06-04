@@ -13,6 +13,7 @@ using Luna.Tasks.Services.Services.CardAttributes.Status;
 using Luna.Tasks.Services.Services.CardAttributes.Tag;
 using Luna.Tasks.Services.Services.CardAttributes.Type;
 using OfficeOpenXml;
+using Xceed.Words.NET;
 
 namespace Luna.Tasks.Services.Services.Card;
 
@@ -508,6 +509,25 @@ public class CardService : ICardService
 		}
 
 		return await package.GetAsByteArrayAsync();
+	}
+
+	public async Task<byte[]> GetCardDocument(Guid cardId)
+	{
+		var card = await GetCardAsync(cardId);
+
+		var path = $"Files/{Guid.NewGuid()}.docx";
+
+		var doc = DocX.Create(path);
+
+		var paragraph = doc.InsertParagraph();
+		paragraph.AppendLine($"Id: {card.Id}");
+		paragraph.AppendLine($"Description: {card.Description}");
+		paragraph.AppendLine($"Content: {card.Content}");
+		paragraph.AppendLine($"Status: {card.Status.Name}");
+
+		doc.Save();
+
+		return await File.ReadAllBytesAsync(path);
 	}
 
 	#endregion

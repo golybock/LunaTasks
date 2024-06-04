@@ -12,6 +12,7 @@ interface IProps {
 
 interface IState {
     series: PieValueType[],
+    totalTasks: number
 }
 
 export default class TaskUsersChart extends React.Component<IProps, IState> {
@@ -20,7 +21,8 @@ export default class TaskUsersChart extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            series: []
+            series: [],
+            totalTasks: 0
         }
     }
 
@@ -28,12 +30,14 @@ export default class TaskUsersChart extends React.Component<IProps, IState> {
         const dict = toUsersDictionary(this.props.cards);
 
         let val : number = 0;
+        let count: number = 0;
 
         const array: PieValue[] = [];
 
         dict.forEach(item => {
             val++;
             array.push({id: val, statusName: JSON.parse(item.user)?.username.toString(), count: item.card.length, color: "red"})
+            count+= item.card.length;
         })
 
         const series = array.map(item => {
@@ -41,18 +45,22 @@ export default class TaskUsersChart extends React.Component<IProps, IState> {
         })
 
         this.setState({series: series})
+        this.setState({totalTasks: count})
+        console.log(count)
     }
 
     componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any) {
         const dict = toUsersDictionary(this.props.cards);
 
         let val : number = 0;
+        let count: number = 0;
 
         const array: PieValue[] = [];
 
         dict.forEach(item => {
             val++;
             array.push({id: val, statusName: JSON.parse(item.user)?.username.toString(), count: item.card.length, color: "red"})
+            count+= item.card.length;
         })
 
         const series = array.map(item => {
@@ -61,6 +69,7 @@ export default class TaskUsersChart extends React.Component<IProps, IState> {
 
         if(prevProps != this.props){
             this.setState({series: series})
+            this.setState({totalTasks: count})
         }
     }
 
@@ -68,7 +77,7 @@ export default class TaskUsersChart extends React.Component<IProps, IState> {
         return (
             <div>
                 <div className="Chart-Header">
-                    <h2>{this.state.series.length} total tasks</h2>
+                    <h2>{this.state.totalTasks} total tasks</h2>
                     <Form.Select className="Date-Picker"
                                  data-bs-theme="dark">
                         <option value="1">1 Month</option>

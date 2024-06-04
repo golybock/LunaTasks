@@ -5,7 +5,7 @@
     object-position: 0 50%;
 }
 
-.Content{
+.Account-Content{
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -14,6 +14,7 @@
 .User-Info{
     display: flex;
     flex-direction: row;
+
 }
 
 .User-Info img{
@@ -28,6 +29,9 @@
 
 .User-Info button{
     margin: 70px 20px 20px;
+    /*background: var(--primary-variant-darker);*/
+    /*border: var(--primary-variant);*/
+    /*color: var(--text);*/
 }
 
 .User-Info label{
@@ -37,7 +41,7 @@
 .Links{
     display: flex;
     flex-direction: row;
-    margin-left: 50px;
+    /*margin-left: 50px;*/
 }
 
 .Link-Block{
@@ -55,7 +59,7 @@
 }
 
 .Link-Block label{
-    width: 260px;
+    width: 300px;
     height: 35px;
     margin-top: 10px;
     font-size: 18px;

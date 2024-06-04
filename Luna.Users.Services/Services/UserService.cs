@@ -93,6 +93,8 @@ public class UserService : IUserService
 			Image = userBlank.Image
 		};
 
+		Console.WriteLine(userBlank.Image);
+
 		return await _userRepository.UpdateUserAsync(id, userDatabase);
 	}
 

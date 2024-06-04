@@ -73,7 +73,7 @@ public class UserRepository : NpgsqlRepository, IUserRepository
 
 	public async Task<bool> UpdateUserAsync(Guid id, UserDatabase userDatabase)
 	{
-		var query = $"update {TableName} set email = $2, phone_number =$3, email_confirmed =$4 where id = $1";
+		var query = $"update {TableName} set email = $2, phone_number = $3, email_confirmed = $4, image = $5 where id = $1";
 
 		var parameters = new NpgsqlParameter[]
 		{
@@ -81,6 +81,7 @@ public class UserRepository : NpgsqlRepository, IUserRepository
 			new NpgsqlParameter() {Value = userDatabase.Email},
 			new NpgsqlParameter() {Value = userDatabase.PhoneNumber == null ? DBNull.Value : userDatabase.PhoneNumber},
 			new NpgsqlParameter() {Value = userDatabase.EmailConfirmed},
+			new NpgsqlParameter() {Value = userDatabase.Image},
 		};
 
 		return await ExecuteAsync(query, parameters);
