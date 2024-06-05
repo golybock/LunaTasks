@@ -50,6 +50,23 @@ export default class UserProvider extends ProviderBase {
             });
     }
 
+    static  async getUser(id: string) : Promise<IUserView | null>{
+        let url = this.baseAddress + "/Users/GetUserById?id=" + id;
+
+        return await this.get(url)
+            .then(async res => {
+
+                if (res.status === 200) {
+                    return res.data;
+                }
+
+                return null;
+            })
+            .catch(() => {
+                return null;
+            });
+    }
+
     static async updateUser(userBlank: IUserBlank): Promise<boolean> {
 
         let url = this.baseAddress + "/Users/UpdateUser";

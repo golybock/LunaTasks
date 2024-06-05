@@ -23,6 +23,8 @@ import CommentProvider from "../../../provider/card/commentProvider";
 import Message from "../Message";
 import CommentChat from "../comments/CommentChat";
 import {AuthWrapper} from "../../../auth/AuthWrapper";
+import ICommentView from "../../../models/card/view/ICommentView";
+import {Guid} from "guid-typescript";
 
 interface IProps {
     closeModal: Function,
@@ -33,6 +35,7 @@ interface IProps {
 interface IState {
     cardBlank?: ICardBlank,
     cardView?: ICardView,
+    comments: ICommentView[],
     selectedType?: IOption,
     selectedTags: IOption[],
     selectedStatus?: IOption,
@@ -50,6 +53,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
         this.state = {
             cardBlank: undefined,
             cardView: undefined,
+            comments: [],
             selectedType: undefined,
             selectedStatus: undefined,
             selectedUsers: [],
@@ -69,6 +73,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                 this.setState({cardBlank: cardBlank});
                 this.setState({cardView: cardView});
                 this.setState({rteValue: cardView.content})
+                this.setState({comments: cardView.comments})
 
                 this.setSelectedTags();
                 this.setSelectedType();
@@ -384,12 +389,14 @@ export default class EditCardModal extends React.Component<IProps, IState> {
 
                                                         // load comments
                                                         this.state.cardView?.comments?.push({
-                                                            userId: AuthWrapper.user() ?? "",
+                                                            userId: AuthWrapper.userId() ?? "",
                                                             comment: commentBlank.comment,
                                                             user: undefined,
-                                                            id: "",
+                                                            id: Guid.create().toString(),
                                                             attachmentUrl: ""
                                                         })
+
+                                                        this.setState({comments: this.state.cardView?.comments ?? []})
 
                                                         return;
                                                     }
@@ -398,7 +405,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
 
                                                 }}>{">"}</InputGroup.Text>
                                             </InputGroup>
-                                            {this.state.cardView?.comments ? (
+                                            {this.state.comments ? (
                                                         <CommentChat comments={this.state.cardView?.comments ?? []}/>
                                                 ) :
                                                 (

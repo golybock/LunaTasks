@@ -15,6 +15,7 @@
       <ProjectReference Include="..\Luna.Auth.Repositories\Luna.Auth.Repositories.csproj" />
       <ProjectReference Include="..\Luna.Models.Auth.Blank\Luna.Models.Auth.Blank.csproj" />
       <ProjectReference Include="..\Luna.Models.Auth.Domain\Luna.Models.Auth.Domain.csproj" />
+      <ProjectReference Include="..\Luna.Models.Auth.View\Luna.Models.Auth.View.csproj" />
       <ProjectReference Include="..\Luna.SharedDataAccess.Users\Luna.SharedDataAccess.Users.csproj" />
       <ProjectReference Include="..\Luna.Tools\Luna.Tools.csproj" />
     </ItemGroup>

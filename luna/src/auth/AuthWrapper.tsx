@@ -4,10 +4,13 @@ import {Navigate} from "react-router-dom";
 export class AuthWrapper {
     static user = () => localStorage.getItem("user");
 
+    static userId = () => localStorage.getItem("userId");
+
     static userAuthed = () => this.user() != null;
 
-    static userSignIn = (token: string) => {
+    static userSignIn = (token: string, userId: string) => {
         localStorage.setItem("user", token)
+        localStorage.setItem("userId", userId)
         window.location.replace("/");
     };
 

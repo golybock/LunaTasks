@@ -5,6 +5,7 @@ using Luna.Auth.Repositories.Repositories;
 using Luna.Models.Auth.Blank.Auth;
 using Luna.Models.Auth.Database.Auth;
 using Luna.Models.Auth.Domain.Auth;
+using Luna.Models.Auth.View.Auth;
 using Luna.Models.Users.Blank.Users;
 using Luna.SharedDataAccess.Users.Services;
 using Luna.Tools.Auth.Options;
@@ -70,7 +71,13 @@ public class AuthService: IAuthService
 
 		var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-		return new OkObjectResult(tokenString);
+		var authModel = new AuthModelView()
+		{
+			Token = tokenString,
+			UserId = user.Id.ToString()
+		};
+
+		return new OkObjectResult(authModel);
 	}
 
 	public async Task<IActionResult> SignUp(SignUpBlank signUpBlank, HttpContext context)
@@ -123,7 +130,13 @@ public class AuthService: IAuthService
 
 		var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-		return new OkObjectResult(tokenString);
+		var authModel = new AuthModelView()
+		{
+			Token = tokenString,
+			UserId = user.Id.ToString()
+		};
+
+		return new OkObjectResult(authModel);
 	}
 
 	public async Task<IActionResult> SignOut(HttpContext context)

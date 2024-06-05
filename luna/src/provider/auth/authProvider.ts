@@ -16,7 +16,7 @@ export default class AuthProvider extends ProviderBase{
             .then(async res => {
 
                  if(res.status === 200){
-                     AuthWrapper.userSignIn(res.data);
+                     AuthWrapper.userSignIn(res.data.token, res.data.userId);
                      return true;
                  }
 
@@ -39,7 +39,7 @@ export default class AuthProvider extends ProviderBase{
         return await this.post(url, signUpBlank)
             .then(async res => {
                 if(res.status === 200){
-                    AuthWrapper.userSignIn(res.data);
+                    AuthWrapper.userSignIn(res.data.token, res.data.userId);
                     return true;
                 }
 
