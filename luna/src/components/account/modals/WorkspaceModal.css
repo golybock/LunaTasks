@@ -1,4 +1,8 @@
-﻿form img{
+﻿.Workspace-Modal{
+    color: var(--text);
+}
+
+form img{
     margin: 12px;
     width: 440px;
     height: 100px;

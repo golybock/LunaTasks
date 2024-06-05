@@ -21,6 +21,13 @@
     height: 40px;
 }
 
+.Empty-Button{
+    background: transparent;
+    border: transparent;
+    color: var(--text);
+    height: 40px;
+}
+
 .Primary-Button:hover{
     background: var(--primary-variant-darker);
     border: var(--primary-variant);

@@ -58,7 +58,7 @@ export default class WorkspaceModal extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <Modal show onHide={() => this.props.closeModal()}>
+            <Modal show onHide={() => this.props.closeModal()} data-bs-theme="dark" className="Workspace-Modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Create workspace</Modal.Title>
                 </Modal.Header>
@@ -73,8 +73,8 @@ export default class WorkspaceModal extends React.Component<IProps, IState> {
                 </Modal.Body>
 
                 <Modal.Footer className="Modal-Footer">
-                    <Button className="btn btn-outline-dark" onClick={() => this.saveWorkspace()}>Save</Button>
-                    <Button className="btn btn-outline-dark" onClick={() => this.props.closeModal()}>Cancel</Button>
+                    <Button className="btn Primary-Button" onClick={() => this.saveWorkspace()}>Save</Button>
+                    <Button className="btn Primary-Button" onClick={() => this.props.closeModal()}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         );

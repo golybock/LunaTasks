@@ -40,7 +40,6 @@ export default class Auth extends React.Component<IProps, IState> {
 
         // installer
         window.addEventListener("beforeinstallprompt", (e : any) => {
-            console.log(e.platforms); // e.g., ["web", "android", "windows"]
             e.userChoice.then((choiceResult: any) => {
                 console.log(choiceResult.outcome); // either "accepted" or "dismissed"
             });

@@ -43,7 +43,7 @@ export default class CardRow extends React.Component<any, any>{
                     </div>
                 </div>
 
-                <button className="Button Outline-Button">Редактировать</button>
+                <button className="Button Empty-Button">Редактировать</button>
 
             </div>
         )
