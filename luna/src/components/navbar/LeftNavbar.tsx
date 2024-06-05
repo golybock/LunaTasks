@@ -82,9 +82,11 @@ export class LeftNavbar extends React.Component<IProps, IState> {
         //id empty
         if (!id) {
             // set first available workspaceId
-            this.setState({selectedWorkspaceId: this.state.workspaces[0].id});
+            if(this.state.workspaces.length > 0){
+                this.setState({selectedWorkspaceId: this.state.workspaces[0].id});
 
-            WorkspaceManager.setWorkspace(this.state.workspaces[0].id)
+                WorkspaceManager.setWorkspace(this.state.workspaces[0].id)
+            }
         } else {
             // workspace not empty - set new workspaceid
             this.setState({selectedWorkspaceId: id});
@@ -93,26 +95,30 @@ export class LeftNavbar extends React.Component<IProps, IState> {
         }
 
         // load pages
-        let pages = await PageProvider.getPages(WorkspaceManager.getWorkspace()!);
+        const workspaceId = WorkspaceManager.getWorkspace();
 
-        let pageMenuItems: MenuItem[] = [];
+        if(workspaceId){
+            let pages = await PageProvider.getPages(workspaceId);
 
-        if (pages.length > 0) {
+            let pageMenuItems: MenuItem[] = [];
 
-            pages.forEach(page => {
-                pageMenuItems.push(
-                    {
-                        href: "/page/" + page.id,
-                        title: page.name,
-                        image: "/icons/page.svg"
-                    }
-                )
-            })
+            if (pages.length > 0) {
+
+                pages.forEach(page => {
+                    pageMenuItems.push(
+                        {
+                            href: "/page/" + page.id,
+                            title: page.name,
+                            image: "/icons/page.svg"
+                        }
+                    )
+                })
+            }
+
+            this.setState({menuItems: [...this.defaultMenuItems, ...pageMenuItems]})
+
+            this.setState({pages: pages});
         }
-
-        this.setState({menuItems: [...this.defaultMenuItems, ...pageMenuItems]})
-
-        this.setState({pages: pages});
     }
 
     openWorkspaceModal() {
