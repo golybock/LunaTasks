@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Text.Json;
 using Luna.Models.Tasks.Blank.Card;
 using Luna.Models.Tasks.Database.Card;
 using Luna.Models.Tasks.Domain.Card;
@@ -116,33 +117,59 @@ public class CardService : ICardService
 
 	private async Task<IEnumerable<CardView>> GetCardsAsync(IEnumerable<Guid> cardIds, IEnumerable<CardDatabase> cardDatabases)
 	{
+		var sw0 = new Stopwatch();
+		var swall = new Stopwatch();
+		swall.Start();
+
+		sw0.Start();
+		var cardsTagsTask = _cardRepository.GetCardTagsAsync(cardIds);
+		var cardsStatusesTask = _cardRepository.GetCardStatusesAsync(cardIds);
+		var cardsUsersTask = _cardRepository.GetCardsUsersAsync(cardIds);
+
+		var cardsTags = new List<CardTagsDatabase>();
+		var cardsStatuses = new List<CardStatusDatabase>();
+		var cardsUsers = new List<CardUsersDatabase>();
+		Task.WaitAll(cardsTagsTask, cardsStatusesTask, cardsUsersTask);
+
+		cardsTags = cardsTagsTask.Result.ToList();
+		cardsStatuses = cardsStatusesTask.Result.ToList();
+		cardsUsers = cardsUsersTask.Result.ToList();
+
+
 		// промежуточные таблицы с ids
-		var cardsTags = await _cardRepository.GetCardTagsAsync(cardIds);
-		var cardsStatuses = await _cardRepository.GetCardStatusesAsync(cardIds);
-		var cardsUsers = await _cardRepository.GetCardsUsersAsync(cardIds);
+		var sw1 = new Stopwatch();
 
 
 		var cardsComments = await _commentService.GetCommentsDomainAsync(cardIds);
 
+
 		// id всех типов и загрузка их моделей из бд
 		var typeIds = cardDatabases.Select(card => card.CardTypeId).Distinct();
-		var types = await _typeService.GetTypesAsync(typeIds);
+		var typesTask = _typeService.GetTypesAsync(typeIds);
 
 		// id всех тегов и загрузка их моделей из бд
 		var tagIds = cardsTags.Select(c => c.TagId);
-		var tagsView = await GeTagsAsync(tagIds);
+		var tagsViewTask = GeTagsAsync(tagIds);
 
 		// id всех статустов и загрузка их моделей из бд
 		var statusIds = cardsStatuses.Select(c => c.StatusId);
-		var statusesView = await GetStatusesAsync(statusIds);
+		var statusesViewTask = GetStatusesAsync(statusIds);
 
 		// id всех пользователей и загрузка их моделей из бд
 		var userIds = cardsUsers.Select(u => u.UserId);
-		var usersViews = await GetUsersAsync(userIds);
+		var usersViewsTask = GetUsersAsync(userIds);
 
 		// var commentIds = cardsComments.Select(comment => comment.Id);
-		var commentsView = await _commentService.GetCommentsAsync(cardIds);
+		var commentsViewTask = _commentService.GetCommentsAsync(cardIds);
 
+		Task.WaitAll(typesTask, tagsViewTask, statusesViewTask, usersViewsTask, commentsViewTask);
+		var types = typesTask.Result;
+		var tagsView = tagsViewTask.Result;
+		var statusesView = statusesViewTask.Result;
+		var usersViews = usersViewsTask.Result;
+		var commentsView = commentsViewTask.Result;
+
+		sw0.Stop();
 		List<CardView> cardViews = new List<CardView>(cardIds.Count());
 
 		await Parallel.ForEachAsync(cardDatabases, async (cardDatabase, ct) =>
@@ -158,12 +185,15 @@ public class CardService : ICardService
 			var s = statusesView.LastOrDefault(c => statuses.Select(b => b.StatusId).Contains(c.Id));
 			var u = usersViews.Where(c => users.Select(b => b.UserId).Contains(c.Id));
 			var c = commentsView.Where(c => comments.Select(b => b.Id).Contains(c.Id));
+			sw1.Start();
 
 			var card = await ConvertToCardView(cardDatabase, t, tgs, s, c, u);
+			sw1.Stop();
 
 			cardViews.Add(card);
 		});
 
+		swall.Stop();
 		return cardViews;
 	}
 
