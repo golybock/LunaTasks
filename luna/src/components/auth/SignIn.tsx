@@ -21,8 +21,8 @@ export default class SignIn extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            email: "aboba@aboba.com",
-            password: "aboba",
+            email: "admin@admin.com",
+            password: "admin",
         }
     }
 
