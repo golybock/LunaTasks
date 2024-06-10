@@ -32,15 +32,15 @@ export default class Home extends React.Component<IProps, IState> {
                                 <h4>Daily</h4>
                                 <hr/>
                                 {/*todo make this to link*/}
-                                <p>aboba 1</p>
-                                <p>aboba 2</p>
+                                <p>Your active tasks</p>
+                                <p>Your tasks</p>
                             </div>
                             <div className="Link-Block">
-                                <h4>Life</h4>
+                                <h4>Management</h4>
                                 <hr/>
                                 {/*todo make this to link*/}
-                                <p>aboba 1</p>
-                                <p>aboba 2</p>
+                                <p>View statistic</p>
+                                <p>Settings</p>
                             </div>
                         </div>
                     </div>

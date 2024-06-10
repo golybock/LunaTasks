@@ -4,7 +4,7 @@
     --danger: red;
 
     /*text*/
-    --text: #010F41;
+    --text: black;
     --secondary-text: #777777;
 
     /*main dark theme*/
@@ -17,8 +17,8 @@
     --error-container: #F3ADAD;
 
     /*container*/
-    --primary-container: #A8DADC;
-    --secondary-container: #457B9D;
+    --primary-container: #F5FFFF;
+    --secondary-container: #EAF7FF;
     --teriary-container: #6D94AC;
 }
 

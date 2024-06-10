@@ -69,9 +69,11 @@ export class LeftNavbar extends React.Component<IProps, IState> {
 
     async componentDidMount() {
         let workspaces = await WorkspaceProvider.getUserWorkspacesAsync();
-        let workspaceId = WorkspaceManager.getWorkspace();
 
         this.setState({workspaces: workspaces});
+        console.log(workspaces)
+
+        let workspaceId = WorkspaceManager.getWorkspace();
 
         await this.selectWorkspace(workspaceId)
     }
@@ -80,8 +82,14 @@ export class LeftNavbar extends React.Component<IProps, IState> {
 
         //id empty
         if (!id) {
+
+            console.log("id empty")
+
             // set first available workspaceId
             if(this.state.workspaces.length > 0){
+
+                console.log(this.state.workspaces)
+
                 this.setState({selectedWorkspaceId: this.state.workspaces[0].id});
 
                 WorkspaceManager.setWorkspace(this.state.workspaces[0].id)
@@ -95,6 +103,8 @@ export class LeftNavbar extends React.Component<IProps, IState> {
 
         // load pages
         const workspaceId = WorkspaceManager.getWorkspace();
+
+        console.log(workspaceId)
 
         if(workspaceId){
             let pages = await PageProvider.getPages(workspaceId);
@@ -168,11 +178,10 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                         {this.state.menuItems && (
                             <div>
                                 {this.state.menuItems.map((item: MenuItem) => (
-                                    <NavLink key={item.title} to={item.href} end={true} replace={true}
-                                             className="Navbar-Item">
-                                        <div className="Navbar-List-Item Icon">
+                                    <NavLink key={item.title} to={item.href} end={true} replace={true}>
+                                        <div className="Navbar-List-Item">
                                             {item.image && (
-                                                <img src={item.image} alt=""/>
+                                                <img src={item.image} alt="" className="Icon"/>
                                             )}
                                             <label>{item.title}</label>
                                         </div>

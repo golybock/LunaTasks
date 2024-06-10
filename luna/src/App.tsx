@@ -10,10 +10,9 @@ import {NotAuthedRoute, ProtectedRoute} from "./auth/AuthWrapper";
 import InviteWorkspacePage from "./components/settings/InviteWorkspacePage";
 import SignUp from "./components/auth/SignUp";
 import './App.css';
-import './dark.css';
+import './light.css';
 import ChartsPage from "./components/charts/ChartsPage";
 import EditAccount from "./components/account/EditAccount";
-import SettingsTags from "./components/settings/content/SettingsTags";
 
 interface IProps {
 
