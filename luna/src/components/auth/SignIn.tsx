@@ -48,6 +48,7 @@ export default class SignIn extends React.Component<IProps, IState> {
                 </div>
 
                 <div className="SignIn-Block">
+
                     {/*header*/}
                     <div className="App-Header">
                         <div className="App-Logo-Block">
@@ -58,10 +59,13 @@ export default class SignIn extends React.Component<IProps, IState> {
                             <label>Language</label>
                         </div>
                     </div>
+
                     <div className="App-Body">
+
                         <div className="App-Body-Header">
                             <h1>Sign In</h1>
                         </div>
+
                         <div className="App-Body-Content">
                             <Form>
 
