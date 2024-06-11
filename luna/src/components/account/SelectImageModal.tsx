@@ -30,7 +30,7 @@ export default class SelectImageModal extends React.Component<IProps, IState> {
     render() {
         return (
             <div>
-                <Modal show onHide={() => this.props.closeModal()} data-bs-theme="dark">
+                <Modal show onHide={() => this.props.closeModal()}>
                     <Modal.Header closeButton className="Header-Data">
                         <Modal.Title>Change user image</Modal.Title>
                     </Modal.Header>

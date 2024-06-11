@@ -162,11 +162,11 @@ class PageComponent extends React.Component<IProps, IState> {
                 )}
                 {!this.state.isLoading && (
                     <div>
-                        {this.state.page?.headerImage && (
-                            <div className="Header-Image-Container">
-                                <img src={this.state.page?.headerImage} alt=""/>
-                            </div>
-                        )}
+                        {/*{this.state.page?.headerImage && (*/}
+                        {/*    <div className="Header-Image-Container">*/}
+                        {/*        <img src={this.state.page?.headerImage} alt=""/>*/}
+                        {/*    </div>*/}
+                        {/*)}*/}
                         <div className="Page-Content">
                             <div>
                                 <div className="Page-Content-Header">

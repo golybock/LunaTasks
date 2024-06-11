@@ -11,7 +11,7 @@
     margin-bottom: 12px;
     border-radius: var(--rad) var(--rad) var(--rad) var(--rad);
     margin-left: auto;
-    background: var(--secondary-container);
+    background: black;
     color: #fff;
 }
 

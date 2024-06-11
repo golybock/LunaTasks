@@ -301,7 +301,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                     <Loading/>
                 )}
                 {!this.state.isLoading && (
-                    <Modal dialogClassName="Modal" data-bs-theme="dark" show onHide={() => this.props.closeModal()}>
+                    <Modal dialogClassName="Modal" show onHide={() => this.props.closeModal()}>
 
                         <Modal.Header closeButton>
                             <Modal.Title
@@ -315,20 +315,20 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                     <div className="Modal-Body-Header">
                                         <div className="Modal-Body-Item">
 
-                                            <Form.Label>Заголовок</Form.Label>
+                                            <Form.Label>Header</Form.Label>
                                             <Form.Control value={this.state.cardBlank?.header || ""}
                                                           onChange={(e) => this.headerChanged(e.target.value)}/>
 
-                                            <Form.Label>Описание</Form.Label>
+                                            <Form.Label>Description</Form.Label>
                                             <Form.Control value={this.state.cardBlank?.description || ""}
                                                           onChange={(e) => this.descriptionChanged(e.target.value)}/>
 
-                                            <Form.Label>Дедлайн</Form.Label>
+                                            <Form.Label>Deadline</Form.Label>
                                             <Form.Control value={this.state.cardBlank?.deadline || ""}
                                                           type="date"
                                                           onChange={(e) => this.deadlineChanged(e.target.value)}/>
 
-                                            <Form.Label>Тип</Form.Label>
+                                            <Form.Label>Type</Form.Label>
                                             <DarkAsyncSelect isMulti={false}
                                                              cacheOptions
                                                              defaultOptions
@@ -339,7 +339,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
 
                                         </div>
                                         <div className="Modal-Body-Item">
-                                            <Form.Label>Статус</Form.Label>
+                                            <Form.Label>Status</Form.Label>
                                             <DarkAsyncSelect isMulti={false}
                                                              cacheOptions
                                                              defaultOptions
@@ -348,7 +348,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                              onChange={(e: SingleValue<IOption>) => this.statusSelected(e)}/>
 
 
-                                            <Form.Label>Теги</Form.Label>
+                                            <Form.Label>Tags</Form.Label>
                                             <DarkAsyncSelect isMulti={true}
                                                              cacheOptions
                                                              defaultOptions
@@ -356,7 +356,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                              loadOptions={this.getTags}
                                                              onChange={(e: MultiValue<IOption>) => this.tagSelected(e)}/>
 
-                                            <Form.Label>Пользователи</Form.Label>
+                                            <Form.Label>Users</Form.Label>
                                             <DarkAsyncSelect isMulti={true}
                                                              cacheOptions
                                                              defaultOptions
@@ -365,7 +365,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                              onChange={(e: MultiValue<IOption>) => this.userSelected(e)}/>
                                         </div>
                                         <div className="Modal-Body-Item">
-                                            <Form.Label>Комментарии</Form.Label>
+                                            <Form.Label>Comments</Form.Label>
                                             <InputGroup className="mb-3">
                                                 <Form.Control
                                                     placeholder="Введите текст комментария"
@@ -416,7 +416,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                             }
                                         </div>
                                     </div>
-                                    <Form.Label>Текст задачи</Form.Label>
+                                    <Form.Label>Text</Form.Label>
                                     <ReactQuill theme="snow"
                                                 value={this.state.rteValue ?? ""}
                                                 onChange={(value) => this.contentChanged(value)}/>

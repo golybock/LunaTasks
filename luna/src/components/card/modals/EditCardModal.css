@@ -1,9 +1,9 @@
 .Modal-Header {
-    color: white;
+    color: var(--text);
 }
 
 .Modal-Content {
-    color: white;
+    color: var(--text);
 }
 
 .Modal-Content label {

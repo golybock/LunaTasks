@@ -56,11 +56,11 @@ export default class SettingsModal extends React.Component<IProps, IState> {
             title: "Pages",
             image: null
         },
-        {
-            href: SettingsSections.Theme,
-            title: "Theme",
-            image: null
-        },
+        // {
+        //     href: SettingsSections.Theme,
+        //     title: "Theme",
+        //     image: null
+        // },
     ];
 
     close(){
@@ -71,7 +71,7 @@ export default class SettingsModal extends React.Component<IProps, IState> {
         return (
             <>
                 {this.props.show && (
-                    <Modal show data-bs-theme="dark" dialogClassName="Settings-Modal" onHide={() => this.close()}>
+                    <Modal show dialogClassName="Settings-Modal" onHide={() => this.close()}>
 
                         <Modal.Header closeButton>
                             <Modal.Title>Settings</Modal.Title>
@@ -85,7 +85,7 @@ export default class SettingsModal extends React.Component<IProps, IState> {
                                             <div>
                                                 {this.state.menuItems.map((item: SettingsMenuItem) => (
                                                     <div key={item.title} className="Navbar-Item">
-                                                        <div className="Navbar-List-Item Icon"
+                                                        <div className="Navbar-List-Item"
                                                         onClick={() => this.setState({selectedMenuItem: item.href})}>
                                                             {item.image && (
                                                                 <img src={item.image} alt=""/>

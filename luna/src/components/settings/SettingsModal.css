@@ -13,12 +13,13 @@
     max-width: 900px;
     min-width: 751px;
 
-    color: white;
+    color: var(--text);
 }
 
 .Settings-Modal-Body{
     display: flex;
     flex-direction: row;
+    color: var(--text);
 }
 
 .Settings-Navbar-Left{

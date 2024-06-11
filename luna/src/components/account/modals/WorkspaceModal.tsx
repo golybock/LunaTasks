@@ -58,7 +58,7 @@ export default class WorkspaceModal extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <Modal show onHide={() => this.props.closeModal()} data-bs-theme="dark" className="Workspace-Modal">
+            <Modal show onHide={() => this.props.closeModal()} className="Workspace-Modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Create workspace</Modal.Title>
                 </Modal.Header>

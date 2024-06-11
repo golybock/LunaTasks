@@ -121,7 +121,7 @@ export default class PageModal extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <Modal show onHide={() => this.props.closeModal()} data-bs-theme="dark">
+            <Modal show onHide={() => this.props.closeModal()}>
                 <Modal.Header closeButton className="Modal-Header">
                     <Modal.Title>Create page</Modal.Title>
                 </Modal.Header>

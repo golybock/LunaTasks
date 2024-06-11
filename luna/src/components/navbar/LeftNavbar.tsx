@@ -144,7 +144,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                 <aside className="Navbar-Left">
                     <div>
                         {this.state.workspaces && (
-                            <Dropdown data-bs-theme="dark" className="Workspace-Dropdown">
+                            <Dropdown className="Workspace-Dropdown">
 
                                 {this.state.selectedWorkspaceId && (
                                     <Dropdown.Toggle variant="outline-secondary">
