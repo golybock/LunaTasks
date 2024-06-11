@@ -7,12 +7,14 @@
     padding: 12px;
     background: var(--secondary-container);
     margin: 12px;
+    color: var(--text);
 }
 
 .Card-Row-Header {
     display: flex;
     flex-direction: row;
     width: 20%;
+    color: var(--text);
 }
 
 .Card-Row-Header h5{
