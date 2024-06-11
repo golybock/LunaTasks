@@ -62,7 +62,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
         },
         {
             href: "/statistic",
-            title: "statistic",
+            title: "Statistic",
             image: "/icons/statistic.svg"
         }
     ];
