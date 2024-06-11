@@ -83,15 +83,15 @@ export default class ChartsPage extends React.Component<IProps, IState>{
                                 )}
                             </div>
                         </div>
-                        <div className="Items">
-                            <div className="Graph-Item-Full">
-                                   <h2>Gantt </h2>
-                                {this.state.cards && (
-                                    <div></div>
-                                    // <GantChart cards={this.state.cards}/>
-                                )}
-                            </div>
-                        </div>
+                        {/*<div className="Items">*/}
+                        {/*    <div className="Graph-Item-Full">*/}
+                        {/*           <h2>Gantt </h2>*/}
+                        {/*        {this.state.cards && (*/}
+                        {/*            <div></div>*/}
+                        {/*            // <GantChart cards={this.state.cards}/>*/}
+                        {/*        )}*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
 

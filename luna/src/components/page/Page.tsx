@@ -182,7 +182,7 @@ class PageComponent extends React.Component<IProps, IState> {
                                                         this.setState({displayMode: CardDisplayMode.Table});
                                                     }}>
                                                 <div>
-                                                    <img className="Image" src={"/icons/table.svg"}/>
+                                                    <img className="Icon" src={"/icons/table.svg"}/>
                                                     <label>Table</label>
                                                 </div>
                                             </Button>
@@ -190,7 +190,7 @@ class PageComponent extends React.Component<IProps, IState> {
                                                     onClick={() => {
                                                         this.setState({displayMode: CardDisplayMode.Card});
                                                     }}>
-                                                <img className="Image" src={"/icons/cards.svg"}/>
+                                                <img className="Icon" src={"/icons/cards.svg"}/>
                                                 <label>Cards</label>
                                             </Button>
                                         </ButtonGroup>

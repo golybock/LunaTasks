@@ -77,8 +77,7 @@ export default class TaskStatusesChart extends React.Component<IProps, IState> {
             <div>
                 <div className="Chart-Header">
                     <h2>{this.state.totalTasks} total tasks</h2>
-                    <Form.Select className="Date-Picker"
-                                 data-bs-theme="dark">
+                    <Form.Select className="Date-Picker">
                         <option value="1">1 Month</option>
                         <option value="2">3 Months</option>
                         <option value="3">1 Year</option>

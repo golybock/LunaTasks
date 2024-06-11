@@ -71,6 +71,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    filter: invert(100%);
 }
 
 .Sign-Out button{

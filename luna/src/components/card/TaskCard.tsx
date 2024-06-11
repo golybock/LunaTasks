@@ -38,7 +38,7 @@ export default class TaskCard extends React.Component<IProps, IState>{
                 </div>
 
                 <div className="Date">
-                    <img src={"/icons/date.svg"}/>
+                    <img className="Icon" src={"/icons/date.svg"}/>
                     <label>{this.toDate(this.props.card.createdTimestamp)}</label>
                 </div>
 
