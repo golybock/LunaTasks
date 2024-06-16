@@ -347,6 +347,13 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                              loadOptions={this.getStatuses}
                                                              onChange={(e: SingleValue<IOption>) => this.statusSelected(e)}/>
 
+                                            <Form.Label>Users</Form.Label>
+                                            <DarkAsyncSelect isMulti={true}
+                                                             cacheOptions
+                                                             defaultOptions
+                                                             value={this.state.selectedUsers}
+                                                             loadOptions={this.getUsers}
+                                                             onChange={(e: MultiValue<IOption>) => this.userSelected(e)}/>
 
                                             <Form.Label>Tags</Form.Label>
                                             <DarkAsyncSelect isMulti={true}
@@ -356,65 +363,60 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                              loadOptions={this.getTags}
                                                              onChange={(e: MultiValue<IOption>) => this.tagSelected(e)}/>
 
-                                            <Form.Label>Users</Form.Label>
-                                            <DarkAsyncSelect isMulti={true}
-                                                             cacheOptions
-                                                             defaultOptions
-                                                             value={this.state.selectedUsers}
-                                                             loadOptions={this.getUsers}
-                                                             onChange={(e: MultiValue<IOption>) => this.userSelected(e)}/>
                                         </div>
-                                        <div className="Modal-Body-Item">
-                                            <Form.Label>Comments</Form.Label>
-                                            <InputGroup className="mb-3">
-                                                <Form.Control
-                                                    placeholder="Введите текст комментария"
-                                                    value={this.state.commentText}
-                                                    onChange={(e) => {
-                                                        this.setState({commentText: e.target.value})
-                                                    }}
-                                                />
-                                                <InputGroup.Text onClick={async () => {
+                                        {this.props.cardId && (
+                                            <div className="Modal-Body-Item">
+                                                <Form.Label>Comments</Form.Label>
+                                                <InputGroup className="mb-3">
+                                                    <Form.Control
+                                                        placeholder="Введите текст комментария"
+                                                        value={this.state.commentText}
+                                                        onChange={(e) => {
+                                                            this.setState({commentText: e.target.value})
+                                                        }}
+                                                    />
+                                                    <InputGroup.Text onClick={async () => {
 
-                                                    const commentBlank = {
-                                                        cardId: this.state.cardView?.id ?? "",
-                                                        comment: this.state.commentText,
-                                                        attachmentUrl: ""
-                                                    };
-
-                                                    const res = await CommentProvider.createComment(commentBlank);
-
-                                                    if(res){
-                                                        NotificationManager.makeSuccess("Comment sent");
-
-                                                        // load comments
-                                                        this.state.cardView?.comments?.push({
-                                                            userId: AuthWrapper.userId() ?? "",
-                                                            comment: commentBlank.comment,
-                                                            user: undefined,
-                                                            id: Guid.create().toString(),
+                                                        const commentBlank = {
+                                                            cardId: this.state.cardView?.id ?? "",
+                                                            comment: this.state.commentText,
                                                             attachmentUrl: ""
-                                                        })
+                                                        };
 
-                                                        this.setState({comments: this.state.cardView?.comments ?? []})
+                                                        const res = await CommentProvider.createComment(commentBlank);
 
-                                                        return;
-                                                    }
+                                                        if(res){
+                                                            NotificationManager.makeSuccess("Comment sent");
 
-                                                    NotificationManager.makeSuccess("Error");
+                                                            // load comments
+                                                            this.state.cardView?.comments?.push({
+                                                                userId: AuthWrapper.userId() ?? "",
+                                                                comment: commentBlank.comment,
+                                                                user: undefined,
+                                                                id: Guid.create().toString(),
+                                                                attachmentUrl: ""
+                                                            })
 
-                                                }}>{">"}</InputGroup.Text>
-                                            </InputGroup>
-                                            {this.state.comments ? (
+                                                            this.setState({comments: this.state.cardView?.comments ?? []})
+
+                                                            return;
+                                                        }
+
+                                                        NotificationManager.makeSuccess("Error");
+
+                                                    }}>{">"}</InputGroup.Text>
+                                                </InputGroup>
+                                                {this.state.comments ? (
                                                         <CommentChat comments={this.state.cardView?.comments ?? []}/>
-                                                ) :
-                                                (
-                                                    <div>
-                                                        No comments
-                                                    </div>
-                                                )
-                                            }
-                                        </div>
+                                                    ) :
+                                                    (
+                                                        <div>
+                                                            No comments
+                                                        </div>
+                                                    )
+                                                }
+                                            </div>
+                                        )}
                                     </div>
                                     <Form.Label>Text</Form.Label>
                                     <ReactQuill theme="snow"
