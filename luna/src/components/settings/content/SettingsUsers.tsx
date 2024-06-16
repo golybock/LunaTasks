@@ -50,11 +50,11 @@ export default class SettingsUsers extends React.Component<IProps, IState> {
     async deleteUser(id: string) {
         const res = await WorkspaceProvider.deleteUserFromWorkspace(id);
 
-        if (res) {
+        if (res == true) {
             const users = await WorkspaceProvider.getWorkspaceUsers();
             this.setState({users: users});
         } else {
-            NotificationManager.makeError("Error")
+            NotificationManager.makeError(res.toString())
         }
     }
 

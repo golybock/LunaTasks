@@ -58,25 +58,19 @@ public class WorkspaceController : ControllerBase
 	[HttpPost("[action]")]
 	public async Task<IActionResult> CreateWorkspaceAsync(WorkspaceBlank workspaceBlank)
 	{
-		var res = await _workspaceService.CreateWorkspaceAsync(workspaceBlank, UserId);
-
-		return res ? Ok() : BadRequest();
+		return await _workspaceService.CreateWorkspaceAsync(workspaceBlank, UserId);
 	}
 
 	[HttpPut("[action]")]
 	public async Task<IActionResult> UpdateWorkspaceAsync(Guid id, WorkspaceBlank workspaceBlank)
 	{
-		var res = await _workspaceService.UpdateWorkspaceAsync(id, workspaceBlank, UserId);
-
-		return res ? Ok() : BadRequest();
+		return await _workspaceService.UpdateWorkspaceAsync(id, workspaceBlank, UserId);
 	}
 
 	[HttpDelete("[action]")]
 	public async Task<IActionResult> DeleteWorkspaceAsync(Guid id)
 	{
-		var res = await _workspaceService.DeleteWorkspaceAsync(id, UserId);
-
-		return res ? Ok() : BadRequest();
+		return await _workspaceService.DeleteWorkspaceAsync(id, UserId);
 	}
 
 	[HttpGet("[action]")]
@@ -88,32 +82,24 @@ public class WorkspaceController : ControllerBase
 	[HttpPost("[action]")]
 	public async Task<IActionResult> JoinToWorkspace(Guid workspaceId)
 	{
-		var res = await _workspaceService.AddUserToWorkspace(workspaceId, UserId);
-
-		return res ? Ok() : BadRequest("Вы уже участник этого пространства!");
+		return await _workspaceService.AddUserToWorkspace(workspaceId, UserId);
 	}
 
 	[HttpDelete("[action]")]
 	public async Task<IActionResult> DeleteUserFromWorkspace(Guid workspaceId, Guid userId)
 	{
-		var res = await _workspaceService.DeleteUserFromWorkspace(workspaceId, userId, UserId);
-
-		return res ? Ok() : BadRequest();
+		return await _workspaceService.DeleteUserFromWorkspace(workspaceId, userId, UserId);
 	}
 
 	[HttpDelete("[action]")]
 	public async Task<IActionResult> DeleteUsersFromWorkspace(Guid workspaceId)
 	{
-		var res = await _workspaceService.DeleteUsersFromWorkspace(workspaceId, UserId);
-
-		return res ? Ok() : BadRequest();
+		return await _workspaceService.DeleteUsersFromWorkspace(workspaceId, UserId);
 	}
 
 	[HttpDelete("[action]")]
 	public async Task<IActionResult> DeleteUserFromWorkspaces(Guid userId)
 	{
-		var res = await _workspaceService.DeleteUserFromWorkspaces(userId);
-
-		return res ? Ok() : BadRequest();
+		return await _workspaceService.DeleteUserFromWorkspaces(userId);
 	}
 }

@@ -5,6 +5,8 @@ using Luna.Models.Workspace.Domain.Workspace;
 using Luna.Models.Workspace.View.Workspace;
 using Luna.SharedDataAccess.Users.Services;
 using Luna.Workspaces.Repositories.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Luna.Workspaces.Services.Services;
 
@@ -92,7 +94,7 @@ public class WorkspaceService: IWorkspaceService
 		return workspaceUsersView;
 	}
 
-	public async Task<Boolean> CreateWorkspaceAsync(WorkspaceBlank workspaceBlank, Guid userId)
+	public async Task<IActionResult> CreateWorkspaceAsync(WorkspaceBlank workspaceBlank, Guid userId)
 	{
 		var workspaceDatabase = new WorkspaceDatabase();
 
@@ -101,60 +103,86 @@ public class WorkspaceService: IWorkspaceService
 		workspaceDatabase.CreatedTimestamp = DateTime.UtcNow;
 		workspaceDatabase.CreatedUserId = userId;
 
-		return await _workspaceRepository.CreateWorkspaceAsync(workspaceDatabase);
+		var res = await _workspaceRepository.CreateWorkspaceAsync(workspaceDatabase);
+
+		return res ? new OkResult() : new BadRequestResult();
 	}
 
 	// todo add checks on owner userId
-	public async Task<Boolean> UpdateWorkspaceAsync(Guid id, WorkspaceBlank workspaceBlank, Guid userId)
+	public async Task<IActionResult> UpdateWorkspaceAsync(Guid id, WorkspaceBlank workspaceBlank, Guid userId)
 	{
 		var workspaceDatabase = new WorkspaceDatabase();
 
 		workspaceDatabase.Name = workspaceBlank.Name;
 
-		return await _workspaceRepository.UpdateWorkspaceAsync(id, workspaceDatabase);
+		var res = await _workspaceRepository.UpdateWorkspaceAsync(id, workspaceDatabase);
+
+		return res ? new OkResult() : new BadRequestResult();
 	}
 
 	// todo add checks on owner userId
-	public async Task<Boolean> DeleteWorkspaceAsync(Guid id, Guid operationBy)
+	public async Task<IActionResult> DeleteWorkspaceAsync(Guid id, Guid operationBy)
 	{
-		return await _workspaceRepository.DeleteWorkspaceAsync(id);
+		var res = await _workspaceRepository.DeleteWorkspaceAsync(id);
+
+		return res ? new OkResult() : new BadRequestResult();
 	}
 
 	// todo add checks on owner userId
-	public async Task<Boolean> AddUserToWorkspace(Guid workspaceId, Guid userId)
+	public async Task<IActionResult> AddUserToWorkspace(Guid workspaceId, Guid userId)
 	{
 		try
 		{
-			return await _workspaceRepository.AddUserToWorkspace(workspaceId, userId);
+			var res = await _workspaceRepository.AddUserToWorkspace(workspaceId, userId);
+
+			return res ? new OkResult() : new BadRequestResult();
 		}
 		catch (Exception e)
 		{
 			Console.WriteLine(e);
-			return false;
+			return new BadRequestResult();
 		}
 	}
 
 	// todo add checks on owner userId
-	public async Task<Boolean> DeleteUserFromWorkspace(Guid workspaceId, Guid userId, Guid operationBy)
+	public async Task<IActionResult> DeleteUserFromWorkspace(Guid workspaceId, Guid userId, Guid operationBy)
 	{
 		if (operationBy == userId)
 		{
-			return false;
+			return new BadRequestObjectResult("You can't delete yourself");
 		}
 
-		return await _workspaceRepository.DeleteUserFromWorkspace(workspaceId, userId);
+		var workspace = await _workspaceRepository.GetWorkspaceAsync(workspaceId);
+
+		if (workspace == null)
+		{
+			return new BadRequestObjectResult("Workspace not found");
+		}
+
+		if (workspace.CreatedUserId != operationBy)
+		{
+			return new BadRequestObjectResult("Only workspace admin can delete users");
+		}
+
+		var res = await _workspaceRepository.DeleteUserFromWorkspace(workspaceId, userId);
+
+		return res ? new OkResult() : new BadRequestResult();
 	}
 
 	// todo add checks on owner userId
-	public async Task<Boolean> DeleteUsersFromWorkspace(Guid workspaceId, Guid operationBy)
+	public async Task<IActionResult> DeleteUsersFromWorkspace(Guid workspaceId, Guid operationBy)
 	{
-		return await _workspaceRepository.DeleteUsersFromWorkspace(workspaceId);
+		var res = await _workspaceRepository.DeleteUsersFromWorkspace(workspaceId);
+
+		return res ? new OkResult() : new BadRequestResult();
 	}
 
 	// todo add checks on owner userId
-	public async Task<Boolean> DeleteUserFromWorkspaces(Guid userId)
+	public async Task<IActionResult> DeleteUserFromWorkspaces(Guid userId)
 	{
-		return await _workspaceRepository.DeleteUserFromWorkspaces(userId);
+		var res = await _workspaceRepository.DeleteUserFromWorkspaces(userId);
+
+		return res ? new OkResult() : new BadRequestResult();
 	}
 
 	private IEnumerable<WorkspaceView> WorkspacesToView(IEnumerable<WorkspaceDatabase> workspaceDatabases)

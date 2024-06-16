@@ -142,7 +142,7 @@ export default class WorkspaceProvider extends ProviderBase {
             });
     }
 
-    static async deleteUserFromWorkspace(userId: string): Promise<boolean>{
+    static async deleteUserFromWorkspace(userId: string): Promise<boolean | string>{
         let url = this.baseAddress + "/Workspace/DeleteUserFromWorkspace?workspaceId=" + WorkspaceManager.getWorkspace() + "&userId=" + userId;
 
         return await this.delete(url)
@@ -150,7 +150,7 @@ export default class WorkspaceProvider extends ProviderBase {
                 return res.status === 200;
             })
             .catch((res) => {
-                return false;
+                return res.response.data;
             });
     }
 }

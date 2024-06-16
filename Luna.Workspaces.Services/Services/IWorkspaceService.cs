@@ -2,6 +2,7 @@
 using Luna.Models.Workspace.Blank.Workspace;
 using Luna.Models.Workspace.Domain.Workspace;
 using Luna.Models.Workspace.View.Workspace;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Luna.Workspaces.Services.Services;
 
@@ -19,17 +20,17 @@ public interface IWorkspaceService
 
 	public Task<IEnumerable<UserView>> GetWorkspaceUsersAsync(Guid workspaceId);
 
-	public Task<Boolean> CreateWorkspaceAsync(WorkspaceBlank workspaceBlank, Guid userId);
+	public Task<IActionResult> CreateWorkspaceAsync(WorkspaceBlank workspaceBlank, Guid userId);
 
-	public Task<Boolean> UpdateWorkspaceAsync(Guid id, WorkspaceBlank workspaceBlank, Guid userId);
+	public Task<IActionResult> UpdateWorkspaceAsync(Guid id, WorkspaceBlank workspaceBlank, Guid userId);
 
-	public Task<Boolean> DeleteWorkspaceAsync(Guid id, Guid userId);
+	public Task<IActionResult> DeleteWorkspaceAsync(Guid id, Guid userId);
 
-	public Task<Boolean> AddUserToWorkspace(Guid workspaceId, Guid userId);
+	public Task<IActionResult> AddUserToWorkspace(Guid workspaceId, Guid userId);
 
-	public Task<Boolean> DeleteUserFromWorkspace(Guid workspaceId, Guid userId, Guid operationBy);
+	public Task<IActionResult> DeleteUserFromWorkspace(Guid workspaceId, Guid userId, Guid operationBy);
 
-	public Task<Boolean> DeleteUsersFromWorkspace(Guid workspaceId, Guid operationBy);
+	public Task<IActionResult> DeleteUsersFromWorkspace(Guid workspaceId, Guid operationBy);
 
-	public Task<Boolean> DeleteUserFromWorkspaces(Guid userId);
+	public Task<IActionResult> DeleteUserFromWorkspaces(Guid userId);
 }
