@@ -50,7 +50,7 @@ public class TagController : ControllerBase
 	[HttpDelete("[action]")]
 	public async Task<IActionResult> DeleteTagAsync(Guid id)
 	{
-		var result = await _tagService.DeleteTagAsync(id);
+		var result = await _tagService.TrashTagAsync(id);
 
 		return result ? Ok() : BadRequest();
 	}

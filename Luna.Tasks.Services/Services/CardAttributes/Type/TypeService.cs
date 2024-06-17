@@ -108,6 +108,20 @@ public class TypeService : ITypeService
 		}
 	}
 
+	public async Task<bool> TrashTypeAsync(Guid id)
+	{
+		try
+		{
+			var result = await _typeRepository.TrashTypeAsync(id);
+
+			return result;
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+	}
+
 	private TypeDatabase ToTypeDatabase(TypeBlank typeBlank)
 	{
 		return new TypeDatabase()

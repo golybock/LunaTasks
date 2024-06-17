@@ -115,6 +115,20 @@ public class StatusService : IStatusService
 		}
 	}
 
+	public async Task<bool> TrashStatusAsync(Guid id, Guid userId)
+	{
+		try
+		{
+			var result = await _statusRepository.TrashStatusAsync(id);
+
+			return result;
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+	}
+
 	private StatusDatabase ToStatusDatabase(StatusBlank statusBlank)
 	{
 		return new StatusDatabase()

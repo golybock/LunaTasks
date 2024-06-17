@@ -99,7 +99,7 @@ export default class PageProvider extends ProviderBase {
             });
     }
 
-    static async deletePage(id: string) : Promise<boolean>{
+    static async deletePage(id: string) : Promise<boolean | string>{
 
         let url = this.baseAddress + "/Page/DeletePage?id=" + id;
 
@@ -108,8 +108,22 @@ export default class PageProvider extends ProviderBase {
 
                 return res.status == 200;
             })
-            .catch(() => {
-                return false;
+            .catch((res) => {
+                return res.response.data;
+            });
+    }
+
+    static async trashPage(id: string) : Promise<boolean | string>{
+
+        let url = this.baseAddress + "/Page/TrashPage?id=" + id;
+
+        return await this.delete(url)
+            .then(async res => {
+
+                return res.status == 200;
+            })
+            .catch((res) => {
+                return res.response.data;
             });
     }
 }

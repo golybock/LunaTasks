@@ -91,4 +91,16 @@ public class StatusRepository : NpgsqlRepository, IStatusRepository
 	{
 		return DeleteAsync("status", nameof(id), id);
 	}
+
+	public async Task<bool> TrashStatusAsync(Guid id)
+	{
+		var query = "UPDATE status deleted = true WHERE id = $1";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = id}
+		};
+
+		return await ExecuteAsync(query, parameters);
+	}
 }

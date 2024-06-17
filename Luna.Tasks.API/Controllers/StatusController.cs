@@ -50,7 +50,7 @@ public class StatusController : ControllerBase
 	[HttpDelete("[action]")]
 	public async Task<IActionResult> DeleteStatusAsync(Guid id)
 	{
-		var result = await _statusService.DeleteStatusAsync(id, UserId);
+		var result = await _statusService.TrashStatusAsync(id, UserId);
 
 		return result ? Ok() : BadRequest();
 	}

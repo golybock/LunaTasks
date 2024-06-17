@@ -128,16 +128,16 @@ export default class PageModal extends React.Component<IProps, IState> {
 
                 <Modal.Body className="Modal-Content">
                     <Form>
-                        <Form.Label>Наименование</Form.Label>
+                        <Form.Label>Name</Form.Label>
                         <Form.Control value={this.state.pageBlank?.name}
                                       onChange={(e) => this.headerChanged(e.target.value)}/>
 
-                        <Form.Label>Описание</Form.Label>
+                        <Form.Label>Description</Form.Label>
                         <Form.Control type="text"
                                       value={this.state.pageBlank?.description}
                                       onChange={(e) => this.descriptionChanged(e.target.value)}/>
 
-                        <Form.Label>Изображение</Form.Label>
+                        <Form.Label>Image url</Form.Label>
                         <Form.Control type="text"
                                       value={this.state.pageBlank?.headerImage}
                                       onChange={(e) => this.imageChanged(e.target.value)}/>

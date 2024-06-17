@@ -27,4 +27,6 @@ public interface ITagService
 	public Task<Boolean> UpdateTagAsync(Guid id, TagBlank tag);
 
 	public Task<Boolean> DeleteTagAsync(Guid id);
+
+	public Task<Boolean> TrashTagAsync(Guid id);
 }

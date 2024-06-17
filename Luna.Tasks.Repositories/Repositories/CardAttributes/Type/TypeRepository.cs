@@ -94,4 +94,16 @@ public class TypeRepository : NpgsqlRepository, ITypeRepository
 	{
 		return DeleteAsync("type", nameof(id), id);
 	}
+
+	public async Task<bool> TrashTypeAsync(Guid id)
+	{
+		var query = "UPDATE type deleted = true WHERE id = $1";
+
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = id},
+		};
+
+		return await ExecuteAsync(query, parameters);
+	}
 }

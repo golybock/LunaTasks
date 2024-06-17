@@ -115,6 +115,20 @@ public class TagService : ITagService
 		}
 	}
 
+	public async Task<bool> TrashTagAsync(Guid id)
+	{
+		try
+		{
+			var result = await _tagRepository.TrashTagAsync(id);
+
+			return result;
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+	}
+
 	private TagDatabase ToTagDatabase(TagBlank tag)
 	{
 		return new TagDatabase

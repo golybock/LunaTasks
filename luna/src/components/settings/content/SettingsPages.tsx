@@ -43,22 +43,22 @@ export default class SettingsPages extends React.Component<IProps, IState> {
     }
 
     async deletePage(id: string) {
-        const res = await PageProvider.deletePage(id);
+        const res = await PageProvider.trashPage(id);
 
-        if (res) {
+        if (res == true) {
             let pages = await PageProvider.getPages(WorkspaceManager.getWorkspace()!);
             this.setState({pages: pages})
 
             NotificationManager.makeSuccess("Page deleted!")
         } else {
-            NotificationManager.makeError("Error")
+            NotificationManager.makeError(res.toString())
         }
     }
 
     render() {
         return (
-            <div className="Settings-Statuses">
-                <div className="Item-Block" id="sttuses">
+            <div>
+                <div className="Item-Block" id="pages">
                     <div className="Item-Header">
                         <h4>Pages</h4>
 

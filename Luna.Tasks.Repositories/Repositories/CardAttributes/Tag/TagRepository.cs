@@ -94,4 +94,15 @@ public class TagRepository : NpgsqlRepository, ITagRepository
 	{
 		return DeleteAsync("tag", nameof(id), id);
 	}
+
+	public async Task<bool> TrashTagAsync(Guid id)
+	{
+		var query = "UPDATE tag SET deleted = true WHERE id = $1";
+		var parameters = new NpgsqlParameter[]
+		{
+			new NpgsqlParameter() {Value = id},
+		};
+
+		return await ExecuteAsync(query, parameters);
+	}
 }

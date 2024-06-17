@@ -29,4 +29,6 @@ public interface IStatusService
 	public Task<Boolean> UpdateStatusAsync(Guid id, StatusBlank statusBlank, Guid userId);
 
 	public Task<Boolean> DeleteStatusAsync(Guid id, Guid userId);
+
+	public Task<Boolean> TrashStatusAsync(Guid id, Guid userId);
 }

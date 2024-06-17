@@ -17,4 +17,6 @@ public interface IStatusRepository
 	public Task<Boolean> UpdateStatusAsync(Guid id, StatusDatabase status);
 
 	public Task<Boolean> DeleteStatusAsync(Guid id);
+
+	public Task<Boolean> TrashStatusAsync(Guid id);
 }

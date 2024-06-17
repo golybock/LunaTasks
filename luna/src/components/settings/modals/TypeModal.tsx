@@ -61,11 +61,11 @@ export default class TypeModal extends React.Component<IProps, IState> {
 
                 <Modal.Body className="Modal-Content">
                     <Form>
-                        <Form.Label>Наименование</Form.Label>
+                        <Form.Label>Name</Form.Label>
                         <Form.Control value={this.state.typeBlank.name}
                                       onChange={(e) => this.headerChanged(e.target.value)}/>
 
-                        <Form.Label>Цвет</Form.Label>
+                        <Form.Label>Color</Form.Label>
                         <Form.Control type="color"
                                       value={this.state.typeBlank.hexColor}
                                       onChange={(e) => this.colorChanged(e.target.value)}/>

@@ -89,7 +89,7 @@ public class PageService : IPageService
 
 		var result = await _pageRepository.UpdatePageAsync(id, pageDatabase);
 
-		return result ? new OkObjectResult("Успешно обновлено") : new BadRequestObjectResult("Ошибка обновления");
+		return result ? new OkObjectResult("Completed") : new BadRequestObjectResult("Error update");
 	}
 
 	public async Task<IActionResult> ToTrashPageAsync(Guid id, Guid userId)
@@ -100,11 +100,11 @@ public class PageService : IPageService
 			return new NotFoundResult();
 
 		if (page.CreatedUserId != userId)
-			return new BadRequestObjectResult("Карточку может удалить только ее создатель");
+			return new BadRequestObjectResult("Page can delete only his creator");
 
 		var result = await _pageRepository.ToTrashPageAsync(id);
 
-		return result ? new OkObjectResult("Успешно удалено") : new BadRequestObjectResult("Ошибка удаления");
+		return result ? new OkObjectResult("Deleted") : new BadRequestObjectResult("Error");
 	}
 
 	public async Task<IActionResult> DeletePageAsync(Guid id, Guid userId)
@@ -116,7 +116,7 @@ public class PageService : IPageService
 
 		var result = await _pageRepository.DeletePageAsync(id);
 
-		return result ? new OkObjectResult("Успешно удалено") : new BadRequestObjectResult("Ошибка удаления");
+		return result ? new OkObjectResult("Deleted") : new BadRequestObjectResult("Page has tasks");
 	}
 
 	public async Task<Boolean> DeleteWorkspacePagesAsync(Guid workspaceId)

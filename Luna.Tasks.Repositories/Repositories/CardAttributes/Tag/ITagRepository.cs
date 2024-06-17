@@ -17,4 +17,6 @@ public interface ITagRepository
 	public Task<Boolean> UpdateTagAsync(Guid id, TagDatabase tag);
 
 	public Task<Boolean> DeleteTagAsync(Guid id);
+
+	public Task<Boolean> TrashTagAsync(Guid id);
 }

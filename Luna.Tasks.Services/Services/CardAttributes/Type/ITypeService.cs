@@ -25,4 +25,6 @@ public interface ITypeService
 	public Task<Boolean> UpdateTypeAsync(Guid id, TypeBlank type, Guid userId);
 
 	public Task<Boolean> DeleteTypeAsync(Guid id);
+
+	public Task<Boolean> TrashTypeAsync(Guid id);
 }

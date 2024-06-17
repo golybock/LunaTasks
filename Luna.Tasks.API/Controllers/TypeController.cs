@@ -50,7 +50,7 @@ public class TypeController : ControllerBase
 	[HttpDelete("[action]")]
 	public async Task<IActionResult> DeleteTypeAsync(Guid id)
 	{
-		var result = await _typeService.DeleteTypeAsync(id);
+		var result = await _typeService.TrashTypeAsync(id);
 
 		return result ? Ok() : BadRequest();
 	}

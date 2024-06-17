@@ -17,4 +17,6 @@ public interface ITypeRepository
 	public Task<Boolean> UpdateTypeAsync(Guid id, TypeDatabase type);
 
 	public Task<Boolean> DeleteTypeAsync(Guid id);
+
+	public Task<Boolean> TrashTypeAsync(Guid id);
 }
