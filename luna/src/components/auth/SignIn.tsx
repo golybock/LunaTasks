@@ -69,10 +69,10 @@ export default class SignIn extends React.Component<IProps, IState> {
                         <div className="App-Body-Content">
                             <Form>
 
-                                <Button className="btn btn-light btn-outline-secondary Outline-Button">Google</Button>
-                                <Button className="btn btn-light btn-outline-secondary Outline-Button">Not Google</Button>
+                                {/*<Button className="btn btn-light btn-outline-secondary Outline-Button">Google</Button>*/}
+                                {/*<Button className="btn btn-light btn-outline-secondary Outline-Button">Not Google</Button>*/}
 
-                                <hr/>
+                                {/*<hr/>*/}
 
                                 <Form.Control type="email"
                                               className="Form-Control"

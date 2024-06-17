@@ -1,17 +1,41 @@
 ﻿import React from "react";
 import "./Home.css"
+import {NavLink} from "react-router-dom";
+import IPageView from "../../models/page/IPageView";
+import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
+import {WorkspaceManager} from "../../tools/WorkspaceManager";
+import PageProvider from "../../provider/page/pageProvider";
 
 interface IProps {
 
 }
 
 interface IState {
-
+    pages: IPageView[];
 }
 
 export default class Home extends React.Component<IProps, IState> {
 
     headerUrl ="http://localhost:7005/woodcuts_14.jpg";
+
+    constructor(props: IProps) {
+        super(props);
+
+        this.state = {
+            pages: []
+        }
+    }
+
+    async componentDidMount() {
+        let workspaceId = WorkspaceManager.getWorkspace();
+
+        let pages = await PageProvider.getPages(workspaceId!);
+
+        const sliced = pages.slice(0, 2);
+
+        this.setState({pages: sliced})
+    }
+
 
     render() {
         return (
@@ -31,16 +55,25 @@ export default class Home extends React.Component<IProps, IState> {
                             <div className="Link-Block">
                                 <h4>Daily</h4>
                                 <hr/>
-                                {/*todo make this to link*/}
-                                <p>Your active tasks</p>
-                                <p>Your tasks</p>
+                                {this.state.pages && (
+                                    this.state.pages.map((item) => {
+                                       return (
+                                           <NavLink to={"/page/" + item.id}>
+                                                <p>{item.name}</p>
+                                           </NavLink>
+                                       )
+                                    })
+                                )}
                             </div>
                             <div className="Link-Block">
                                 <h4>Management</h4>
                                 <hr/>
-                                {/*todo make this to link*/}
-                                <p>View statistic</p>
-                                <p>Settings</p>
+                                <NavLink to="/statistic">
+                                    <p>View statistic</p>
+                                </NavLink>
+                                <NavLink to="/settings">
+                                    <p>Settings</p>
+                                </NavLink>
                             </div>
                         </div>
                     </div>
