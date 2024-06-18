@@ -61,7 +61,7 @@ export default class SignUp extends React.Component<IProps, IState> {
                             <label>Luna</label>
                         </div>
                         <div className="App-Header-Language">
-                            <label>Language</label>
+                            <label>English</label>
                         </div>
                     </div>
                     <div className="App-Body">
@@ -71,8 +71,8 @@ export default class SignUp extends React.Component<IProps, IState> {
                         <div className="App-Body-Content">
                             <Form>
 
-                                <Button className="btn btn-light btn-outline-secondary Outline-Button">Google</Button>
-                                <Button className="btn btn-light btn-outline-secondary Outline-Button">Not Google</Button>
+                                {/*<Button className="btn btn-light btn-outline-secondary Outline-Button">Google</Button>*/}
+                                {/*<Button className="btn btn-light btn-outline-secondary Outline-Button">Not Google</Button>*/}
 
                                 <hr/>
 
@@ -114,8 +114,8 @@ export default class SignUp extends React.Component<IProps, IState> {
                             <NavLink to="/signIn">
                                 <label>I already have account</label>
                             </NavLink>
-                            <label>Forgot pass?</label>
-                            <label>privacy</label>
+                            {/*<label>Forgot pass?</label>*/}
+                            {/*<label>privacy</label>*/}
                         </div>
 
                     </div>

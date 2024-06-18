@@ -56,7 +56,7 @@ export default class SignIn extends React.Component<IProps, IState> {
                             <label>Luna</label>
                         </div>
                         <div className="App-Header-Language">
-                            <label>Language</label>
+                            <label>English</label>
                         </div>
                     </div>
 
@@ -104,8 +104,8 @@ export default class SignIn extends React.Component<IProps, IState> {
                             <NavLink to="/signUp">
                                 <label>No account?</label>
                             </NavLink>
-                            <label>Forgot pass?</label>
-                            <label>privacy</label>
+                            {/*<label>Forgot pass?</label>*/}
+                            {/*<label>privacy</label>*/}
                         </div>
 
                     </div>

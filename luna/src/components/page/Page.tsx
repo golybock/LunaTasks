@@ -195,14 +195,14 @@ class PageComponent extends React.Component<IProps, IState> {
                                             </Button>
                                         </ButtonGroup>
 
-                                        <div className="Button Page-Content-Toolbar-Select">
-                                            <DarkAsyncSelect isMulti={false}
-                                                             cacheOptions
-                                                             defaultOptions
-                                                             value={this.state.filterUserId}
-                                                             loadOptions={this.getUsers}
-                                                             onChange={(e: SingleValue<IOption>) => this.userSelected(e)}/>
-                                        </div>
+                                        {/*<div className="Button Page-Content-Toolbar-Select">*/}
+                                        {/*    <DarkAsyncSelect isMulti={false}*/}
+                                        {/*                     cacheOptions*/}
+                                        {/*                     defaultOptions*/}
+                                        {/*                     value={this.state.filterUserId}*/}
+                                        {/*                     loadOptions={this.getUsers}*/}
+                                        {/*                     onChange={(e: SingleValue<IOption>) => this.userSelected(e)}/>*/}
+                                        {/*</div>*/}
                                     </div>
 
                                     <div className="Page-Content-Toolbar-Item">
