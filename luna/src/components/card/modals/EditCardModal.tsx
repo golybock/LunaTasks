@@ -369,7 +369,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                 <Form.Label>Comments</Form.Label>
                                                 <InputGroup className="mb-3">
                                                     <Form.Control
-                                                        placeholder="Введите текст комментария"
+                                                        placeholder="Enter text here"
                                                         value={this.state.commentText}
                                                         onChange={(e) => {
                                                             this.setState({commentText: e.target.value})
