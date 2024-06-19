@@ -102,6 +102,7 @@ export default class SignUp extends React.Component<IProps, IState> {
 
                                 <Button className="btn Primary-Button"
                                         onClick={async () => {
+                                            console.log("signup")
                                             await this.signUp();
                                         }}>
                                     Регистрация

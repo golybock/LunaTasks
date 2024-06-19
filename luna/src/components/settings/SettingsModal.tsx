@@ -74,7 +74,7 @@ export default class SettingsModal extends React.Component<IProps, IState> {
                     <Modal show dialogClassName="Settings-Modal" onHide={() => this.close()}>
 
                         <Modal.Header closeButton>
-                            <Modal.Title>Settings</Modal.Title>
+                            <Modal.Title>Настройки</Modal.Title>
                         </Modal.Header>
 
                         <div className="Settings-Modal-Body">

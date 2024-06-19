@@ -57,7 +57,7 @@ class InviteWorkspacePageContent extends React.Component<IProps, IState> {
                         {!this.state.info && (
                             <div className="Invite-Accept">
                                 <span>Хотите присоедениться к этому пространству?</span>
-                                <Button onClick={() => this.joinWorkspace()}>Join</Button>
+                                <Button onClick={() => this.joinWorkspace()}>Войти</Button>
                             </div>
                         )}
                         {this.state.info && (

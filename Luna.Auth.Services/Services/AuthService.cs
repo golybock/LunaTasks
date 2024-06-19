@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using Luna.Auth.Repositories.Repositories;
 using Luna.Models.Auth.Blank.Auth;
 using Luna.Models.Auth.Database.Auth;
@@ -34,6 +35,9 @@ public class AuthService: IAuthService
 	public async Task<IActionResult> SignIn(SignInBlank signInBlank, HttpContext context)
 	{
 		var user = await _userService.GetUserAsync(signInBlank.Email);
+
+
+        Console.WriteLine(JsonSerializer.Serialize(user));
 
 		if (user == null)
 			return new UnauthorizedObjectResult("User not found");
@@ -84,6 +88,8 @@ public class AuthService: IAuthService
 	{
 		var user = await _userService.GetUserAsync(signUpBlank.Email);
 
+		Console.WriteLine(JsonSerializer.Serialize(user));
+
 		if (user != null)
 			return new BadRequestObjectResult("User already registered");
 
@@ -133,7 +139,7 @@ public class AuthService: IAuthService
 		var authModel = new AuthModelView()
 		{
 			Token = tokenString,
-			UserId = user.Id.ToString()
+			UserId = newUserId.ToString()
 		};
 
 		return new OkObjectResult(authModel);

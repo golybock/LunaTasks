@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using System.Text.Json;
+using Grpc.Core;
 using Luna.Models.Notification.Blank.Notification;
 using Luna.SharedDataAccess.Notification.Services;
 using Luna.Users.Grpc.Extensions;
@@ -55,6 +56,8 @@ public class UsersService : Grpc.UsersService.UsersServiceBase
 
 	public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
 	{
+		Console.WriteLine(JsonSerializer.Serialize(request.UserBlank));
+
 		var result = await _userService.CreateUserAsync(request.UserBlank.ToUserBlank());
 
 		if (result != Guid.Empty)
