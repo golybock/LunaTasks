@@ -56,16 +56,16 @@ export default class TypeModal extends React.Component<IProps, IState> {
         return (
             <Modal show onHide={() => this.props.closeModal()}>
                 <Modal.Header closeButton className="Modal-Header">
-                    <Modal.Title>Create type</Modal.Title>
+                    <Modal.Title>Создание типа</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body className="Modal-Content">
                     <Form>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Наименование</Form.Label>
                         <Form.Control value={this.state.typeBlank.name}
                                       onChange={(e) => this.headerChanged(e.target.value)}/>
 
-                        <Form.Label>Color</Form.Label>
+                        <Form.Label>Цвет</Form.Label>
                         <Form.Control type="color"
                                       value={this.state.typeBlank.hexColor}
                                       onChange={(e) => this.colorChanged(e.target.value)}/>
@@ -74,8 +74,8 @@ export default class TypeModal extends React.Component<IProps, IState> {
                 </Modal.Body>
 
                 <Modal.Footer className="Modal-Footer">
-                    <Button className="btn Primary-Button" onClick={() => this.saveType()}>Save</Button>
-                    <Button className="btn Primary-Button" onClick={() => this.props.closeModal()}>Cancel</Button>
+                    <Button className="btn Primary-Button" onClick={() => this.saveType()}>Сохранить</Button>
+                    <Button className="btn Primary-Button" onClick={() => this.props.closeModal()}>Отмена</Button>
                 </Modal.Footer>
             </Modal>
         );

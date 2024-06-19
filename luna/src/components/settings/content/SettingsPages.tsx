@@ -60,7 +60,7 @@ export default class SettingsPages extends React.Component<IProps, IState> {
             <div>
                 <div className="Item-Block" id="pages">
                     <div className="Item-Header">
-                        <h4>Pages</h4>
+                        <h4>Страницы</h4>
 
                         {this.state.pages.length < 5 && (
                             <button className="btn Outline-Button" onClick={() => this.showPageModal()}>+</button>
@@ -81,7 +81,7 @@ export default class SettingsPages extends React.Component<IProps, IState> {
                             })
                         )
                         :
-                        (<div>No elements</div>)}
+                        (<div>Нет элементов</div>)}
                 </div>
                 {this.state.showPageModal && (
                     <PageModal pageId={null} closeModal={() => this.closePageModal()}/>

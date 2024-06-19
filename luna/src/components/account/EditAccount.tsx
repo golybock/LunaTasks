@@ -82,38 +82,37 @@ export default class EditAccount extends React.Component<IProps, IState> {
                             <img src={this.state.userBlank?.image ?? "/icons/account_circle.svg"} alt=""/>
                         </div>
                         <div className="User-Info-Data">
-                            <h1>Welcome {this.state.userBlank?.username}</h1>
-                            <label>Its your profile</label>
+                            <h1>Добро пожаловать {this.state.userBlank?.username}</h1>
                         </div>
                     </div>
                     <hr/>
                     <div className="Data">
                         <div className="Data-Block">
-                            <label>Username</label>
+                            <label>Имя пользователя</label>
                             <Form.Control value={this.state.userBlank?.username} disabled/>
-                            <label>Email</label>
+                            <label>Почта</label>
                             <Form.Control value={this.state.userBlank?.email}
                                           onChange={(e) => this.changeEmail(e.target.value)}/>
                         </div>
                         <div className="Data-Block">
-                            <label>Phone</label>
+                            <label>Номер телефона</label>
                             <Form.Control value={this.state.userBlank?.phoneNumber}
                                           onChange={(e) => this.changePhone(e.target.value)}/>
-                            {!this.state.user?.emailConfirmed && (
-                                <div style={{display: "flex", flexDirection: "column"}}>
-                                    <label>Your email not confirmed</label>
-                                    <Button className="btn Primary-Button" onClick={async () => {
-                                        // const res = await UserProvider.updateUser(this.state.userBlank!);
-                                        //
-                                        // if(res){
-                                        //     NotificationManager.makeSuccess("Account updated!")
-                                        //     window.location.assign("/account")
-                                        // }else{
-                                        //     NotificationManager.makeError("Account not updated")
-                                        // }
-                                    }}>Confirm email</Button>
-                                </div>
-                            )}
+                            {/*{!this.state.user?.emailConfirmed && (*/}
+                            {/*    <div style={{display: "flex", flexDirection: "column"}}>*/}
+                            {/*        <label>Your email not confirmed</label>*/}
+                            {/*        <Button className="btn Primary-Button" onClick={async () => {*/}
+                            {/*            // const res = await UserProvider.updateUser(this.state.userBlank!);*/}
+                            {/*            //*/}
+                            {/*            // if(res){*/}
+                            {/*            //     NotificationManager.makeSuccess("Account updated!")*/}
+                            {/*            //     window.location.assign("/account")*/}
+                            {/*            // }else{*/}
+                            {/*            //     NotificationManager.makeError("Account not updated")*/}
+                            {/*            // }*/}
+                            {/*        }}>Confirm email</Button>*/}
+                            {/*    </div>*/}
+                            {/*)}*/}
                         </div>
                     </div>
                     <Button className="btn Primary-Button Content-Button" onClick={async () => {
@@ -125,7 +124,7 @@ export default class EditAccount extends React.Component<IProps, IState> {
                         }else{
                             NotificationManager.makeError("Account not updated")
                         }
-                    }}>Save</Button>
+                    }}>Сохранить</Button>
                 </div>
                 {this.state.showModal && (
                     <SelectImageModal closeModal={() => this.hideModal()}

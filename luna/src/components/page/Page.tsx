@@ -183,7 +183,7 @@ class PageComponent extends React.Component<IProps, IState> {
                                                     }}>
                                                 <div>
                                                     <img className="Icon" src={"/icons/table.svg"}/>
-                                                    <label>Table</label>
+                                                    <label>Таблица</label>
                                                 </div>
                                             </Button>
                                             <Button className="Outline-Button"
@@ -191,7 +191,7 @@ class PageComponent extends React.Component<IProps, IState> {
                                                         this.setState({displayMode: CardDisplayMode.Card});
                                                     }}>
                                                 <img className="Icon" src={"/icons/cards.svg"}/>
-                                                <label>Cards</label>
+                                                <label>Карточки</label>
                                             </Button>
                                         </ButtonGroup>
 
@@ -210,7 +210,7 @@ class PageComponent extends React.Component<IProps, IState> {
                                             this.setState({showModal: true})
                                         }}>
 
-                                            <label>Create new</label>
+                                            <label>Создать</label>
                                         </Button>
 
                                         <Button className="Secondary-Button Button" onClick={async () => {

@@ -68,7 +68,7 @@ export default class ChartsPage extends React.Component<IProps, IState>{
                     <div>
                         <div className="Header">
                             <div className="Chart-Header">
-                                <h1>Statistic page</h1>
+                                <h1>Статистика</h1>
                             </div>
                         </div>
                         <div className="Items">

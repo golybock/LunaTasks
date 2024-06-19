@@ -58,7 +58,7 @@ export default class SettingsStatuses extends React.Component<IProps, IState> {
             <div className="Settings-Statuses">
                 <div className="Item-Block" id="sttuses">
                     <div className="Item-Header">
-                        <h4>Statuses</h4>
+                        <h4>Статусы</h4>
                         <button className="btn Outline-Button" onClick={() => this.showStatusModal()}>+
                         </button>
                     </div>
@@ -78,7 +78,7 @@ export default class SettingsStatuses extends React.Component<IProps, IState> {
                             })
                         )
                         :
-                        (<div>No elements</div>)}
+                        (<div>Нет элементов</div>)}
                 </div>
                     {this.state.showStatusModal && (
                         <StatusModal closeModal={() => this.closeStatusModal()}/>

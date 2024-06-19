@@ -63,7 +63,7 @@ export default class SettingsUsers extends React.Component<IProps, IState> {
             <div className="Settings-Users">
                 <div className="Item-Block" id="users">
                     <div className="Item-Header">
-                        <h4>Users</h4>
+                        <h4>Пользователи</h4>
                         <Button className="btn Outline-Button" onClick={() => this.copyInviteLink()}>+
                         </Button>
                     </div>
@@ -81,7 +81,7 @@ export default class SettingsUsers extends React.Component<IProps, IState> {
                                 </div>)
                             })
                         ) :
-                        (<div>No elements</div>)
+                        (<div>Нет элементов</div>)
                     }
                 </div>
             </div>

@@ -33,27 +33,27 @@ export default class SettingsModal extends React.Component<IProps, IState> {
     defaultMenuItems = [
         {
             href: SettingsSections.Tags,
-            title: "Tags",
+            title: "Теги",
             image: null
         },
         {
             href: SettingsSections.Statuses,
-            title: "Statuses",
+            title: "Статусы",
             image: null
         },
         {
             href: SettingsSections.Types,
-            title: "Types",
+            title: "Типы",
             image: null
         },
         {
             href: SettingsSections.Users,
-            title: "Users",
+            title: "Пользователи",
             image: null
         },
         {
             href: SettingsSections.Pages,
-            title: "Pages",
+            title: "Страницы",
             image: null
         },
         // {

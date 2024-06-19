@@ -29,13 +29,29 @@ export default class Home extends React.Component<IProps, IState> {
     async componentDidMount() {
         let workspaceId = WorkspaceManager.getWorkspace();
 
-        let pages = await PageProvider.getPages(workspaceId!);
+        if(workspaceId){
+            let pages = await PageProvider.getPages(workspaceId);
 
-        const sliced = pages.slice(0, 2);
+            const sliced = pages.slice(0, 2);
 
-        this.setState({pages: sliced})
+            this.setState({pages: sliced})
+        }
     }
 
+
+    async componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any) {
+        if(prevProps != this.props){
+            let workspaceId = WorkspaceManager.getWorkspace();
+
+            if(workspaceId){
+                let pages = await PageProvider.getPages(workspaceId);
+
+                const sliced = pages.slice(0, 2);
+
+                this.setState({pages: sliced})
+            }
+        }
+    }
 
     render() {
         return (
@@ -47,13 +63,13 @@ export default class Home extends React.Component<IProps, IState> {
                     <div>
                         <div className="Header">
                             <div>
-                                <h1>Personal home</h1>
-                                <label>Organize everything this</label>
+                                <h1>Домашняя страница</h1>
+                                <label>Подсказки для вас</label>
                             </div>
                         </div>
                         <div className="Links">
                             <div className="Link-Block">
-                                <h4>Daily</h4>
+                                <h4>Задачи</h4>
                                 <hr/>
                                 {this.state.pages && (
                                     this.state.pages.map((item) => {
@@ -66,13 +82,13 @@ export default class Home extends React.Component<IProps, IState> {
                                 )}
                             </div>
                             <div className="Link-Block">
-                                <h4>Management</h4>
+                                <h4>Управлениие</h4>
                                 <hr/>
                                 <NavLink to="/statistic">
-                                    <p>View statistic</p>
+                                    <p>Статистика</p>
                                 </NavLink>
                                 <NavLink to="/settings">
-                                    <p>Settings</p>
+                                    <p>Настройка</p>
                                 </NavLink>
                             </div>
                         </div>

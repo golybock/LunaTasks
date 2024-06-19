@@ -53,25 +53,25 @@ export default class Account extends React.Component<IProps, IState> {
                                 <img src={this.state.user?.image ?? "/icons/account_circle.svg"} alt=""/>
                             </div>
                             <div className="User-Info-Data">
-                                <h1>Welcome {this.state.user?.username}</h1>
-                                <label>Its your profile</label>
+                                <h1>Добро пожаловать {this.state.user?.username}</h1>
+                                <label>Это ваш профиль</label>
                             </div>
                             <Button className="btn Primary-Button" onClick={() => {
                                 window.location.assign("/editAccount")
                             }}>
-                                Edit
+                                Редактировать
                             </Button>
                         </div>
                         <div className="Links">
                             <div className="Link-Block">
-                                <h4>User info</h4>
+                                <h4>Информация</h4>
                                 <hr/>
-                                <label>Email: {this.state.user?.email}</label>
-                                <label>Registration date: {(new Date(this.state.user?.createdTimestamp ?? "")).toDateString()}</label>
-                                <label>Phone: {this.state.user?.phoneNumber == "" ? "-" : this.state.user?.phoneNumber}</label>
-                                <ThemeProvider theme={darkTheme}>
-                                    <FormControlLabel control={<Checkbox checked={this.state.user?.emailConfirmed} disabled/>} label="Email confirmed" />
-                                </ThemeProvider>
+                                <label>Почта: {this.state.user?.email}</label>
+                                <label>Дата регистрации: {(new Date(this.state.user?.createdTimestamp ?? "")).toDateString()}</label>
+                                <label>Номер телефона: {this.state.user?.phoneNumber == "" ? "-" : this.state.user?.phoneNumber}</label>
+                                {/*<ThemeProvider theme={darkTheme}>*/}
+                                {/*    <FormControlLabel control={<Checkbox checked={this.state.user?.emailConfirmed} disabled/>} label="Email confirmed" />*/}
+                                {/*</ThemeProvider>*/}
 
                             </div>
                         </div>

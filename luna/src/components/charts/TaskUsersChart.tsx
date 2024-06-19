@@ -77,7 +77,7 @@ export default class TaskUsersChart extends React.Component<IProps, IState> {
         return (
             <div>
                 <div className="Chart-Header">
-                    <h2>{this.state.totalTasks} total tasks</h2>
+                    <h2>{this.state.totalTasks} всего задач</h2>
                     {/*<Form.Select className="Date-Picker">*/}
                     {/*    <option value="1">1 Month</option>*/}
                     {/*    <option value="2">3 Months</option>*/}

@@ -305,7 +305,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
 
                         <Modal.Header closeButton>
                             <Modal.Title
-                                className="Modal-Header">{this.props.cardId == null ? "Create task" : "Edit task"}</Modal.Title>
+                                className="Modal-Header">{this.props.cardId == null ? "Создание задачи" : "Редактирование задачи"}</Modal.Title>
                         </Modal.Header>
 
                         <Modal.Body className="Modal-Content">
@@ -315,20 +315,20 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                     <div className="Modal-Body-Header">
                                         <div className="Modal-Body-Item">
 
-                                            <Form.Label>Header</Form.Label>
+                                            <Form.Label>Заголовок</Form.Label>
                                             <Form.Control value={this.state.cardBlank?.header || ""}
                                                           onChange={(e) => this.headerChanged(e.target.value)}/>
 
-                                            <Form.Label>Description</Form.Label>
+                                            <Form.Label>Описание</Form.Label>
                                             <Form.Control value={this.state.cardBlank?.description || ""}
                                                           onChange={(e) => this.descriptionChanged(e.target.value)}/>
 
-                                            <Form.Label>Deadline</Form.Label>
+                                            <Form.Label>Дедлайн</Form.Label>
                                             <Form.Control value={this.state.cardBlank?.deadline || ""}
                                                           type="date"
                                                           onChange={(e) => this.deadlineChanged(e.target.value)}/>
 
-                                            <Form.Label>Type</Form.Label>
+                                            <Form.Label>Тип</Form.Label>
                                             <DarkAsyncSelect isMulti={false}
                                                              cacheOptions
                                                              defaultOptions
@@ -339,7 +339,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
 
                                         </div>
                                         <div className="Modal-Body-Item">
-                                            <Form.Label>Status</Form.Label>
+                                            <Form.Label>Статус</Form.Label>
                                             <DarkAsyncSelect isMulti={false}
                                                              cacheOptions
                                                              defaultOptions
@@ -347,7 +347,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                              loadOptions={this.getStatuses}
                                                              onChange={(e: SingleValue<IOption>) => this.statusSelected(e)}/>
 
-                                            <Form.Label>Users</Form.Label>
+                                            <Form.Label>Пользователи</Form.Label>
                                             <DarkAsyncSelect isMulti={true}
                                                              cacheOptions
                                                              defaultOptions
@@ -355,7 +355,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                              loadOptions={this.getUsers}
                                                              onChange={(e: MultiValue<IOption>) => this.userSelected(e)}/>
 
-                                            <Form.Label>Tags</Form.Label>
+                                            <Form.Label>Теги</Form.Label>
                                             <DarkAsyncSelect isMulti={true}
                                                              cacheOptions
                                                              defaultOptions
@@ -366,7 +366,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                         </div>
                                         {this.props.cardId && (
                                             <div className="Modal-Body-Item">
-                                                <Form.Label>Comments</Form.Label>
+                                                <Form.Label>Комментарии</Form.Label>
                                                 <InputGroup className="mb-3">
                                                     <Form.Control
                                                         placeholder="Enter text here"
@@ -386,7 +386,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                         const res = await CommentProvider.createComment(commentBlank);
 
                                                         if(res){
-                                                            NotificationManager.makeSuccess("Comment sent");
+                                                            NotificationManager.makeSuccess("Комментарий добавлен");
 
                                                             // load comments
                                                             this.state.cardView?.comments?.push({
@@ -402,7 +402,7 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                             return;
                                                         }
 
-                                                        NotificationManager.makeSuccess("Error");
+                                                        NotificationManager.makeSuccess("Ошибка отправки комментария");
 
                                                     }}>{">"}</InputGroup.Text>
                                                 </InputGroup>
@@ -411,14 +411,14 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                                                     ) :
                                                     (
                                                         <div>
-                                                            No comments
+                                                            Нет комментариев
                                                         </div>
                                                     )
                                                 }
                                             </div>
                                         )}
                                     </div>
-                                    <Form.Label>Text</Form.Label>
+                                    <Form.Label>Текст задачи</Form.Label>
                                     <ReactQuill theme="snow"
                                                 value={this.state.rteValue ?? ""}
                                                 onChange={(value) => this.contentChanged(value)}/>
@@ -427,9 +427,8 @@ export default class EditCardModal extends React.Component<IProps, IState> {
                         </Modal.Body>
 
                         <Modal.Footer className="Modal-Footer">
-                            <Button className="btn Primary-Button" onClick={() => this.saveCard()}>Save</Button>
-                            <Button className="btn Primary-Button"
-                                    onClick={() => this.props.closeModal()}>Cancel</Button>
+                            <Button className="btn Primary-Button" onClick={() => this.saveCard()}>Сохранить</Button>
+                            <Button className="btn Primary-Button" onClick={() => this.props.closeModal()}>Отмена</Button>
                         </Modal.Footer>
                     </Modal>
                 )}

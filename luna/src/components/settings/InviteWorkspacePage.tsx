@@ -71,7 +71,7 @@ class InviteWorkspacePageContent extends React.Component<IProps, IState> {
                 {!this.state.workspace && (
                     <div>
                         <div className="Toolbar-Items">
-                            <label>Invalid link"</label>
+                            <label>Неверная ссылка"</label>
                             <Button className="btn btn-light btn-outline-secondary Outline-Button" onClick={this.goToHomePage}>Назад</Button>
                         </div>
                     </div>

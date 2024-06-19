@@ -7,7 +7,7 @@ export default class Loading extends React.Component<any, any>{
         return (
             <div className="Loading-Page">
                 <Spinner className="Loader" animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
+                    <span className="visually-hidden">Загрузка...</span>
                 </Spinner>
             </div>
         );

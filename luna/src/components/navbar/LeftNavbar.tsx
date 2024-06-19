@@ -47,22 +47,22 @@ export class LeftNavbar extends React.Component<IProps, IState> {
     defaultMenuItems = [
         {
             href: "/",
-            title: "Home",
+            title: "Домашняя",
             image: "/icons/home.svg"
         },
         {
             href: "/account",
-            title: "Account",
+            title: "Аккаунт",
             image: "/icons/account.svg"
         },
         {
             href: "/settings",
-            title: "Settings",
+            title: "Настройки",
             image: "/icons/settings.svg"
         },
         {
             href: "/statistic",
-            title: "Statistic",
+            title: "Статистика",
             image: "/icons/statistic.svg"
         }
     ];
@@ -167,7 +167,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                                                    className="Workspace-Dropdown-Item">
                                         <button className="Outline-Button Workspace-Button" onClick={() => {
                                             this.openWorkspaceModal();
-                                        }}>New</button>
+                                        }}>Создать</button>
                                     </Dropdown.Item>
                                 </Dropdown.Menu>
 
@@ -193,7 +193,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                     <div className="Sign-Out" onClick={() => AuthWrapper.userSignOut()}>
                         <button className="btn btn-outline-secondary">
                             <img src={"/icons/signOut.svg"} alt="" width="30" height="30"/>
-                            <label>SignOut</label>
+                            <label>Выйти</label>
                         </button>
                     </div>
                 </aside>

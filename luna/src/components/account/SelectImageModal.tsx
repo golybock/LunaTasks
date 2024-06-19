@@ -32,7 +32,7 @@ export default class SelectImageModal extends React.Component<IProps, IState> {
             <div>
                 <Modal show onHide={() => this.props.closeModal()}>
                     <Modal.Header closeButton className="Header-Data">
-                        <Modal.Title>Change user image</Modal.Title>
+                        <Modal.Title>Выбор изображения</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="Form">
                         <div className="User-Info Form-Element">
@@ -46,8 +46,8 @@ export default class SelectImageModal extends React.Component<IProps, IState> {
                                           const files = (e.target as HTMLInputElement).files;
                                           this.setState({formFile: files})
 
-                                          var path = await DataProvider.createFile(WorkspaceManager.getWorkspace() ?? "", files![0])
-                                          var file = DataProvider.getFilePath(path)
+                                          const path = await DataProvider.createFile(WorkspaceManager.getWorkspace() ?? "", files![0])
+                                          const file = DataProvider.getFilePath(path)
 
                                           this.setState({imagePath: file})
                                       }}/>
@@ -56,7 +56,7 @@ export default class SelectImageModal extends React.Component<IProps, IState> {
                                     this.props.changeImage(this.state.imagePath)
                                     this.props.closeModal()
                                 }}>
-                            Save
+                            Сохранить
                         </button>
                     </Modal.Body>
                 </Modal>

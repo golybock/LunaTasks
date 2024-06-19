@@ -60,7 +60,7 @@ export default class SettingsTypes extends React.Component<IProps, IState> {
             <div className="Settings-Types">
                 <div className="Item-Block" id="types">
                     <div className="Item-Header">
-                        <h4>Types</h4>
+                        <h4>Типы</h4>
                         <Button className="btn Outline-Button" onClick={() => this.showTypeModal()}>+
                         </Button>
                     </div>
@@ -80,7 +80,7 @@ export default class SettingsTypes extends React.Component<IProps, IState> {
                             })
                         )
                         :
-                        (<div>No elements</div>)
+                        (<div>Нет элементов</div>)
                     }
                 </div>
                     {this.state.showTypeModal && (

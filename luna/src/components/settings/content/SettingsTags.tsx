@@ -57,7 +57,7 @@ export default class SettingsTags extends React.Component<IProps, IState> {
             <div className="Settings-Tags">
                 <div className="Item-Block" id="tags">
                     <div className="Item-Header">
-                        <h4>Tags</h4>
+                        <h4>Теги</h4>
                         <button className="btn Outline-Button" onClick={() => this.showTagModal()}>+
                         </button>
                     </div>
@@ -76,7 +76,7 @@ export default class SettingsTags extends React.Component<IProps, IState> {
                                 </div>)
                             })
                         ) :
-                        <div>No elements</div>
+                        <div>Нет элементов</div>
                     }
                 </div>
                     {this.state.showTagsModal && (

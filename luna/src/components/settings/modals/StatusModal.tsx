@@ -56,16 +56,16 @@ export default class StatusModal extends React.Component<IProps, IState> {
         return (
             <Modal show onHide={() => this.props.closeModal()}>
                 <Modal.Header closeButton className="Modal-Header">
-                    <Modal.Title>Create status</Modal.Title>
+                    <Modal.Title>Создать статус</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body className="Modal-Content">
                     <Form>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Наименование</Form.Label>
                         <Form.Control value={this.state.statusBlank.name}
                                       onChange={(e) => this.headerChanged(e.target.value)}/>
 
-                        <Form.Label>Color</Form.Label>
+                        <Form.Label>Цвет</Form.Label>
                         <Form.Control type="color"
                                       value={this.state.statusBlank.hexColor}
                                       onChange={(e) => this.colorChanged(e.target.value)}/>
@@ -74,8 +74,8 @@ export default class StatusModal extends React.Component<IProps, IState> {
                 </Modal.Body>
 
                 <Modal.Footer className="Modal-Footer">
-                    <Button className="btn Primary-Button" onClick={() => this.saveStatus()}>Save</Button>
-                    <Button className="btn Primary-Button" onClick={() => this.props.closeModal()}>Cancel</Button>
+                    <Button className="btn Primary-Button" onClick={() => this.saveStatus()}>Сохранить</Button>
+                    <Button className="btn Primary-Button" onClick={() => this.props.closeModal()}>Отмена</Button>
                 </Modal.Footer>
             </Modal>
         );

@@ -56,14 +56,14 @@ export default class SignIn extends React.Component<IProps, IState> {
                             <label>Luna</label>
                         </div>
                         <div className="App-Header-Language">
-                            <label>English</label>
+                            <label>Русский</label>
                         </div>
                     </div>
 
                     <div className="App-Body">
 
                         <div className="App-Body-Header">
-                            <h1>Sign In</h1>
+                            <h1>Вход</h1>
                         </div>
 
                         <div className="App-Body-Content">
@@ -76,7 +76,7 @@ export default class SignIn extends React.Component<IProps, IState> {
 
                                 <Form.Control type="email"
                                               className="Form-Control"
-                                              placeholder="Enter email here..."
+                                              placeholder="Введите почту..."
                                               value={this.state.email}
                                               onChange={(e) => {
                                                   this.setState({email: e.target.value})
@@ -84,7 +84,7 @@ export default class SignIn extends React.Component<IProps, IState> {
 
                                 <Form.Control type="password"
                                               className="Form-Control"
-                                              placeholder="Enter password here..."
+                                              placeholder="Введите пароль..."
                                               value={this.state.password}
                                               onChange={(e) => {
                                                   this.setState({password: e.target.value})
@@ -94,7 +94,7 @@ export default class SignIn extends React.Component<IProps, IState> {
                                         onClick={async () => {
                                             await this.signIn();
                                         }}>
-                                    Continue
+                                    Войти
                                 </Button>
 
                             </Form>
@@ -102,7 +102,7 @@ export default class SignIn extends React.Component<IProps, IState> {
 
                         <div className="App-Body-Footer">
                             <NavLink to="/signUp">
-                                <label>No account?</label>
+                                <label>Регистрация</label>
                             </NavLink>
                             {/*<label>Forgot pass?</label>*/}
                             {/*<label>privacy</label>*/}

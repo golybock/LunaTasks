@@ -123,38 +123,38 @@ export default class PageModal extends React.Component<IProps, IState> {
         return (
             <Modal show onHide={() => this.props.closeModal()}>
                 <Modal.Header closeButton className="Modal-Header">
-                    <Modal.Title>Create page</Modal.Title>
+                    <Modal.Title>Создание страницы</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body className="Modal-Content">
                     <Form>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Наименование</Form.Label>
                         <Form.Control value={this.state.pageBlank?.name}
                                       onChange={(e) => this.headerChanged(e.target.value)}/>
 
-                        <Form.Label>Description</Form.Label>
+                        <Form.Label>Описание</Form.Label>
                         <Form.Control type="text"
                                       value={this.state.pageBlank?.description}
                                       onChange={(e) => this.descriptionChanged(e.target.value)}/>
 
-                        <Form.Label>Image url</Form.Label>
-                        <Form.Control type="text"
-                                      value={this.state.pageBlank?.headerImage}
-                                      onChange={(e) => this.imageChanged(e.target.value)}/>
+                        {/*<Form.Label>Ссылка на картинку</Form.Label>*/}
+                        {/*<Form.Control type="text"*/}
+                        {/*              value={this.state.pageBlank?.headerImage}*/}
+                        {/*              onChange={(e) => this.imageChanged(e.target.value)}/>*/}
 
-                        {this.state.pageBlank?.headerImage && (
-                            <div>
-                                <Form.Label>Preview</Form.Label>
-                                <img src={this.state.pageBlank?.headerImage}/>
-                            </div>
-                        )}
+                        {/*{this.state.pageBlank?.headerImage && (*/}
+                        {/*    <div>*/}
+                        {/*        <Form.Label>Preview</Form.Label>*/}
+                        {/*        <img src={this.state.pageBlank?.headerImage}/>*/}
+                        {/*    </div>*/}
+                        {/*)}*/}
 
                     </Form>
                 </Modal.Body>
 
                 <Modal.Footer className="Modal-Footer">
-                    <Button className="btn Primary-Button" onClick={() => this.savePage()}>Save</Button>
-                    <Button className="btn Primary-Button" onClick={() => this.props.closeModal()}>Cancel</Button>
+                    <Button className="btn Primary-Button" onClick={() => this.savePage()}>Сохранить</Button>
+                    <Button className="btn Primary-Button" onClick={() => this.props.closeModal()}>Отмена</Button>
                 </Modal.Footer>
             </Modal>
         );

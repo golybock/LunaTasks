@@ -61,12 +61,12 @@ export default class SignUp extends React.Component<IProps, IState> {
                             <label>Luna</label>
                         </div>
                         <div className="App-Header-Language">
-                            <label>English</label>
+                            <label>Русский</label>
                         </div>
                     </div>
                     <div className="App-Body">
                         <div className="App-Body-Header">
-                            <h1>Sign Up</h1>
+                            <h1>Регистрация</h1>
                         </div>
                         <div className="App-Body-Content">
                             <Form>
@@ -78,7 +78,7 @@ export default class SignUp extends React.Component<IProps, IState> {
 
                                 <Form.Control type="email"
                                               className="Form-Control"
-                                              placeholder="Enter email here..."
+                                              placeholder="Введите почту..."
                                               value={this.state.email}
                                               onChange={(e) => {
                                                   this.setState({email: e.target.value})
@@ -86,7 +86,7 @@ export default class SignUp extends React.Component<IProps, IState> {
 
                                 <Form.Control type="text"
                                               className="Form-Control"
-                                              placeholder="Enter username here..."
+                                              placeholder="Введите имя пользователя..."
                                               value={this.state.username}
                                               onChange={(e) => {
                                                   this.setState({username: e.target.value})
@@ -94,7 +94,7 @@ export default class SignUp extends React.Component<IProps, IState> {
 
                                 <Form.Control type="password"
                                               className="Form-Control"
-                                              placeholder="Enter password here..."
+                                              placeholder="Введите пароль..."
                                               value={this.state.password}
                                               onChange={(e) => {
                                                   this.setState({password: e.target.value})
@@ -104,7 +104,7 @@ export default class SignUp extends React.Component<IProps, IState> {
                                         onClick={async () => {
                                             await this.signUp();
                                         }}>
-                                    Continue
+                                    Регистрация
                                 </Button>
 
                             </Form>
@@ -112,7 +112,7 @@ export default class SignUp extends React.Component<IProps, IState> {
 
                         <div className="App-Body-Footer">
                             <NavLink to="/signIn">
-                                <label>I already have account</label>
+                                <label>Уже есть аккаунт</label>
                             </NavLink>
                             {/*<label>Forgot pass?</label>*/}
                             {/*<label>privacy</label>*/}
