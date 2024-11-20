@@ -4,20 +4,13 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Luna.Tools.Auth.Options;
 
-public class JwtOptions
+public class JwtOptions(IConfiguration configuration)
 {
-	private IConfiguration _configuration;
-
-	public JwtOptions(IConfiguration configuration)
-	{
-		_configuration = configuration;
-	}
-
-	private String Key => _configuration["JWT:Key"] ?? throw new ArgumentNullException("Key");
+	private String Key => configuration["JWT:Key"] ?? throw new ArgumentNullException("Key");
 
 	public SymmetricSecurityKey SymmetricSecurityKey => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
 
-	public String Issuer => _configuration["JWT:Issuer"] ?? throw new ArgumentNullException("Issuer");
+	public String Issuer => configuration["JWT:Issuer"] ?? throw new ArgumentNullException("Issuer");
 
-	public String Audience => _configuration["JWT:Audience"] ?? throw new ArgumentNullException("Audience");
+	public String Audience => configuration["JWT:Audience"] ?? throw new ArgumentNullException("Audience");
 }

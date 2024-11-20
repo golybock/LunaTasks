@@ -6,5 +6,5 @@ public class UserAuthDatabase
 
 	public Guid UserId { get; set; }
 
-	public Byte[] Password { get; set; } = Array.Empty<Byte>();
+	public Byte[] Password { get; set; } = [];
 }

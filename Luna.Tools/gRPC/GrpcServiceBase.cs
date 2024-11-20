@@ -2,14 +2,14 @@
 
 namespace Luna.Tools.gRPC;
 
-public class GrpcServiceBase
+public abstract class GrpcServiceBase
 {
-	public GrpcServiceBase(IConfiguration configuration)
+	protected GrpcServiceBase(IConfiguration configuration)
 	{
 		Host = configuration["Host"] ?? throw new ArgumentNullException(nameof(Host));
 	}
 
-	public GrpcServiceBase(String host)
+	protected GrpcServiceBase(String host)
 	{
 		Host = host;
 	}

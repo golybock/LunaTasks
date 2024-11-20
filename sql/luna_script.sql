@@ -2,7 +2,7 @@ create database luna_tasks;
 
 \c luna_tasks;
 
-create table page
+create table if not exists page
 (
     id                uuid                                   not null
         primary key,
@@ -15,28 +15,22 @@ create table page
     deleted           boolean                  default false not null
 );
 
-create table role
+create table if not exists role
 (
-    id   serial not null
-        constraint task_role_pkey
-            primary key,
-    name varchar(150)                                          not null
-        constraint task_role_name_key
-            unique
+    id   serial       not null primary key,
+    name varchar(150) not null unique
 );
 
-create table status
+create table if not exists status
 (
-    id           uuid                  not null
-        constraint task_status_pkey
-            primary key,
+    id           uuid                  not null primary key,
     name         varchar(150)          not null,
     hex_color    varchar(7)            not null,
     workspace_id uuid                  not null,
     deleted      boolean default false not null
 );
 
-create table tag
+create table if not exists tag
 (
     id           uuid                  not null
         primary key,
@@ -46,18 +40,16 @@ create table tag
     deleted      boolean default false not null
 );
 
-create table type
+create table if not exists type
 (
-    id           uuid                  not null
-        constraint card_type_pkey
-            primary key,
+    id           uuid                  not null primary key,
     name         varchar(150)          not null,
     hex_color    varchar(7)            not null,
     workspace_id uuid                  not null,
     deleted      boolean default false not null
 );
 
-create table card
+create table if not exists card
 (
     id                uuid                                   not null
         primary key,
@@ -66,19 +58,15 @@ create table card
     description       text,
     card_type_id      uuid                                   not null
         references type,
-    page_id           uuid                                   not null
-        constraint card_page_fkey
-            references page,
+    page_id           uuid                                   not null references page,
     created_user_id   uuid                                   not null,
     created_timestamp timestamp with time zone default now() not null,
     deadline          timestamp with time zone,
-    previous_card_id  uuid
-        constraint card_previous_card_fkey
-            references card,
+    previous_card_id  uuid references card,
     deleted           boolean                  default false not null
 );
 
-create table block_card
+create table if not exists block_card
 (
     id                    serial
         primary key,
@@ -90,21 +78,17 @@ create table block_card
     end_block_timestamp   timestamp with time zone
 );
 
-create table comment
+create table if not exists comment
 (
-    id             serial not null
-        constraint card_comments_pkey
-            primary key,
-    card_id        uuid                                                      not null
-        constraint card_comments_card_id_fkey
-            references card,
-    user_id        uuid                                                      not null,
+    id             serial                not null primary key,
+    card_id        uuid                  not null references card,
+    user_id        uuid                  not null,
     comment        text,
     attachment_url text,
-    deleted        boolean default false                                     not null
+    deleted        boolean default false not null
 );
 
-create table card_status
+create table if not exists card_status
 (
     id            serial
         primary key,
@@ -115,7 +99,7 @@ create table card_status
     set_timestamp timestamp default now() not null
 );
 
-create table card_tags
+create table if not exists card_tags
 (
     id      serial
         primary key,
@@ -126,7 +110,7 @@ create table card_tags
     deleted boolean default false not null
 );
 
-create table card_users
+create table if not exists card_users
 (
     id      serial
         primary key,
@@ -142,7 +126,7 @@ create database luna_users;
 
 \c luna_users;
 
-create table users
+create table if not exists users
 (
     id                uuid                                   not null
         primary key,
@@ -162,7 +146,7 @@ create database luna_workspace;
 
 \c luna_workspace;
 
-create table workspace
+create table if not exists workspace
 (
     id                uuid                                   not null
         primary key,
@@ -171,17 +155,61 @@ create table workspace
     created_user_id   uuid                                   not null
 );
 
-create table workspace_users
+create table if not exists workspace_users
 (
     id           serial
         primary key,
-    user_id      uuid not null
-        constraint workspace_users_pk
-            unique,
-    workspace_id uuid not null
-        constraint workspace_users___fk
-            references workspace
+    user_id      uuid not null unique,
+    workspace_id uuid not null references workspace
 );
 
 \c postgres;
 
+create database luna_auth;
+
+\c luna_auth;
+
+create table if not exists user_auth
+(
+    id       uuid primary key,
+    user_id  uuid  not null unique,
+    password bytea not null
+);
+
+\c postgres;
+
+create database luna_files;
+
+\c luna_files;
+
+create table if not exists files
+(
+    id               uuid primary key,
+    path             text        not null,
+    fileType         int         not null,
+    workspaceId      uuid        not null,
+    uploadedByUserId uuid        not null,
+    uploadedDate     timestamptz not null default now(),
+    deleted          boolean     not null default false
+);
+
+\c postgres;
+
+create database luna_notifications;
+
+\c luna_notifications;
+
+create table if not exists notification
+(
+    id          uuid primary key,
+    userId      uuid        not null,
+    text        text,
+    created     timestamptz not null default now(),
+    createdUser uuid        not null,
+    priority    int         not null,
+    imageUrl    text        null,
+    read        boolean     not null default false,
+    readAt      timestamptz
+);
+
+\c postgres;

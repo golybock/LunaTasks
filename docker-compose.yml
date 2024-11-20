@@ -1,81 +1,145 @@
 ﻿services:
 
-  luna.gateway.api:
-    environment:
-      ASPNETCORE_ENVIRONMENT: Release
-    image: luna.gateway.api
-    ports:
-      - "7000:8080"
-    build:
-      context: .
-      dockerfile: Luna.Gateway.API/Dockerfile
+    rabbitMq:
+        image: rabbitmq:3-management-alpine
+        container_name: 'rabbitmq'
+        restart: no
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        networks:
+            - dev
 
-  luna.auth.api:
-    environment:
-      ASPNETCORE_ENVIRONMENT: Release
-    image: luna.auth.api
-    ports:
-      - "7001:8080"
-    build:
-      context: .
-      dockerfile: Luna.Auth.API/Dockerfile
+    redis:
+        image: redis:latest
+        container_name: redis_container
+        restart: on-failure
+        ports:
+            - "6379:6379"
+        volumes:
+            - cache:/data
+        command: [ "redis-server", "--save" ]
+        networks:
+            - dev
 
-  luna.users.grpc:
-    environment:
-      ASPNETCORE_ENVIRONMENT: Release
-    image: luna.users.grpc
-    ports:
-      - "7002:8080"
-    build:
-      context: .
-      dockerfile: Luna.Users.Grpc/Dockerfile
+    postgres:
+        container_name: postgres_luna
+        image: postgres:latest
+        restart: on-failure
+        ports:
+            - "15432:5432"
+        volumes:
+            - database-data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_PASSWORD=system
+            - POSTGRES_USER=system
+            - POSTGRES_DB=postgres
+        networks:
+            - dev
 
-  luna.users.api:
-    environment:
-      ASPNETCORE_ENVIRONMENT: Release
-    image: luna.users.api
-    ports:
-      - "7003:8080"
-    build:
-      context: .
-      dockerfile: Luna.Users.API/Dockerfile
+    luna.gateway.api:
+        environment:
+            ASPNETCORE_ENVIRONMENT: Release
+        image: luna.gateway.api
+        ports:
+            - "7000:8080"
+        build:
+            context: .
+            dockerfile: Luna.Gateway.API/Dockerfile
+        networks:
+            - dev
 
-  luna.workspace.api:
-    environment:
-      ASPNETCORE_ENVIRONMENT: Release
-    image: luna.workspace.api
-    ports:
-      - "7004:8080"
-    build:
-      context: .
-      dockerfile: Luna.Workspace.API/Dockerfile
+    luna.auth.api:
+        environment:
+            ASPNETCORE_ENVIRONMENT: Release
+        image: luna.auth.api
+        ports:
+            - "7001:8080"
+        build:
+            context: .
+            dockerfile: Luna.Auth.API/Dockerfile
+        networks:
+            - dev
 
-  luna.data.api:
-    environment:
-      ASPNETCORE_ENVIRONMENT: Release
-    image: luna.data.api
-    ports:
-      - "7005:8080"
-    build:
-      context: .
-      dockerfile: Luna.Data.API/Dockerfile
+    luna.users.grpc:
+        environment:
+            ASPNETCORE_ENVIRONMENT: Release
+        image: luna.users.grpc
+        ports:
+            - "7002:8080"
+        build:
+            context: .
+            dockerfile: Luna.Users.Grpc/Dockerfile
+        networks:
+            - dev
 
-  luna.tasks.api:
-    environment:
-      ASPNETCORE_ENVIRONMENT: Release
-    image: luna.tasks.api
-    ports:
-      - "7006:8080"
-    build:
-      context: .
-      dockerfile: Luna.Tasks.API/Dockerfile
+    luna.users.api:
+        environment:
+            ASPNETCORE_ENVIRONMENT: Release
+        image: luna.users.api
+        ports:
+            - "7003:8080"
+        build:
+            context: .
+            dockerfile: Luna.Users.API/Dockerfile
+        networks:
+            - dev
 
-  luna.notification.api:
-    environment:
-      ASPNETCORE_ENVIRONMENT: Release
-    image: luna.notification.api
-    ports:
-      - "7007:8080"
-    build:
-      context: .
-      dockerfile: Luna.Notification.API/Dockerfile
+    luna.workspace.api:
+        environment:
+            ASPNETCORE_ENVIRONMENT: Release
+        image: luna.workspace.api
+        ports:
+            - "7004:8080"
+        build:
+            context: .
+            dockerfile: Luna.Workspace.API/Dockerfile
+        networks:
+            - dev
+
+    luna.data.api:
+        environment:
+            ASPNETCORE_ENVIRONMENT: Release
+        image: luna.data.api
+        ports:
+            - "7005:8080"
+        build:
+            context: .
+            dockerfile: Luna.Data.API/Dockerfile
+        networks:
+            - dev
+
+    luna.tasks.api:
+        environment:
+            ASPNETCORE_ENVIRONMENT: Release
+        image: luna.tasks.api
+        ports:
+            - "7006:8080"
+        build:
+            context: .
+            dockerfile: Luna.Tasks.API/Dockerfile
+        networks:
+            - dev
+
+    luna.notification.api:
+        environment:
+            ASPNETCORE_ENVIRONMENT: Release
+        image: luna.notification.api
+        ports:
+            - "7007:8080"
+        build:
+            context: .
+            dockerfile: Luna.Notification.API/Dockerfile
+        networks:
+            - dev
+
+
+volumes:
+    cache:
+        driver: local
+    database-data:
+        driver: local
+
+networks:
+    dev:
+        driver: bridge
