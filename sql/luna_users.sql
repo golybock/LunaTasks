@@ -1,4 +1,6 @@
-﻿create table users
+﻿create database luna_users;
+
+create table users
 (
     id                uuid                                   not null
         primary key,

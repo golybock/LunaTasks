@@ -1,4 +1,6 @@
-﻿create table workspace
+﻿create database luna_workspace;
+
+create table workspace
 (
     id                uuid                                   not null
         primary key,

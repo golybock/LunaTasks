@@ -1,3 +1,5 @@
+create database luna_notification;
+
 create table notification
 (
     id           uuid                                   not null

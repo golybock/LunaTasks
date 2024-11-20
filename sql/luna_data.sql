@@ -1,3 +1,5 @@
+create database luna_data;
+
 create table files
 (
     id                  uuid                                   not null

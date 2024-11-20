@@ -1,4 +1,6 @@
-﻿create database luna_tasks;
+create database luna_tasks;
+
+\c luna_tasks;
 
 create table page
 (
@@ -133,3 +135,53 @@ create table card_users
     user_id uuid                  not null,
     deleted boolean default false not null
 );
+
+\c postgres;
+
+create database luna_users;
+
+\c luna_users;
+
+create table users
+(
+    id                uuid                                   not null
+        primary key,
+    username          varchar(100)                           not null
+        unique,
+    email             varchar(250)                           not null
+        unique,
+    phone_number      varchar(25),
+    created_timestamp timestamp with time zone default now() not null,
+    email_confirmed   boolean                  default false not null,
+    image             text
+);
+
+\c postgres;
+
+create database luna_workspace;
+
+\c luna_workspace;
+
+create table workspace
+(
+    id                uuid                                   not null
+        primary key,
+    name              varchar(150)                           not null,
+    created_timestamp timestamp with time zone default now() not null,
+    created_user_id   uuid                                   not null
+);
+
+create table workspace_users
+(
+    id           serial
+        primary key,
+    user_id      uuid not null
+        constraint workspace_users_pk
+            unique,
+    workspace_id uuid not null
+        constraint workspace_users___fk
+            references workspace
+);
+
+\c postgres;
+
