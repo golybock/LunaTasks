@@ -72,10 +72,10 @@ export class LeftNavbar extends React.Component<IProps, IState> {
 
         let workspaceId = WorkspaceManager.getWorkspace();
 
-        await this.selectWorkspace(workspaceId)
+        await this.selectWorkspace(workspaceId, workspaces)
     }
 
-    async selectWorkspace(id: string | null) {
+    async selectWorkspace(id: string | null, workspaces?: IWorkspaceView[]) {
 
         let id1 = id;
 
@@ -85,15 +85,20 @@ export class LeftNavbar extends React.Component<IProps, IState> {
             console.log("id empty")
 
             // set first available workspaceId
-            if(this.state.workspaces.length){
+            if(workspaces?.length ?? this.state.workspaces.length){
 
-                console.log("workspaces", this.state.workspaces)
+                console.log("workspaces", workspaces)
 
-                this.setState({selectedWorkspaceId: this.state.workspaces[0].id});
-
-                WorkspaceManager.setWorkspace(this.state.workspaces[0].id)
-
-                id1 = this.state.workspaces[0].id;
+                if(workspaces?.length){
+                    this.setState({selectedWorkspaceId: workspaces[0].id});
+                    WorkspaceManager.setWorkspace(workspaces[0].id)
+                    id1 = workspaces[0].id;
+                }
+                else{
+                    this.setState({selectedWorkspaceId: this.state.workspaces[0].id});
+                    WorkspaceManager.setWorkspace(this.state.workspaces[0].id)
+                    id1 = this.state.workspaces[0].id;
+                }
             }
         } else {
             // workspace not empty - set new workspaceid
