@@ -74,11 +74,14 @@ export default class Home extends React.Component<IProps, IState> {
                                 {this.state.pages && (
                                     this.state.pages.map((item) => {
                                        return (
-                                           <NavLink to={"/page/" + item.id}>
+                                           <NavLink to={"/page/" + item.id} key={item.id}>
                                                 <p>{item.name}</p>
                                            </NavLink>
                                        )
                                     })
+                                )}
+                                {this.state.pages.length == 0 && (
+                                    <p>У вас еще нет страниц, создайте их в настройках</p>
                                 )}
                             </div>
                             <div className="Link-Block">

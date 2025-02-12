@@ -39,6 +39,7 @@ export default class SignUp extends React.Component<IProps, IState> {
         if (res) {
             console.log('authed')
         } else {
+            console.log('error 1')
             NotificationManager.makeError("Не удалось зарегистрировать пользователя")
         }
     }

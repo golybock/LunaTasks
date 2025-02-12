@@ -36,12 +36,12 @@ export default class TaskStatusesChart extends React.Component<IProps, IState> {
 
         dict.forEach(item => {
             val++;
-            array.push({id: val, statusName: JSON.parse(item.status)?.name.toString() ?? "Non status", count: item.card.length, color: JSON.parse(item.status)?.color})
+            array.push({id: val, statusName: JSON.parse(item.status)?.name.toString() ?? "Non status", count: item.card.length, color: JSON.parse(item.status)?.color  ?? "#000000"})
             count+= item.card.length;
         })
 
         const series = array.map(item => {
-            return {value: item.count, label: item.statusName, id: item.id, color: item.color}
+            return {value: item.count, label: item.statusName, id: item.id, color: item.color ?? "#000000"}
         })
 
         this.setState({series: series})
@@ -58,12 +58,12 @@ export default class TaskStatusesChart extends React.Component<IProps, IState> {
 
         dict.forEach(item => {
             val++;
-            array.push({id: val, statusName: JSON.parse(item.status)?.name.toString() ?? "Non status", count: item.card.length, color: JSON.parse(item.status)?.color})
+            array.push({id: val, statusName: JSON.parse(item.status)?.name.toString() ?? "Non status", count: item.card.length, color: JSON.parse(item.status)?.color  ?? "#000000"})
             count+= item.card.length;
         })
 
         const series = array.map(item => {
-            return {value: item.count, label: item.statusName, id: item.id, color: item.color}
+            return {value: item.count, label: item.statusName, id: item.id, color: item.color  ?? "#000000"}
         })
 
         if(prevProps != this.props){

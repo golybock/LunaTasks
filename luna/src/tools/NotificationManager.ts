@@ -1,19 +1,19 @@
-﻿import {Store} from "react-notifications-component";
+﻿import {toast} from "react-toastify";
 
 export default class NotificationManager{
     public static makeError(title: string){
-        Store.addNotification({title: title, type: "danger", insert: "top", container: "top-right", dismiss: {duration: 3000}})
+        toast.error(title)
     }
 
     public static makeWarning(title: string){
-        Store.addNotification({title: title, type: "warning", insert: "top", container: "top-right", dismiss: {duration: 3000}})
+        toast.warning(title)
     }
 
     public static makeSuccess(title: string){
-        Store.addNotification({title: title, type: "success", insert: "top", container: "top-right", dismiss: {duration: 3000}})
+        toast.success(title)
     }
 
     public static makeInfo(title: string){
-        Store.addNotification({title: title, type: "info", insert: "top", container: "top-right", dismiss: {duration: 3000}})
+        toast.info(title)
     }
 }

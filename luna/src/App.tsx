@@ -13,6 +13,7 @@ import './App.css';
 import './light.css';
 import ChartsPage from "./components/charts/ChartsPage";
 import EditAccount from "./components/account/EditAccount";
+import {ToastContainer} from "react-toastify";
 
 interface IProps {
 
@@ -47,6 +48,8 @@ export default class Auth extends React.Component<IProps, IState> {
 
     render() {
         return (
+            <>
+                <ToastContainer theme={"colored"}/>
                 <Routes>
                     <Route element={<ProtectedRoute outlet={<LeftNavbar/>}/>}>
                         <Route index path="/" element={<Home/>}/>
@@ -61,6 +64,7 @@ export default class Auth extends React.Component<IProps, IState> {
                     <Route path="/signIn" element={<NotAuthedRoute outlet={<SignIn/>}/>}/>
                     <Route path="/signUp" element={<NotAuthedRoute outlet={<SignUp/>}/>}/>
                 </Routes>
+            </>
         );
     }
 }

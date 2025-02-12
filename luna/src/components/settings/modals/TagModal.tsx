@@ -18,7 +18,7 @@ export default class TagModal extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            tagBlank: {name: "", hexColor: "", workspaceId: localStorage.getItem("workspaceId")!}
+            tagBlank: {name: "NewTag", hexColor: "#FFFFFF", workspaceId: localStorage.getItem("workspaceId")!}
         }
     }
 
@@ -67,6 +67,7 @@ export default class TagModal extends React.Component<IProps, IState> {
 
                         <Form.Label>Цвет</Form.Label>
                         <Form.Control type="color"
+                                      className="Form-Item"
                                       value={this.state.tagBlank.hexColor}
                                       onChange={(e) => this.colorChanged(e.target.value)}/>
 

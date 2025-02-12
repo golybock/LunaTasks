@@ -44,9 +44,18 @@ public class UsersController : ControllerBase
 	}
 
 	[HttpPost("[action]")]
-	public async Task<Guid> CreateUserAsync(UserBlank userBlank)
+	public async Task<IActionResult> CreateUserAsync(UserBlank userBlank)
 	{
-		return await _userService.CreateUserAsync(userBlank);
+		try
+		{
+			var res = await _userService.CreateUserAsync(userBlank);
+
+			return Ok(res);
+		}
+		catch (Exception e)
+		{
+			return BadRequest("Не удалось создать пользователя");
+		}
 	}
 
 	[HttpPut("[action]")]

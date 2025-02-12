@@ -3,16 +3,13 @@ import {NavLink, Outlet} from "react-router-dom";
 import "./LeftNavbar.css"
 import IWorkspaceView from "../../models/workspace/IWorkspaceView";
 import WorkspaceProvider from "../../provider/workspace/workspaceProvider";
-import {Button, Dropdown} from "react-bootstrap";
+import {Dropdown} from "react-bootstrap";
 import IPageView from "../../models/page/IPageView";
 import PageProvider from "../../provider/page/pageProvider";
 import MenuItem from "../../models/navigation/MenuItem";
 import {AuthWrapper} from "../../auth/AuthWrapper";
 import {WorkspaceManager} from "../../tools/WorkspaceManager";
-import {ReactNotifications} from "react-notifications-component";
-import 'react-notifications-component/dist/theme.css'
 import WorkspaceModal from "../account/modals/WorkspaceModal";
-import SettingsModal from "../settings/SettingsModal";
 
 interface IProps {
 }
@@ -86,7 +83,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
             console.log("id empty")
 
             // set first available workspaceId
-            if(this.state.workspaces.length > 0){
+            if(this.state.workspaces.length){
 
                 console.log(this.state.workspaces)
 
@@ -176,7 +173,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                     </div>
                     <nav className="Navbar-List">
                         {this.state.menuItems && (
-                            <div>
+                            <>
                                 {this.state.menuItems.map((item: MenuItem) => (
                                     <NavLink key={item.title} to={item.href} end={true} replace={true}>
                                         <div className="Navbar-List-Item">
@@ -187,7 +184,7 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                                         </div>
                                     </NavLink>
                                 ))}
-                            </div>
+                            </>
                         )}
                     </nav>
                     <div className="Sign-Out" onClick={() => AuthWrapper.userSignOut()}>
@@ -204,8 +201,6 @@ export class LeftNavbar extends React.Component<IProps, IState> {
                         <WorkspaceModal closeModal={() => this.closeWorkspaceModal()}/>
                     )}
                 </main>
-
-                <ReactNotifications/>
 
             </div>
         );

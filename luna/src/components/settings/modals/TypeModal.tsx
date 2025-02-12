@@ -18,7 +18,7 @@ export default class TypeModal extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            typeBlank: {name: "", hexColor: "", workspaceId: localStorage.getItem("workspaceId")!}
+            typeBlank: {name: "NewType", hexColor: "#FFFFFF", workspaceId: localStorage.getItem("workspaceId")!}
         }
     }
 
@@ -67,6 +67,7 @@ export default class TypeModal extends React.Component<IProps, IState> {
 
                         <Form.Label>Цвет</Form.Label>
                         <Form.Control type="color"
+                                      className="Form-Item"
                                       value={this.state.typeBlank.hexColor}
                                       onChange={(e) => this.colorChanged(e.target.value)}/>
 

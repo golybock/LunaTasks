@@ -18,7 +18,7 @@ export default class StatusModal extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            statusBlank: {name: "", hexColor: "", workspaceId: localStorage.getItem("workspaceId")!}
+            statusBlank: {name: "NewStatus", hexColor: "#FFFFFF", workspaceId: localStorage.getItem("workspaceId")!}
         }
     }
 
@@ -67,6 +67,7 @@ export default class StatusModal extends React.Component<IProps, IState> {
 
                         <Form.Label>Цвет</Form.Label>
                         <Form.Control type="color"
+                                      className="Form-Item"
                                       value={this.state.statusBlank.hexColor}
                                       onChange={(e) => this.colorChanged(e.target.value)}/>
 
