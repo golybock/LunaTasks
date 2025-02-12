@@ -78,14 +78,14 @@ export class LeftNavbar extends React.Component<IProps, IState> {
     async selectWorkspace(id: string | null) {
 
         //id empty
-        if (!id) {
+        if (id == null || id == "") {
 
             console.log("id empty")
 
             // set first available workspaceId
             if(this.state.workspaces.length){
 
-                console.log(this.state.workspaces)
+                console.log("workspaces", this.state.workspaces)
 
                 this.setState({selectedWorkspaceId: this.state.workspaces[0].id});
 
@@ -99,9 +99,9 @@ export class LeftNavbar extends React.Component<IProps, IState> {
         }
 
         // load pages
-        const workspaceId = WorkspaceManager.getWorkspace();
+        const workspaceId = this.state.selectedWorkspaceId;
 
-        console.log(workspaceId)
+        console.log("workspaceId", workspaceId)
 
         if(workspaceId){
             let pages = await PageProvider.getPages(workspaceId);
